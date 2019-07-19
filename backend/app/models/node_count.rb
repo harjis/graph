@@ -1,0 +1,2 @@
+class NodeCount < ApplicationRecord
+end

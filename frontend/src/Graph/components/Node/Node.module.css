@@ -1,0 +1,8 @@
+.container {
+  cursor: move;
+  fill: white;
+  rx: 3px;
+  ry: 3px;
+  stroke-width: 1px;
+  stroke: black;
+}

@@ -6,6 +6,10 @@ import styles from './Node.module.css';
 type Props = {|
   children: ?React.Node,
   height: number,
+  id: string,
+  onMouseDown?: (event: SyntheticMouseEvent<Element>) => void,
+  onMouseMove?: (event: SyntheticMouseEvent<Element>) => void,
+  onMouseUp?: (event: SyntheticMouseEvent<Element>) => void,
   styles?: string,
   width: number,
   x: number,
@@ -13,8 +17,18 @@ type Props = {|
 |};
 
 export default (props: Props) => (
-  <g transform={`translate(${props.x}, ${props.y})`}>
-    <rect className={props.styles || styles.container} height={props.height} width={props.width} />
+  <g
+    onMouseDown={props.onMouseDown}
+    onMouseUp={props.onMouseUp}
+    onMouseMove={props.onMouseMove}
+    transform={`translate(${props.x}, ${props.y})`}
+  >
+    <rect
+      data-node-draggable={props.id}
+      className={props.styles || styles.container}
+      height={props.height}
+      width={props.width}
+    />
     {props.children}
   </g>
 );

@@ -12,6 +12,7 @@ type Props = {|
   height: number,
   width: number
 |};
+
 export default (props: Props) => {
   const [canvasId] = React.useState(shortid.generate());
   return (

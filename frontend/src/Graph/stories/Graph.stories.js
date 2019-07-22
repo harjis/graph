@@ -10,22 +10,26 @@ const size = {
   height: 500,
   width: 500
 };
-const EmptyCanvas = () => (
-  <div>
-    <Canvas height={size.height} width={size.width}>
-      {() => (
-        <text
-          transform={`translate(${size.width / 2}, ${size.height / 2})`}
-          alignmentBaseline="central"
-          dominantBaseline="central"
-          textAnchor="middle"
-        >
-          Just some text
-        </text>
-      )}
-    </Canvas>
-  </div>
-);
+const EmptyCanvas = () => {
+  return (
+    <div>
+      <Canvas height={size.height} width={size.width}>
+        {() => (
+          <React.Fragment>
+            <text
+              transform={`translate(${size.width / 2}, ${size.height / 2})`}
+              alignmentBaseline="central"
+              dominantBaseline="central"
+              textAnchor="middle"
+            >
+              Just some text
+            </text>
+          </React.Fragment>
+        )}
+      </Canvas>
+    </div>
+  );
+};
 
 const CanvasWithDot = () => (
   <div>

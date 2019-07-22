@@ -25,9 +25,11 @@ export default (props: Props) => (
                 <DotPattern patternId={canvasId} />
               </defs>
               <Background patternId={canvasId} height={size.height} width={size.width} />
-              {props.nodes.map(node => (
+              {props.nodes.map((node, index) => (
                 <Node
                   height={DEFAULT_NODE_HEIGHT}
+                  id={index.toString()}
+                  key={index}
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

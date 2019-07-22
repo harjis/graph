@@ -1,11 +1,10 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 
-import ConnectGraph from 'components/ConnectGraph';
+import ConnectGraphContainer from 'components/ConnectGraph/ConnectGraphContainer';
 
 export default function App() {
   return (
-    <div>
-      <ConnectGraph />
-    </div>
+    <ConnectGraphContainer />
   );
 }

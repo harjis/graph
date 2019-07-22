@@ -1,7 +1,7 @@
 // @flow
-import { GRID_SHIFT, GRID_SIZE } from "../constants/GraphConstants";
+import * as React from 'react';
 
-import * as React from "react";
+import { GRID_SHIFT, GRID_SIZE } from '../../constants/GraphConstants';
 
 export default () => (
   <pattern id="grid" patternUnits="userSpaceOnUse" width={GRID_SIZE} height={GRID_SIZE}>

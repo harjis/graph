@@ -4,7 +4,7 @@ import ConnectGraph from 'components/ConnectGraph';
 
 export default function App() {
   return (
-    <div className="App">
+    <div>
       <ConnectGraph />
     </div>
   );

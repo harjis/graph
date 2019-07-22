@@ -3,6 +3,7 @@ import * as React from 'react';
 import { SizeMe } from 'react-sizeme';
 
 import Canvas from 'graph/components/Canvas/Canvas';
+import Background from 'graph/components/Background/Background';
 import DotPattern from 'graph/components/DotPattern/DotPattern';
 
 import styles from './ConnectGraph.module.css';
@@ -13,10 +14,14 @@ export default (props: Props) => (
     <SizeMe monitorHeight>
       {({ size }) => (
         <Canvas height={size.height} width={size.width}>
-          <defs>
-            <DotPattern />
-          </defs>
-          <rect x="0" y="0" width="200" height="400" fill="red" />
+          {({ canvasId }) => (
+            <React.Fragment>
+              <defs>
+                <DotPattern patternId={canvasId} />
+              </defs>
+              <Background patternId={canvasId} height={size.height} width={size.width} />
+            </React.Fragment>
+          )}
         </Canvas>
       )}
     </SizeMe>

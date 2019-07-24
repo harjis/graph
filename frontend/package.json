@@ -6,6 +6,7 @@
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-sizeme": "^2.6.7",
     "shortid": "^2.2.14"
@@ -40,5 +41,6 @@
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "flow-bin": "^0.103.0"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

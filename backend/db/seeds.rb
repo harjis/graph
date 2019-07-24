@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 graph = Graph.new(name: 'Graph 1')
-node = Node.new(name: 'Node 1')
-node2 = Node.new(name: 'Node 2')
-node3 = Node.new(name: 'Node 2')
+node = Node.new(name: 'Node 1', x: 10, y: 10)
+node2 = Node.new(name: 'Node 2', x: 100, y: 100)
+node3 = Node.new(name: 'Node 3', x: 200, y: 200)
 graph.nodes = [node, node2, node3]
 graph.save
 
@@ -19,8 +19,8 @@ edge2 = Edge.new(from_node: node, to_node: node3)
 edge2.save
 
 graph = Graph.new(name: 'Graph 2')
-node21 = Node.new(name: 'Node 21')
-node22 = Node.new(name: 'Node 22')
+node21 = Node.new(name: 'Node 21', x: 10, y: 10)
+node22 = Node.new(name: 'Node 22', x: 20, y: 20)
 graph.nodes = [node21, node22]
 graph.save
 

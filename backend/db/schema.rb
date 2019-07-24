@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_112235) do
+ActiveRecord::Schema.define(version: 2019_07_24_110012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2019_05_23_112235) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "content"
+    t.float "x", default: 0.0
+    t.float "y", default: 0.0
     t.index ["graph_id"], name: "index_nodes_on_graph_id"
   end
 

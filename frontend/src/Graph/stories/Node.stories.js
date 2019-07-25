@@ -37,7 +37,7 @@ const Graph = (props: Props) => {
                 height={DEFAULT_NODE_HEIGHT}
                 id={node.id}
                 key={node.id}
-                onMouseDown={event => onStartDrag(node.id, event)}
+                onMouseDown={event => onStartDrag(event)}
                 // TODO onMouseMove can not be defined on Node. If you drag a node on top of other node
                 // there is possibility that wrong node will get the drag event depending on the order in DOM
                 // This should be a window event listener

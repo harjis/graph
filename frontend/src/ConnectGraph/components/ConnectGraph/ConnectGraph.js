@@ -13,7 +13,9 @@ import type { Node as NodeType } from '../../constants/ConnectGraphTypes';
 import styles from './ConnectGraph.module.css';
 
 type Props = {|
-  nodes: NodeType[]
+  nodes: NodeType[],
+  onStartDrag: Function,
+  onStopDrag: Function
 |};
 export default (props: Props) => (
   <div className={styles.container}>
@@ -31,6 +33,8 @@ export default (props: Props) => (
                   height={DEFAULT_NODE_HEIGHT}
                   id={index}
                   key={index}
+                  onMouseDown={event => props.onStartDrag(node.id, event)}
+                  onMouseUp={() => props.onStopDrag()}
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

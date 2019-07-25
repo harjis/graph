@@ -1,13 +1,12 @@
 // @flow
 import * as React from 'react';
 
-import { getMouseOffsetRelativeToElement } from '../utils/coordinate_utils';
-
 const initialState = {
-  isDragging: false,
+  draggedNodeId: null,
   nodeOffset: { x: 0, y: 0 },
   nodes: []
 };
+type OnDragHandler = (event: MouseEvent) => void;
 export default function useNodes<
   T: {
     id: number,
@@ -16,43 +15,61 @@ export default function useNodes<
   }
   //$FlowFixMe
 >(initialNodes: T[] = []) {
+  console.log(initialNodes);
   const [state, setState] = React.useState({ ...initialState, nodes: initialNodes });
+  
+  // Ok this was a bit confusing. If useEffect is not used here new state is not hydrated from props
+  // https://stackoverflow.com/questions/54625831/how-to-sync-props-to-state-using-react-hook-setstate
+  React.useEffect(() => {
+    setState({ ...initialState, nodes: initialNodes });
+  }, [initialNodes])
 
-  const onStartDrag = (event: SyntheticMouseEvent<Element>) => {
-    setState({
-      ...state,
-      isDragging: true,
-      nodeOffset: getMouseOffsetRelativeToElement(event)
-    });
-  };
-  const onDrag = (id: $PropertyType<T, 'id'>, event: SyntheticMouseEvent<Element>) => {
-    const bbox = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - bbox.left;
-    const y = event.clientY - bbox.top;
-    if (state.isDragging) {
-      setState({
+
+  const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
+    setState(state => {
+      if (state.draggedNodeId === null) return state;
+      const xDiff = state.nodeOffset.x - event.pageX;
+      const yDiff = state.nodeOffset.y - event.pageY;
+
+      return {
         ...state,
+        nodeOffset: {
+          x: event.pageX,
+          y: event.pageY
+        },
         //$FlowFixMe
-        nodes: state.nodes.map<T>(node => {
-          if (id === node.id) {
+        nodes: state.nodes.map(node => {
+          if (state.draggedNodeId === node.id) {
             return {
               ...node,
-              x: node.x - (state.nodeOffset.x - x),
-              y: node.y - (state.nodeOffset.y - y)
+              x: node.x - xDiff,
+              y: node.y - yDiff
             };
           } else {
             return node;
           }
         })
-      });
-    }
+      };
+    });
+  });
+
+  const onStartDrag = (
+    draggedNodeId: $PropertyType<T, 'id'>,
+    event: SyntheticMouseEvent<Element>
+  ) => {
+    const { pageX, pageY } = event;
+    setState(state => ({ ...state, draggedNodeId, nodeOffset: { x: pageX, y: pageY } }));
+    document.addEventListener('mousemove', onDrag.current);
   };
+
   const onStopDrag = () => {
+    document.removeEventListener('mousemove', onDrag.current);
     setState({
       ...state,
+      nodeOffset: { x: 0, y: 0 },
       isDragging: false
     });
   };
 
-  return { state, onStartDrag, onStopDrag, onDrag };
+  return { state, onStartDrag, onStopDrag };
 }

@@ -5,7 +5,7 @@ import type { ContextRouter } from 'react-router-dom';
 import ConnectGraph from './components/ConnectGraph/ConnectGraph';
 import { useFetch } from 'Generic/components/useFetch';
 import { url } from './api/common';
-import useNodes from "../Graph/stores/useNodes";
+import useNodes from '../Graph/stores/useNodes';
 
 export default (props: ContextRouter) => {
   const graphId = props.match.params.id;
@@ -20,7 +20,18 @@ export default (props: ContextRouter) => {
     return <div>Error! :(</div>;
   }
 
-  const { state, onStartDrag, onStopDrag, onDrag } = useNodes(backendNodes);
+  if (backendNodes.length === 0) {
+    return null;
+  }
 
-  return <ConnectGraph nodes={state.nodes} />;
+  return <Wrapper nodes={backendNodes} />;
 };
+
+type WrapperProps = {|
+  nodes: any[]
+|};
+
+function Wrapper(props: WrapperProps) {
+  const { state, onStartDrag, onStopDrag } = useNodes(props.nodes);
+  return <ConnectGraph nodes={state.nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
+}

@@ -3,11 +3,11 @@ import * as React from 'react';
 
 import { getMouseOffsetRelativeToElement } from '../utils/coordinate_utils';
 
-type Node = {|
-  id: string,
+type Node = {
+  id: number,
   x: number,
   y: number
-|};
+};
 
 const initialState = {
   isDragging: false,
@@ -17,14 +17,14 @@ const initialState = {
 export default function useNodes(initialNodes: Node[] = []) {
   const [state, setState] = React.useState({ ...initialState, nodes: initialNodes });
 
-  const startDrag = (id: $PropertyType<Node, 'id'>, event: SyntheticMouseEvent<Element>) => {
+  const onStartDrag = (id: $PropertyType<Node, 'id'>, event: SyntheticMouseEvent<Element>) => {
     setState({
       ...state,
       isDragging: true,
       nodeOffset: getMouseOffsetRelativeToElement(event)
     });
   };
-  const drag = (id: $PropertyType<Node, 'id'>, event: SyntheticMouseEvent<Element>) => {
+  const onDrag = (id: $PropertyType<Node, 'id'>, event: SyntheticMouseEvent<Element>) => {
     const bbox = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - bbox.left;
     const y = event.clientY - bbox.top;
@@ -45,12 +45,12 @@ export default function useNodes(initialNodes: Node[] = []) {
       });
     }
   };
-  const stopDrag = () => {
+  const onStopDrag = () => {
     setState({
       ...state,
       isDragging: false
     });
   };
 
-  return { state, startDrag, stopDrag, drag };
+  return { state, onStartDrag, onStopDrag, onDrag };
 }

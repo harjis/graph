@@ -3,6 +3,7 @@ import * as React from 'react';
 import { SizeMe } from 'react-sizeme';
 
 import Canvas from 'Graph/components/Canvas/Canvas';
+import CenteredText from 'Graph/components/NodeContent/CenteredText';
 import Background from 'Graph/components/Background/Background';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
 import Node from 'Graph/components/Node/Node';
@@ -28,13 +29,15 @@ export default (props: Props) => (
               {props.nodes.map((node, index) => (
                 <Node
                   height={DEFAULT_NODE_HEIGHT}
-                  id={index.toString()}
+                  id={index}
                   key={index}
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}
                 >
-                  Node!
+                  <CenteredText nodeWidth={DEFAULT_NODE_WIDTH} nodeHeight={DEFAULT_NODE_HEIGHT}>
+                    {node.name}
+                  </CenteredText>
                 </Node>
               ))}
             </React.Fragment>

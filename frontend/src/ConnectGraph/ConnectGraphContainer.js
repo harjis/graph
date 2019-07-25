@@ -4,19 +4,23 @@ import type { ContextRouter } from 'react-router-dom';
 
 import ConnectGraph from './components/ConnectGraph/ConnectGraph';
 import { useFetch } from 'Generic/components/useFetch';
+import { url } from './api/common';
+import useNodes from "../Graph/stores/useNodes";
 
 export default (props: ContextRouter) => {
   const graphId = props.match.params.id;
   if (!graphId) return <div>Graph ID is missing</div>;
 
-  const [nodes, isLoading] = useFetch(`http://localhost:3000/graphs/${graphId}/nodes`);
+  const [backendNodes, isLoading] = useFetch(`${url}/graphs/${graphId}/nodes`);
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!nodes) {
+  if (!backendNodes) {
     return <div>Error! :(</div>;
   }
 
-  return <ConnectGraph nodes={nodes} />;
+  const { state, onStartDrag, onStopDrag, onDrag } = useNodes(backendNodes);
+
+  return <ConnectGraph nodes={state.nodes} />;
 };

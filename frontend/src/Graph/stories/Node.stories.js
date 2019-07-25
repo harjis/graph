@@ -16,13 +16,13 @@ const size = {
   height: 500,
   width: 500
 };
-const initialNodes = [{ id: '1', x: 10, y: 10 }, { id: '2', x: 100, y: 100 }];
+const initialNodes = [{ id: 1, x: 10, y: 10 }, { id: 2, x: 100, y: 100 }];
 type Props = {
   customNodeStyles?: string
 };
 
 const Graph = (props: Props) => {
-  const { state, startDrag, stopDrag, drag } = useNodes(initialNodes);
+  const { state, onStartDrag, onStopDrag, onDrag } = useNodes(initialNodes);
   return (
     <div>
       <Canvas height={size.height} width={size.width}>
@@ -37,12 +37,12 @@ const Graph = (props: Props) => {
                 height={DEFAULT_NODE_HEIGHT}
                 id={node.id}
                 key={node.id}
-                onMouseDown={event => startDrag(node.id, event)}
+                onMouseDown={event => onStartDrag(node.id, event)}
                 // TODO onMouseMove can not be defined on Node. If you drag a node on top of other node
                 // there is possibility that wrong node will get the drag event depending on the order in DOM
                 // This should be a window event listener
-                onMouseMove={event => drag(node.id, event)}
-                onMouseUp={() => stopDrag()}
+                onMouseMove={event => onDrag(node.id, event)}
+                onMouseUp={() => onStopDrag()}
                 styles={props.customNodeStyles}
                 width={DEFAULT_NODE_WIDTH}
                 x={node.x}

@@ -15,9 +15,8 @@ export default function useNodes<
   }
   //$FlowFixMe
 >(initialNodes: T[] = []) {
-  console.log(initialNodes);
   const [state, setState] = React.useState({ ...initialState, nodes: initialNodes });
-  
+
   // Ok this was a bit confusing. If useEffect is not used here new state is not hydrated from props
   // https://stackoverflow.com/questions/54625831/how-to-sync-props-to-state-using-react-hook-setstate
   React.useEffect(() => {

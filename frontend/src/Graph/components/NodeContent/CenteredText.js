@@ -6,10 +6,12 @@ type Props = {|
   nodeHeight: number,
   nodeWidth: number
 |};
-export default (props: Props) => (
+const CenteredText = (props: Props) => (
   <g transform={`translate(${props.nodeWidth / 2}, ${props.nodeHeight / 2})`}>
     <text alignmentBaseline="central" dominantBaseline="central" textAnchor="middle">
       {props.children}
     </text>
   </g>
 );
+
+export default CenteredText;

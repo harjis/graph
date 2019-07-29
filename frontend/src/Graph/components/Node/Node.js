@@ -16,7 +16,7 @@ type Props = {|
   y: number
 |};
 
-export default (props: Props) => (
+const Node = (props: Props) => (
   <g
     onMouseDown={props.onMouseDown}
     onMouseUp={props.onMouseUp}
@@ -32,3 +32,5 @@ export default (props: Props) => (
     {props.children}
   </g>
 );
+
+export default Node;

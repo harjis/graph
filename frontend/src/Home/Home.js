@@ -1,4 +1,6 @@
 // @flow
 import * as React from 'react';
 
-export default () => <div>Home!</div>;
+const Home = () => <div>Home!</div>;
+
+export default Home;

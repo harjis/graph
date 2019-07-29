@@ -17,7 +17,7 @@ type Props = {|
   onStartDrag: Function,
   onStopDrag: Function
 |};
-export default (props: Props) => (
+const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <SizeMe monitorHeight>
       {({ size }) => (
@@ -51,3 +51,5 @@ export default (props: Props) => (
     </SizeMe>
   </div>
 );
+
+export default ConnectGraph;

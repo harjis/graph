@@ -13,7 +13,7 @@ type Props = {|
   width: number
 |};
 
-export default (props: Props) => {
+const Canvas = (props: Props) => {
   const [canvasId] = React.useState(shortid.generate());
   return (
     <svg className={styles.container} height={props.height} width={props.width}>
@@ -21,3 +21,5 @@ export default (props: Props) => {
     </svg>
   );
 };
+
+export default Canvas;

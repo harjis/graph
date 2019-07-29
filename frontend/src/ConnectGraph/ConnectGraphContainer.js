@@ -7,7 +7,7 @@ import { useFetch } from 'Generic/components/useFetch';
 import { url } from './api/common';
 import useNodes from '../Graph/stores/useNodes';
 
-export default (props: ContextRouter) => {
+const ConnectGraphContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
   if (!graphId) return <div>Graph ID is missing</div>;
 
@@ -27,3 +27,5 @@ export default (props: ContextRouter) => {
   const { state, onStartDrag, onStopDrag } = useNodes(backendNodes);
   return <ConnectGraph nodes={state.nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
 };
+
+export default ConnectGraphContainer;

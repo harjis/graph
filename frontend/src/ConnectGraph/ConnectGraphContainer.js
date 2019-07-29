@@ -24,14 +24,6 @@ export default (props: ContextRouter) => {
     return null;
   }
 
-  return <Wrapper nodes={backendNodes} />;
-};
-
-type WrapperProps = {|
-  nodes: any[]
-|};
-
-function Wrapper(props: WrapperProps) {
-  const { state, onStartDrag, onStopDrag } = useNodes(props.nodes);
+  const { state, onStartDrag, onStopDrag } = useNodes(backendNodes);
   return <ConnectGraph nodes={state.nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
-}
+};

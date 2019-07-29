@@ -3,29 +3,23 @@ import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 
 import ConnectGraph from './components/ConnectGraph/ConnectGraph';
-import { useFetch } from 'Generic/components/useFetch';
-import { url } from './api/common';
-import useNodes from '../Graph/stores/useNodes';
+import useConnectGraph from './stores/useConnectGraph';
 
-const ConnectGraphContainer = (props: ContextRouter) => {
+const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
   if (!graphId) return <div>Graph ID is missing</div>;
+  return <ConnectGraphContainer graphId={Number(graphId)} />;
+};
 
-  const [backendNodes, isLoading] = useFetch(`${url}/graphs/${graphId}/nodes`);
+type ConnectGraphContainerProps = {|
+  graphId: number
+|};
+function ConnectGraphContainer(props: ConnectGraphContainerProps) {
+  const { nodes, isLoading, onStartDrag, onStopDrag } = useConnectGraph(props.graphId);
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  return <ConnectGraph nodes={nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
+}
 
-  if (!backendNodes) {
-    return <div>Error! :(</div>;
-  }
-
-  if (backendNodes.length === 0) {
-    return null;
-  }
-
-  const { state, onStartDrag, onStopDrag } = useNodes(backendNodes);
-  return <ConnectGraph nodes={state.nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
-};
-
-export default ConnectGraphContainer;
+export default ConnectGraphContainerRouterContainer;

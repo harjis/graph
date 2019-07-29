@@ -21,8 +21,7 @@ export default function useNodes<
   // https://stackoverflow.com/questions/54625831/how-to-sync-props-to-state-using-react-hook-setstate
   React.useEffect(() => {
     setState({ ...initialState, nodes: initialNodes });
-  }, [initialNodes])
-
+  }, [initialNodes]);
 
   const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
     setState(state => {

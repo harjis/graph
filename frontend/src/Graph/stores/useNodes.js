@@ -56,21 +56,23 @@ export default function useNodes<
     draggedNodeId: $PropertyType<T, 'id'>,
     event: SyntheticMouseEvent<Element>
   ) => {
+    console.log('start');
     const { pageX, pageY } = event;
     setState(state => ({ ...state, draggedNodeId, nodeOffset: { x: pageX, y: pageY } }));
-    document.addEventListener('mousemove', onDrag.current);
+    window.addEventListener('mousemove', onDrag.current);
   };
 
-  const onStopDrag = async (nodeId: number) => {
-    document.removeEventListener('mousemove', onDrag.current);
-    const node = state.nodes.find(node => node.id === nodeId);
+  const onStopDrag = async () => {
+    console.log('stip');
+    window.removeEventListener('mousemove', onDrag.current);
+    const node = state.nodes.find(node => node.id === state.draggedNodeId);
     if (node && typeof updateNode === 'function') {
       await updateNode(node);
     }
     setState({
       ...state,
       nodeOffset: { x: 0, y: 0 },
-      isDragging: false
+      draggedNodeId: null
     });
   };
 

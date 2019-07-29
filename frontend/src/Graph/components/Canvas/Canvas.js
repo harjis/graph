@@ -10,13 +10,14 @@ type ChildrenProps = {|
 type Props = {|
   children: (props: ChildrenProps) => ?React.Node,
   height: number,
+  onMouseUp: Function,
   width: number
 |};
 
 const Canvas = (props: Props) => {
   const [canvasId] = React.useState(shortid.generate());
   return (
-    <svg className={styles.container} height={props.height} width={props.width}>
+    <svg onMouseUp={props.onMouseUp} className={styles.container} height={props.height} width={props.width}>
       {props.children({ canvasId })}
     </svg>
   );

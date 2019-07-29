@@ -21,7 +21,10 @@ const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <SizeMe monitorHeight>
       {({ size }) => (
-        <Canvas height={size.height} width={size.width}>
+        <Canvas onMouseUp={() => {
+          console.log('canas');
+          props.onStopDrag();
+        }} height={size.height} width={size.width}>
           {({ canvasId }) => (
             <React.Fragment>
               <defs>
@@ -34,7 +37,7 @@ const ConnectGraph = (props: Props) => (
                   id={index}
                   key={index}
                   onMouseDown={event => props.onStartDrag(node.id, event)}
-                  onMouseUp={() => props.onStopDrag(node.id)}
+
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

@@ -22,6 +22,6 @@ class NodesController < ApplicationController
   end
 
   def node_params
-    params.permit(:name)
+    params.permit(:name, :x, :y)
   end
 end

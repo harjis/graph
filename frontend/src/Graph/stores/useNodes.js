@@ -7,6 +7,7 @@ const initialState = {
   nodes: []
 };
 type OnDragHandler = (event: MouseEvent) => void;
+type UpdateNode<T> = (node: T) => Promise<T>;
 export default function useNodes<
   T: {
     id: number,
@@ -14,7 +15,7 @@ export default function useNodes<
     y: number
   }
   //$FlowFixMe
->(initialNodes: T[] = []) {
+>(initialNodes: T[] = [], updateNode: ?UpdateNode<T>) {
   const [state, setState] = React.useState({ ...initialState, nodes: initialNodes });
 
   // Ok this was a bit confusing. If useEffect is not used here new state is not hydrated from props
@@ -60,8 +61,12 @@ export default function useNodes<
     document.addEventListener('mousemove', onDrag.current);
   };
 
-  const onStopDrag = () => {
+  const onStopDrag = async (nodeId: number) => {
     document.removeEventListener('mousemove', onDrag.current);
+    const node = state.nodes.find(node => node.id === nodeId);
+    if (node && typeof updateNode === 'function') {
+      await updateNode(node);
+    }
     setState({
       ...state,
       nodeOffset: { x: 0, y: 0 },

@@ -34,7 +34,7 @@ const ConnectGraph = (props: Props) => (
                   id={index}
                   key={index}
                   onMouseDown={event => props.onStartDrag(node.id, event)}
-                  onMouseUp={() => props.onStopDrag()}
+                  onMouseUp={() => props.onStopDrag(node.id)}
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

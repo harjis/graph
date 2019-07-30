@@ -1,16 +1,14 @@
 // @flow
 import * as React from 'react';
 
-import useNode from '../../stores/useNode';
-import type { Node as NodeType } from '../../stores/useNode';
-
 import styles from './Node.module.css';
 
 type Props = {|
   children: ?React.Node,
   height: number,
   id: number,
-  onUpdateNode?: (node: NodeType) => Promise<void>,
+  onMouseDown?: (event: SyntheticMouseEvent<Element>) => any,
+  onMouseUp?: (event: SyntheticMouseEvent<Element>) => any,
   styles?: string,
   width: number,
   x: number,
@@ -18,12 +16,11 @@ type Props = {|
 |};
 
 const Node = (props: Props) => {
-  const { node, onStartDrag, onStopDrag } = useNode({ x: props.x, y: props.y }, props.onUpdateNode);
   return (
     <g
-      onMouseDown={onStartDrag}
-      onMouseUp={onStopDrag}
-      transform={`translate(${node.x}, ${node.y})`}
+      onMouseDown={props.onMouseDown}
+      onMouseUp={props.onMouseUp}
+      transform={`translate(${props.x}, ${props.y})`}
     >
       <rect
         data-node-draggable={props.id}

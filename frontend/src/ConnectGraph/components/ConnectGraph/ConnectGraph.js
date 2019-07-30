@@ -10,15 +10,15 @@ import Node from 'Graph/components/Node/Node';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
 import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from 'Graph/constants/GraphConstants';
 import type { Node as NodeType } from '../../constants/ConnectGraphTypes';
-import type { Node as GenericNode } from '../../../Graph/stores/useNode';
 
 import styles from './ConnectGraph.module.css';
 
 type Props = {|
   nodes: NodeType[],
   onAddNode: () => any,
-  onUndo: () => any,
-  onUpdateNode: (node: NodeType) => any
+  onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
+  onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
+  onUndo: () => any
 |};
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
@@ -38,9 +38,8 @@ const ConnectGraph = (props: Props) => (
                     height={DEFAULT_NODE_HEIGHT}
                     id={node.id}
                     key={node.id}
-                    onUpdateNode={(genericNode: GenericNode) =>
-                      props.onUpdateNode({ ...node, ...genericNode })
-                    }
+                    onMouseDown={event => props.onStartDrag(node.id, event)}
+                    onMouseUp={props.onStopDrag}
                     width={DEFAULT_NODE_WIDTH}
                     x={node.x}
                     y={node.y}

@@ -14,17 +14,14 @@ import styles from './ConnectGraph.module.css';
 
 type Props = {|
   nodes: NodeType[],
-  onStartDrag: Function,
-  onStopDrag: Function
+  onStartDrag: (id: number, event: SyntheticMouseEvent<Element>) => void,
+  onStopDrag: () => void
 |};
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <SizeMe monitorHeight>
       {({ size }) => (
-        <Canvas onMouseUp={() => {
-          console.log('canas');
-          props.onStopDrag();
-        }} height={size.height} width={size.width}>
+        <Canvas onMouseUp={props.onStopDrag} height={size.height} width={size.width}>
           {({ canvasId }) => (
             <React.Fragment>
               <defs>
@@ -37,7 +34,6 @@ const ConnectGraph = (props: Props) => (
                   id={index}
                   key={index}
                   onMouseDown={event => props.onStartDrag(node.id, event)}
-
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

@@ -56,14 +56,12 @@ export default function useNodes<
     draggedNodeId: $PropertyType<T, 'id'>,
     event: SyntheticMouseEvent<Element>
   ) => {
-    console.log('start');
     const { pageX, pageY } = event;
     setState(state => ({ ...state, draggedNodeId, nodeOffset: { x: pageX, y: pageY } }));
     window.addEventListener('mousemove', onDrag.current);
   };
 
   const onStopDrag = async () => {
-    console.log('stip');
     window.removeEventListener('mousemove', onDrag.current);
     const node = state.nodes.find(node => node.id === state.draggedNodeId);
     if (node && typeof updateNode === 'function') {
@@ -71,8 +69,8 @@ export default function useNodes<
     }
     setState({
       ...state,
-      nodeOffset: { x: 0, y: 0 },
-      draggedNodeId: null
+      nodeOffset: initialState.nodeOffset,
+      draggedNodeId: initialState.draggedNodeId
     });
   };
 

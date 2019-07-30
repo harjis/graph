@@ -9,19 +9,19 @@ import DotPattern from 'Graph/components/DotPattern/DotPattern';
 import Node from 'Graph/components/Node/Node';
 import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from 'Graph/constants/GraphConstants';
 import type { Node as NodeType } from '../../constants/ConnectGraphTypes';
+import type { Node as GenericNode } from '../../../Graph/stores/useNode';
 
 import styles from './ConnectGraph.module.css';
 
 type Props = {|
   nodes: NodeType[],
-  onStartDrag: (id: number, event: SyntheticMouseEvent<Element>) => void,
-  onStopDrag: () => any
+  onUpdateNode: (node: NodeType) => any
 |};
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <SizeMe monitorHeight>
       {({ size }) => (
-        <Canvas onMouseUp={props.onStopDrag} height={size.height} width={size.width}>
+        <Canvas height={size.height} width={size.width}>
           {({ canvasId }) => (
             <React.Fragment>
               <defs>
@@ -33,7 +33,9 @@ const ConnectGraph = (props: Props) => (
                   height={DEFAULT_NODE_HEIGHT}
                   id={index}
                   key={index}
-                  onMouseDown={event => props.onStartDrag(node.id, event)}
+                  onUpdateNode={(genericNode: GenericNode) =>
+                    props.onUpdateNode({ ...node, ...genericNode })
+                  }
                   width={DEFAULT_NODE_WIDTH}
                   x={node.x}
                   y={node.y}

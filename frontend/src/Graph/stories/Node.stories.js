@@ -7,7 +7,6 @@ import Canvas from '../components/Canvas/Canvas';
 import CenteredText from '../components/NodeContent/CenteredText';
 import DotPattern from '../components/DotPattern/DotPattern';
 import Node from '../components/Node/Node';
-import useNodes from '../stores/useNodes';
 import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from '../constants/GraphConstants';
 
 import styles from './CustomNode.module.css';
@@ -22,7 +21,6 @@ type Props = {
 };
 
 const Graph = (props: Props) => {
-  const { state, onStartDrag, onStopDrag } = useNodes(initialNodes);
   return (
     <div>
       <Canvas height={size.height} width={size.width}>
@@ -32,13 +30,11 @@ const Graph = (props: Props) => {
               <DotPattern patternId={canvasId} />
             </defs>
             <Background patternId={canvasId} height={size.height} width={size.width} />
-            {state.nodes.map(node => (
+            {initialNodes.map(node => (
               <Node
                 height={DEFAULT_NODE_HEIGHT}
                 id={node.id}
                 key={node.id}
-                onMouseDown={event => onStartDrag(node.id, event)}
-                onMouseUp={() => onStopDrag()}
                 styles={props.customNodeStyles}
                 width={DEFAULT_NODE_WIDTH}
                 x={node.x}

@@ -14,6 +14,7 @@ import {
 import { createNode, fetchNodes, updateNode } from './api/nodes';
 
 const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500, { key: node => node.id });
+const debouncedCreateNode = AwesomeDebouncePromise(createNode, 200);
 
 const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
@@ -52,7 +53,7 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
 
   const onAddNode = React.useCallback(() => {
     const addNode2 = async () => {
-      const node = await createNode(props.graphId);
+      const node = await debouncedCreateNode(props.graphId);
       dispatch(addNode(node));
     };
     addNode2();

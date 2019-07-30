@@ -16,6 +16,18 @@ export function fetchNodesError(error: string): NodeAction {
   return { type: 'NODES/FETCH_ERROR', error };
 }
 
-export function updateNode(node: Node): NodeAction {
-  return { type: 'NODES/UPDATE_NODE', node };
+export function startNodeDrag(nodeId: number, nodeOffset: {| x: number, y: number |}): NodeAction {
+  return { type: 'NODES/START_DRAG', nodeId, nodeOffset };
+}
+
+export function dragNode(
+  nodeOffset: {| x: number, y: number |},
+  pageX: number,
+  pageY: number
+): NodeAction {
+  return { type: 'NODES/DRAG', nodeOffset, pageX, pageY };
+}
+
+export function stopNodeDrag(): NodeAction {
+  return { type: 'NODES/STOP_DRAG' };
 }

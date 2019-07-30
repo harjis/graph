@@ -18,14 +18,25 @@ export type Node = {|
   y: number
 |};
 
+type Offset = {| x: number, y: number |};
 type AddNode = {| type: 'NODES/ADD_NODE', node: Node |};
 type FetchNodesStart = { type: 'NODES/FETCH_START' };
 type FetchNodesSuccess = { type: 'NODES/FETCH_SUCCESS', nodes: Node[] };
 type FetchNodesError = { type: 'NODES/FETCH_ERROR', error: string };
-type UpdateNode = { type: 'NODES/UPDATE_NODE', node: Node };
+type StartNodeDrag = {
+  type: 'NODES/START_DRAG',
+  nodeId: number,
+  nodeOffset: Offset
+};
+type DragNode = { type: 'NODES/DRAG', nodeOffset: Offset, pageX: number, pageY: number };
+type StopNodeDrag = { type: 'NODES/STOP_DRAG' };
+type UpdateNodePosition = { type: 'NODES/UPDATE_POSITION', nodeId: number, x: number, y: number };
 export type NodeAction =
   | AddNode
   | FetchNodesStart
   | FetchNodesSuccess
   | FetchNodesError
-  | UpdateNode;
+  | StartNodeDrag
+  | DragNode
+  | StopNodeDrag
+  | UpdateNodePosition;

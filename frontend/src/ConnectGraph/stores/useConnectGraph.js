@@ -3,18 +3,20 @@ import * as React from 'react';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 import reducer, { initialState } from '../reducers/nodeReducer';
-import type { Node } from '../constants/ConnectGraphTypes';
 import {
   addNode,
+  dragNode,
   fetchNodesError,
   fetchNodesStart,
   fetchNodesSucceed,
-  updateNode as updateNodeAction
+  startNodeDrag,
+  stopNodeDrag
 } from '../actions/nodeActions';
 import { undoGraph } from '../api/graphs';
-import { createNode, fetchNodes, updateNode } from '../api/nodes';
+import { createNode, fetchNodes } from '../api/nodes';
 
-const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500, { key: node => node.id });
+type OnDragHandler = (event: MouseEvent) => void;
+
 const debouncedCreateNode = AwesomeDebouncePromise(createNode, 200);
 export default function useConnectGraph(graphId: number) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -49,16 +51,6 @@ export default function useConnectGraph(graphId: number) {
     addNode2();
   }, [graphId]);
 
-  const onUpdateNode = React.useCallback((node: Node) => {
-    const updateNode2 = async () => {
-      const updated = await debouncedUpdateNode(node);
-      if (updated) {
-        dispatch(updateNodeAction(node));
-      }
-    };
-    updateNode2();
-  }, []);
-
   const onUndo = React.useCallback(() => {
     const undo = async () => {
       await undoGraph(graphId);
@@ -69,5 +61,26 @@ export default function useConnectGraph(graphId: number) {
     undo();
   }, [graphId]);
 
-  return { state, onAddNode, onUpdateNode, onUndo };
+  const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
+    const { pageX, pageY } = event;
+    const nodeOffset = {
+      x: event.pageX,
+      y: event.pageY
+    };
+    dispatch(dragNode(nodeOffset, pageX, pageY));
+  });
+
+  const onStartDrag = (nodeId: number, event: SyntheticMouseEvent<Element>) => {
+    const { pageX, pageY } = event;
+    const nodeOffset = { x: pageX, y: pageY };
+    dispatch(startNodeDrag(nodeId, nodeOffset));
+    window.addEventListener('mousemove', onDrag.current);
+  };
+
+  const onStopDrag = () => {
+    window.removeEventListener('mousemove', onDrag.current);
+    dispatch(stopNodeDrag());
+  };
+
+  return { state, onAddNode, onUndo, onStartDrag, onStopDrag };
 }

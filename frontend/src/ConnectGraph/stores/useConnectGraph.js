@@ -63,11 +63,7 @@ export default function useConnectGraph(graphId: number) {
 
   const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
     const { pageX, pageY } = event;
-    const nodeOffset = {
-      x: event.pageX,
-      y: event.pageY
-    };
-    dispatch(dragNode(nodeOffset, pageX, pageY));
+    dispatch(dragNode(pageX, pageY));
   });
 
   const onStartDrag = (nodeId: number, event: SyntheticMouseEvent<Element>) => {

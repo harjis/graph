@@ -20,12 +20,8 @@ export function startNodeDrag(nodeId: number, nodeOffset: {| x: number, y: numbe
   return { type: 'NODES/START_DRAG', nodeId, nodeOffset };
 }
 
-export function dragNode(
-  nodeOffset: {| x: number, y: number |},
-  pageX: number,
-  pageY: number
-): NodeAction {
-  return { type: 'NODES/DRAG', nodeOffset, pageX, pageY };
+export function dragNode(pageX: number, pageY: number): NodeAction {
+  return { type: 'NODES/DRAG', pageX, pageY };
 }
 
 export function stopNodeDrag(): NodeAction {

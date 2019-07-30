@@ -38,7 +38,7 @@ export default function nodeReducer(state: State, action: NodeAction): State {
       const yDiff = state.nodeOffset.y - action.pageY;
       return {
         ...state,
-        nodeOffset: action.nodeOffset,
+        nodeOffset: { x: action.pageX, y: action.pageY },
         nodes: state.nodes.map(node => {
           if (state.draggedNodeId === node.id) {
             return {

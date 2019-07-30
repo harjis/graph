@@ -58,13 +58,6 @@ export default function nodeReducer(state: State, action: NodeAction): State {
         draggedNodeId: initialState.draggedNodeId,
         nodeOffset: initialState.nodeOffset
       };
-    case 'NODES/UPDATE_POSITION':
-      return {
-        ...state,
-        nodes: state.nodes.map(node =>
-          node.id === action.nodeId ? { ...node, x: action.x, y: action.y } : node
-        )
-      };
     default:
       return state;
   }

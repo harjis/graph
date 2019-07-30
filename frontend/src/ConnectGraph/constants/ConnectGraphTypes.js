@@ -17,3 +17,9 @@ export type Node = {|
   x: number,
   y: number
 |};
+
+type AddNode = {| type: 'NODES/ADD_NODE', node: Node |};
+type FetchNodesStart = { type: 'NODES/FETCH_START' };
+type FetchNodesSuccess = { type: 'NODES/FETCH_SUCCESS', nodes: Node[] };
+type FetchNodesError = { type: 'NODES/FETCH_ERROR', error: string };
+export type NodeAction = AddNode | FetchNodesStart | FetchNodesSuccess | FetchNodesError;

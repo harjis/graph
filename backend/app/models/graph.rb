@@ -12,6 +12,7 @@ class Graph < ApplicationRecord
 
   def undo
     auditable = all_audits_desc.first
+    return unless auditable
     auditable.auditable_type.constantize.without_auditing do
       auditable.undo
       auditable.destroy

@@ -17,12 +17,13 @@ import styles from './ConnectGraph.module.css';
 type Props = {|
   nodes: NodeType[],
   onAddNode: () => any,
+  onUndo: () => any,
   onUpdateNode: (node: NodeType) => any
 |};
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <React.Fragment>
-      <NodeActionBar onAddNode={props.onAddNode} />
+      <NodeActionBar onAddNode={props.onAddNode} onUndo={props.onUndo} />
       <SizeMe monitorHeight>
         {({ size }) => (
           <Canvas height={size.height} width={size.width}>
@@ -32,11 +33,11 @@ const ConnectGraph = (props: Props) => (
                   <DotPattern patternId={canvasId} />
                 </defs>
                 <Background patternId={canvasId} height={size.height} width={size.width} />
-                {props.nodes.map((node, index) => (
+                {props.nodes.map(node => (
                   <Node
                     height={DEFAULT_NODE_HEIGHT}
-                    id={index}
-                    key={index}
+                    id={node.id}
+                    key={node.id}
                     onUpdateNode={(genericNode: GenericNode) =>
                       props.onUpdateNode({ ...node, ...genericNode })
                     }

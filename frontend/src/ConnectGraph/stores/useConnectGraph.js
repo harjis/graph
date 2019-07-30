@@ -11,6 +11,7 @@ import {
   fetchNodesSucceed,
   updateNode as updateNodeAction
 } from '../actions/nodeActions';
+import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 
 const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500, { key: node => node.id });
@@ -58,5 +59,15 @@ export default function useConnectGraph(graphId: number) {
     updateNode2();
   }, []);
 
-  return { state, onAddNode, onUpdateNode };
+  const onUndo = React.useCallback(() => {
+    const undo = async () => {
+      await undoGraph(graphId);
+      const result = await fetchNodes(graphId);
+      console.log(result);
+      dispatch(fetchNodesSucceed(result));
+    };
+    undo();
+  }, [graphId]);
+
+  return { state, onAddNode, onUpdateNode, onUndo };
 }

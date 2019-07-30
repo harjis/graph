@@ -1,5 +1,5 @@
 // @flow
-import type { NodeAction, Node } from '../constants/ConnectGraphTypes';
+import type { NodeAction, Node, Offset } from '../constants/ConnectGraphTypes';
 
 export function addNode(node: Node): NodeAction {
   return { type: 'NODES/ADD_NODE', node };
@@ -16,7 +16,7 @@ export function fetchNodesError(error: string): NodeAction {
   return { type: 'NODES/FETCH_ERROR', error };
 }
 
-export function startNodeDrag(nodeId: number, nodeOffset: {| x: number, y: number |}): NodeAction {
+export function startNodeDrag(nodeId: number, nodeOffset: Offset): NodeAction {
   return { type: 'NODES/START_DRAG', nodeId, nodeOffset };
 }
 

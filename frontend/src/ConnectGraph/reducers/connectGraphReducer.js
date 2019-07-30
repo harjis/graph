@@ -1,8 +1,6 @@
 // @flow
-import type { Node } from '../constants/ConnectGraphTypes';
-import type { NodeAction } from '../constants/ConnectGraphTypes';
+import type { Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
 
-type Offset = {| x: number, y: number |};
 type State = {|
   draggedNodeId: ?number,
   error: ?string,

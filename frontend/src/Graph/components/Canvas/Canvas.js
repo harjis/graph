@@ -10,7 +10,7 @@ type ChildrenProps = {|
 type Props = {|
   children: (props: ChildrenProps) => ?React.Node,
   height: number,
-  onMouseUp: () => void,
+  onMouseUp?: () => any,
   width: number
 |};
 

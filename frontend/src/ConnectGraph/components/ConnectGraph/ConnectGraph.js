@@ -15,7 +15,7 @@ import styles from './ConnectGraph.module.css';
 type Props = {|
   nodes: NodeType[],
   onStartDrag: (id: number, event: SyntheticMouseEvent<Element>) => void,
-  onStopDrag: () => void
+  onStopDrag: () => any
 |};
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>

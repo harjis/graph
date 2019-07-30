@@ -23,7 +23,6 @@ const Node = (props: Props) => {
       transform={`translate(${props.x}, ${props.y})`}
     >
       <rect
-        data-node-draggable={props.id}
         className={props.styles || styles.container}
         height={props.height}
         width={props.width}

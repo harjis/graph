@@ -8,7 +8,7 @@ import { url } from 'ConnectGraph/api/common';
 import { useFetch } from '../Generic/components/useFetch';
 import { updateNode } from './api/nodes';
 
-const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500);
+const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500, { key: node => node.id });
 
 const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;

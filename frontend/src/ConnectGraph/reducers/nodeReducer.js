@@ -19,6 +19,11 @@ export default function nodeReducer(state: State, action: NodeAction): State {
       return { ...state, isLoading: false, isLoaded: false, error: action.error };
     case 'NODES/FETCH_SUCCESS':
       return { ...state, isLoading: false, isLoaded: true, nodes: action.nodes };
+    case 'NODES/UPDATE_NODE':
+      return {
+        ...state,
+        nodes: state.nodes.map(node => (node.id === action.node.id ? action.node : node))
+      };
     default:
       return state;
   }

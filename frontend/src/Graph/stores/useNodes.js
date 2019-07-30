@@ -63,15 +63,15 @@ export default function useNodes<
 
   const onStopDrag = async () => {
     window.removeEventListener('mousemove', onDrag.current);
-    const node = state.nodes.find(node => node.id === state.draggedNodeId);
-    if (node && typeof updateNode === 'function') {
-      await updateNode(node);
-    }
     setState({
       ...state,
       nodeOffset: initialState.nodeOffset,
       draggedNodeId: initialState.draggedNodeId
     });
+    const node = state.nodes.find(node => node.id === state.draggedNodeId);
+    if (node && typeof updateNode === 'function') {
+      await updateNode(node);
+    }
   };
 
   return { state, onStartDrag, onStopDrag };

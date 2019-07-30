@@ -15,3 +15,7 @@ export function fetchNodesSucceed(nodes: Node[]): NodeAction {
 export function fetchNodesError(error: string): NodeAction {
   return { type: 'NODES/FETCH_ERROR', error };
 }
+
+export function updateNode(node: Node): NodeAction {
+  return { type: 'NODES/UPDATE_NODE', node };
+}

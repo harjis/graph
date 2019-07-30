@@ -1,9 +1,14 @@
 // @flow
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 
 import ConnectGraph from './components/ConnectGraph/ConnectGraph';
-import useConnectGraph from './stores/useConnectGraph';
+import { url } from 'ConnectGraph/api/common';
+import { useFetch } from '../Generic/components/useFetch';
+import { updateNode } from './api/nodes';
+
+const debouncedUpdateNode = AwesomeDebouncePromise(updateNode, 500);
 
 const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
@@ -14,12 +19,17 @@ const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
 type ConnectGraphContainerProps = {|
   graphId: number
 |};
+
 function ConnectGraphContainer(props: ConnectGraphContainerProps) {
-  const { nodes, isLoading, onStartDrag, onStopDrag } = useConnectGraph(props.graphId);
+  const [backendNodes, isLoading] = useFetch(`${url}/graphs/${props.graphId}/nodes`);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  return <ConnectGraph nodes={nodes} onStartDrag={onStartDrag} onStopDrag={onStopDrag} />;
+  if (!backendNodes) {
+    return <div>Error :(</div>;
+  }
+
+  return <ConnectGraph nodes={backendNodes} onUpdateNode={debouncedUpdateNode} />;
 }
 
 export default ConnectGraphContainerRouterContainer;

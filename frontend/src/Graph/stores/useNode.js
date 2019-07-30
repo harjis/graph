@@ -50,13 +50,13 @@ export default function useNode(initialNode: Node, updateNode: ?UpdateNode): Ret
 
   const onStopDrag = async () => {
     window.removeEventListener('mousemove', onDrag.current);
-    if (state.node && typeof updateNode === 'function') {
-      await updateNode(state.node);
-    }
     setState(state => ({
       ...state,
       nodeOffset: initialState.nodeOffset
     }));
+    if (state.node && typeof updateNode === 'function') {
+      await updateNode(state.node);
+    }
   };
 
   return { node: state.node, onStartDrag, onStopDrag };

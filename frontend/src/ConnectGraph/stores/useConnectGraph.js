@@ -13,11 +13,12 @@ import {
   stopNodeDrag
 } from '../actions/nodeActions';
 import { undoGraph } from '../api/graphs';
-import { createNode, fetchNodes } from '../api/nodes';
+import { createNode, fetchNodes, updateNode } from '../api/nodes';
 
 type OnDragHandler = (event: MouseEvent) => void;
 
 const debouncedCreateNode = AwesomeDebouncePromise(createNode, 200);
+const debounceUpdateNode = AwesomeDebouncePromise(updateNode, 200);
 export default function useConnectGraph(graphId: number) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
@@ -55,7 +56,6 @@ export default function useConnectGraph(graphId: number) {
     const undo = async () => {
       await undoGraph(graphId);
       const result = await fetchNodes(graphId);
-      console.log(result);
       dispatch(fetchNodesSucceed(result));
     };
     undo();
@@ -73,10 +73,15 @@ export default function useConnectGraph(graphId: number) {
     window.addEventListener('mousemove', onDrag.current);
   };
 
-  const onStopDrag = () => {
+  const onStopDrag = React.useCallback(() => {
     window.removeEventListener('mousemove', onDrag.current);
     dispatch(stopNodeDrag());
-  };
+    const node = state.nodes.find(node => node.id === state.draggedNodeId);
+    const onStopDrag2 = async () => {
+      await debounceUpdateNode(node);
+    };
+    onStopDrag2();
+  }, [state.nodes, state.draggedNodeId]);
 
   return { state, onAddNode, onUndo, onStartDrag, onStopDrag };
 }

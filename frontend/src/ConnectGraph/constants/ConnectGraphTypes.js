@@ -18,7 +18,7 @@ export type Node = {|
   y: number
 |};
 
-type Offset = {| x: number, y: number |};
+export type Offset = {| x: number, y: number |};
 type AddNode = {| type: 'NODES/ADD_NODE', node: Node |};
 type FetchNodesStart = { type: 'NODES/FETCH_START' };
 type FetchNodesSuccess = { type: 'NODES/FETCH_SUCCESS', nodes: Node[] };

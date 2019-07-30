@@ -30,7 +30,6 @@ type StartNodeDrag = {
 };
 type DragNode = { type: 'NODES/DRAG', pageX: number, pageY: number };
 type StopNodeDrag = { type: 'NODES/STOP_DRAG' };
-type UpdateNodePosition = { type: 'NODES/UPDATE_POSITION', nodeId: number, x: number, y: number };
 export type NodeAction =
   | AddNode
   | FetchNodesStart
@@ -38,5 +37,4 @@ export type NodeAction =
   | FetchNodesError
   | StartNodeDrag
   | DragNode
-  | StopNodeDrag
-  | UpdateNodePosition;
+  | StopNodeDrag;

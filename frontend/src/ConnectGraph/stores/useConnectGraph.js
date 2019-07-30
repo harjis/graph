@@ -2,7 +2,7 @@
 import * as React from 'react';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
-import reducer, { initialState } from '../reducers/nodeReducer';
+import reducer, { initialState } from '../reducers/connectGraphReducer';
 import {
   addNode,
   dragNode,

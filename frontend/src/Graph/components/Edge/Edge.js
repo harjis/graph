@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import { getOriginToOriginBezierPath } from 'Graph/utils/bezier_utils';
+import { getOriginToOriginBezierPath } from 'Graph/utils/bezierUtils';
 
 import styles from './Edge.module.css';
 

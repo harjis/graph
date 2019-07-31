@@ -12,8 +12,15 @@ import {
   startNodeDrag,
   stopNodeDrag
 } from '../actions/nodeActions';
+import {
+  addEdge,
+  fetchEdgesError,
+  fetchEdgesStart,
+  fetchEdgesSucceed
+} from '../actions/edgeActions';
 import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
+import { fetchEdges } from '../api/edges';
 
 type OnDragHandler = (event: MouseEvent) => void;
 
@@ -34,6 +41,28 @@ export default function useConnectGraph(graphId: number) {
       } catch (error) {
         if (!didCancel) {
           dispatch(fetchNodesError(error));
+        }
+      }
+    };
+    fetchData();
+
+    return () => {
+      didCancel = true;
+    };
+  }, [graphId]);
+
+  React.useEffect(() => {
+    let didCancel = false;
+    const fetchData = async () => {
+      dispatch(fetchEdgesStart());
+      try {
+        const result = await fetchEdges(graphId);
+        if (!didCancel) {
+          dispatch(fetchEdgesSucceed(result));
+        }
+      } catch (error) {
+        if (!didCancel) {
+          dispatch(fetchEdgesError(error));
         }
       }
     };

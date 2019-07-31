@@ -17,16 +17,16 @@ type ConnectGraphContainerProps = {|
 function ConnectGraphContainer(props: ConnectGraphContainerProps) {
   const { state, onAddNode, onUndo, onStartDrag, onStopDrag } = useConnectGraph(props.graphId);
 
-  if (state.isLoading) {
+  if (state.nodes.isLoading) {
     return <div>Loading...</div>;
   }
-  if (state.error) {
+  if (state.nodes.error) {
     return <div>Error :(</div>;
   }
 
   return (
     <ConnectGraph
-      nodes={state.nodes}
+      nodes={state.nodes.nodes}
       onAddNode={onAddNode}
       onStartDrag={onStartDrag}
       onStopDrag={onStopDrag}

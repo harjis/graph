@@ -76,12 +76,12 @@ export default function useConnectGraph(graphId: number) {
   const onStopDrag = React.useCallback(() => {
     window.removeEventListener('mousemove', onDrag.current);
     dispatch(stopNodeDrag());
-    const node = state.nodes.find(node => node.id === state.draggedNodeId);
+    const node = state.nodes.nodes.find(node => node.id === state.nodes.draggedNodeId);
     const onStopDrag2 = async () => {
       await debounceUpdateNode(node);
     };
     onStopDrag2();
-  }, [state.nodes, state.draggedNodeId]);
+  }, [state.nodes, state.nodes.draggedNodeId]);
 
   return { state, onAddNode, onUndo, onStartDrag, onStopDrag };
 }

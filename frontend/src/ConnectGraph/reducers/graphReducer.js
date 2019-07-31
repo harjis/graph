@@ -17,7 +17,7 @@ export const initialState = {
   nodeOffset: { x: 0, y: 0 },
   nodes: []
 };
-export default function connectGraphReducer(state: State, action: NodeAction): State {
+export default function graphReducer(state: State, action: NodeAction): State {
   switch (action.type) {
     case 'NODES/ADD_NODE':
       return { ...state, nodes: state.nodes.concat(action.node) };

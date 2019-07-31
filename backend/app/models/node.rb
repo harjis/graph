@@ -5,4 +5,8 @@ class Node < ApplicationRecord
 
   audited associated_with: :graph
   has_associated_audits
+
+  def ancestors
+    self.to_edges.map(&:from_node)
+  end
 end

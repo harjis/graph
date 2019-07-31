@@ -3,10 +3,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import FetchData from 'Generic/components/FetchData';
-import { getGraphs } from 'ConnectGraph/api/graphs';
+import { fetchGraphs } from 'ConnectGraph/api/graphs';
 
 const GraphsMenu = () => (
-  <FetchData fetchOnlyOnMount query={getGraphs}>
+  <FetchData fetchOnlyOnMount query={fetchGraphs}>
     {({ data: graphs, error, isLoading }) => {
       if (error || isLoading) return null;
       if (!graphs) return null;

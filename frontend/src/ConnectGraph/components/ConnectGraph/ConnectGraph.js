@@ -2,18 +2,24 @@
 import * as React from 'react';
 import { SizeMe } from 'react-sizeme';
 
+import Background from 'Graph/components/Background/Background';
 import Canvas from 'Graph/components/Canvas/Canvas';
 import CenteredText from 'Graph/components/NodeContent/CenteredText';
-import Background from 'Graph/components/Background/Background';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
+import Edge from 'Graph/components/Edge/Edge';
 import Node from 'Graph/components/Node/Node';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
 import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from 'Graph/constants/GraphConstants';
-import type { Node as NodeType } from '../../constants/ConnectGraphTypes';
+import type { Edge as EdgeType, Node as NodeType } from '../../constants/ConnectGraphTypes';
+import {
+  getNodeBottomMiddlePosition,
+  getNodeTopMiddlePosition
+} from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
 
 type Props = {|
+  edges: EdgeType[],
   nodes: NodeType[],
   onAddNode: () => any,
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
@@ -33,6 +39,12 @@ const ConnectGraph = (props: Props) => (
                   <DotPattern patternId={canvasId} />
                 </defs>
                 <Background patternId={canvasId} height={size.height} width={size.width} />
+                {props.edges.map(edge => (
+                  <Edge
+                    from={getNodeBottomMiddlePosition(props.nodes, edge.from_node_id)}
+                    to={getNodeTopMiddlePosition(props.nodes, edge.to_node_id)}
+                  />
+                ))}
                 {props.nodes.map(node => (
                   <Node
                     height={DEFAULT_NODE_HEIGHT}

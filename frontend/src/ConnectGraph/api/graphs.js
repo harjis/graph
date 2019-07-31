@@ -2,7 +2,7 @@
 import type { Graph } from '../constants/ConnectGraphTypes';
 import { url } from './common';
 
-export function getGraphs(): Promise<Graph[]> {
+export function fetchGraphs(): Promise<Graph[]> {
   return fetch(`${url}/graphs`).then(response => response.json());
 }
 

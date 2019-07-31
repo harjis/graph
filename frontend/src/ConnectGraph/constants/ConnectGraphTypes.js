@@ -1,9 +1,9 @@
 // @flow
 
 export type Graph = {|
+  created_at: string,
   id: number,
   name: string,
-  created_at: string,
   updated_at: string
 |};
 
@@ -16,6 +16,15 @@ export type Node = {|
   update_at: string,
   x: number,
   y: number
+|};
+
+export type Edge = {|
+  created_at: string,
+  from_node_id: number,
+  id: number,
+  name: ?string,
+  to_node_id: number,
+  updated_at: string
 |};
 
 export type Offset = {| x: number, y: number |};
@@ -38,3 +47,9 @@ export type NodeAction =
   | StartNodeDrag
   | DragNode
   | StopNodeDrag;
+
+type AddEdge = {| type: 'EDGES/ADD', edge: Edge |};
+type FetchEdgesStart = { type: 'EDGES/FETCH_START' };
+type FetchEdgesSuccess = { type: 'EDGES/FETCH_SUCCESS', edges: Edge[] };
+type FetchEdgesError = { type: 'EDGES/FETCH_ERROR', error: string };
+export type EdgeAction = AddEdge | FetchEdgesStart | FetchEdgesSuccess | FetchEdgesError;

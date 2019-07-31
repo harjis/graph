@@ -9,7 +9,7 @@ import DotPattern from '../components/DotPattern/DotPattern';
 import Node from '../components/Node/Node';
 import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from '../constants/GraphConstants';
 
-import styles from './CustomNode.module.css';
+import styles from './CustomStyles.module.css';
 
 const size = {
   height: 500,
@@ -54,4 +54,4 @@ const Graph = (props: Props) => {
 
 storiesOf('Graph/Nodes', module)
   .add('Default', () => <Graph />)
-  .add('With custom node styles', () => <Graph customNodeStyles={styles.customStyles} />);
+  .add('With custom node styles', () => <Graph customNodeStyles={styles.customNode} />);

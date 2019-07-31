@@ -1,0 +1,20 @@
+.customNode {
+  cursor: move;
+  fill: lightblue;
+  rx: 3px;
+  ry: 3px;
+  stroke-width: 2px;
+  stroke: blue;
+}
+
+.customEdge {
+  stroke: #55cde1;
+  stroke-width: 4px;
+  fill: none;
+}
+
+.customEdge:hover {
+  stroke-width: 12px;
+  fill: none;
+  cursor: pointer;
+}

@@ -41,6 +41,7 @@ const ConnectGraph = (props: Props) => (
                 <Background patternId={canvasId} height={size.height} width={size.width} />
                 {props.edges.map(edge => (
                   <Edge
+                    key={edge.id}
                     from={getNodeBottomMiddlePosition(props.nodes, edge.from_node_id)}
                     to={getNodeTopMiddlePosition(props.nodes, edge.to_node_id)}
                   />

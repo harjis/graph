@@ -11,7 +11,7 @@ class Graph < ApplicationRecord
   # There also is duplicate id's in the array join but not sure if that actually affects performance
   def all_related_nodes
     edges = uniq_edges
-    Node.where(id: edges.map(&:from_node_id) + edges.map(&:to_node_id))
+    Node.where(id: edges.map(&:from_node_id) + edges.map(&:to_node_id) + self.nodes.map(&:id))
   end
 
   def uniq_edges

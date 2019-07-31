@@ -84,8 +84,13 @@ export default function useConnectGraph(graphId: number) {
   const onUndo = React.useCallback(() => {
     const undo = async () => {
       await undoGraph(graphId);
-      const result = await fetchNodes(graphId);
-      dispatch(fetchNodesSucceed(result));
+      const nodes = await fetchNodes(graphId);
+      const edges = await fetchEdges(graphId);
+      // TODO: This feels like a code smell. When undoing graph the edges need to be dispatched to store first
+      // It is possible that a non-own node gets removed when an edge is removed. In that case the new nodes
+      // do not have all the required nodes that old edges have.
+      dispatch(fetchEdgesSucceed(edges));
+      dispatch(fetchNodesSucceed(nodes));
     };
     undo();
   }, [graphId]);

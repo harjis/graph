@@ -5,6 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Canvas from '../../Graph/components/Canvas/Canvas';
 import InputNode from '../components/ConnectNodes/InputNode';
 import OutputNode from '../components/ConnectNodes/OutputNode';
+import { inputHandlers, outputHandlers } from './story_utils';
 
 const CanvasDecorator = storyFn => (
   <Canvas height={500} width={500}>
@@ -14,12 +15,12 @@ const CanvasDecorator = storyFn => (
 storiesOf('ConnectGraph/Nodes', module)
   .addDecorator(CanvasDecorator)
   .add('Input', () => (
-    <InputNode name="Input 1" id={1} x={200} y={200}>
+    <InputNode name="Input 1" id={1} x={200} y={200} {...inputHandlers}>
       {null}
     </InputNode>
   ))
   .add('Output', () => (
-    <OutputNode name="Output 1" id={1} x={200} y={200}>
+    <OutputNode name="Output 1" id={1} x={200} y={200} {...outputHandlers}>
       {null}
     </OutputNode>
   ));

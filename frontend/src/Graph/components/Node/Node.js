@@ -15,21 +15,15 @@ type Props = {|
   y: number
 |};
 
-const Node = (props: Props) => {
-  return (
-    <g
-      onMouseDown={props.onMouseDown}
-      onMouseUp={props.onMouseUp}
-      transform={`translate(${props.x}, ${props.y})`}
-    >
-      <rect
-        className={props.styles || styles.container}
-        height={props.height}
-        width={props.width}
-      />
-      {props.children}
-    </g>
-  );
-};
+const Node = (props: Props) => (
+  <g
+    onMouseDown={props.onMouseDown}
+    onMouseUp={props.onMouseUp}
+    transform={`translate(${props.x}, ${props.y})`}
+  >
+    <rect className={props.styles || styles.container} height={props.height} width={props.width} />
+    {props.children}
+  </g>
+);
 
 export default Node;

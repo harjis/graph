@@ -1,0 +1,3 @@
+class OutputNode < Node
+
+end

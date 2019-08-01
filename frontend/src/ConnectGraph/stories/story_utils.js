@@ -15,6 +15,7 @@ export const createNode = (graph_id: number = 0, x: number = 100, y: number = 10
   graph_id,
   id: getRandomInt(),
   name: 'New node',
+  type: 'InputNode',
   update_at: '2019-08-01T06:26:14.964Z',
   x,
   y

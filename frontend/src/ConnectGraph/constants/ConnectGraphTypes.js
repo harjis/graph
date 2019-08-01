@@ -7,8 +7,10 @@ export type Graph = {|
   updated_at: string
 |};
 
+export type NodeType = 'InputNode' | 'OutputNode';
 export type Node = {|
   content: Object,
+  type: NodeType,
   created_at: string,
   graph_id: number,
   id: number,

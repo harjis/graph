@@ -11,7 +11,8 @@ import {
 
 import styles from './InputNode.module.css';
 
-type Props = {|
+// NOTICE: Props can not be exact because of how InputNodes are used.
+type Props = {
   children: ?React.Node,
   id: number,
   name: string,
@@ -21,7 +22,7 @@ type Props = {|
   styles?: string,
   x: number,
   y: number
-|};
+};
 
 const InputNode = (props: Props) => (
   <Node

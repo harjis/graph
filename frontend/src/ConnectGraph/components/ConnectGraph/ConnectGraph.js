@@ -12,6 +12,7 @@ import type { Edge, Node } from '../../constants/ConnectGraphTypes';
 import { getNode } from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
+import { getComponentByType } from '../../utils/nodeComponentUtil';
 
 type Props = {|
   edges: Edge[],
@@ -41,20 +42,24 @@ const ConnectGraph = (props: Props) => (
                     toNode={getNode(props.nodes, edge.to_node_id)}
                   />
                 ))}
-                {props.nodes.map(node => (
-                  <InputNode
-                    id={node.id}
-                    key={node.id}
-                    name={node.name}
-                    onClickFromConnector={() => console.log('implement me')}
-                    onMouseDown={event => props.onStartDrag(node.id, event)}
-                    onMouseUp={props.onStopDrag}
-                    x={node.x}
-                    y={node.y}
-                  >
-                    {null}
-                  </InputNode>
-                ))}
+                {props.nodes.map(node => {
+                  const NodeComponent = getComponentByType(node.type);
+                  return (
+                    <NodeComponent
+                      id={node.id}
+                      key={node.id}
+                      name={node.name}
+                      onClickFromConnector={() => console.log('implement me')}
+                      onClickToConnector={() => console.log('implement me')}
+                      onMouseDown={event => props.onStartDrag(node.id, event)}
+                      onMouseUp={props.onStopDrag}
+                      x={node.x}
+                      y={node.y}
+                    >
+                      {null}
+                    </NodeComponent>
+                  );
+                })}
               </React.Fragment>
             )}
           </Canvas>

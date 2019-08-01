@@ -1,0 +1,8 @@
+.inputNode {
+  cursor: move;
+  fill: #6696ab;
+  rx: 3px;
+  ry: 3px;
+  stroke-width: 1px;
+  stroke: #d3d3d3;
+}

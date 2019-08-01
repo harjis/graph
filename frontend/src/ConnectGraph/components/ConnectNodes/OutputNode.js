@@ -8,8 +8,7 @@ import {
   connectGraphNodeWidth
 } from '../../constants/ConnectGraphConstants';
 
-import styles from './InputNode.module.css';
-
+import styles from './OutputNode.module.css';
 
 type Props = {|
   children: ?React.Node,
@@ -22,13 +21,13 @@ type Props = {|
   y: number
 |};
 
-const InputNode = (props: Props) => (
+const OutputNode = (props: Props) => (
   <Node
     height={connectGraphNodeHeight}
     id={props.id}
     onMouseDown={props.onMouseDown}
     onMouseUp={props.onMouseUp}
-    styles={styles.inputNode}
+    styles={styles.outputNode}
     width={connectGraphNodeWidth}
     x={props.x}
     y={props.y}
@@ -40,4 +39,4 @@ const InputNode = (props: Props) => (
   </Node>
 );
 
-export default InputNode;
+export default OutputNode;

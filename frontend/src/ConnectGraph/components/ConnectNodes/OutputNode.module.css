@@ -1,0 +1,8 @@
+.outputNode {
+  cursor: move;
+  fill: #84cca8;
+  rx: 3px;
+  ry: 3px;
+  stroke-width: 1px;
+  stroke: #d3d3d3;
+}

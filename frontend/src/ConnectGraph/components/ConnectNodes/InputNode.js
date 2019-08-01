@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 import CenteredText from 'Graph/components/NodeContent/CenteredText';
+import FromConnector from '../EdgeConnectors/FromConnector';
 import Node from 'Graph/components/Node/Node';
 import {
   connectGraphNodeHeight,
@@ -10,13 +11,13 @@ import {
 
 import styles from './InputNode.module.css';
 
-
 type Props = {|
   children: ?React.Node,
   id: number,
   name: string,
-  onMouseDown?: (event: SyntheticMouseEvent<Element>) => any,
-  onMouseUp?: (event: SyntheticMouseEvent<Element>) => any,
+  onClickFromConnector: (event: SyntheticMouseEvent<Element>) => any,
+  onMouseDown: (event: SyntheticMouseEvent<Element>) => any,
+  onMouseUp: (event: SyntheticMouseEvent<Element>) => any,
   styles?: string,
   x: number,
   y: number
@@ -36,6 +37,7 @@ const InputNode = (props: Props) => (
     <CenteredText nodeHeight={connectGraphNodeHeight} nodeWidth={connectGraphNodeWidth}>
       {props.name}
     </CenteredText>
+    <FromConnector onClick={props.onClickFromConnector} />
     {props.children}
   </Node>
 );

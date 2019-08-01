@@ -8,14 +8,14 @@ import ConnectEdge from '../ConnectEdge/ConnectEdge';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
 import InputNode from '../ConnectNodes/InputNode';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
-import type { Edge as EdgeType, Node as NodeType } from '../../constants/ConnectGraphTypes';
+import type { Edge, Node } from '../../constants/ConnectGraphTypes';
 import { getNode } from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
 
 type Props = {|
-  edges: EdgeType[],
-  nodes: NodeType[],
+  edges: Edge[],
+  nodes: Node[],
   onAddNode: () => any,
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,

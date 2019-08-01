@@ -4,17 +4,12 @@ import { SizeMe } from 'react-sizeme';
 
 import Background from 'Graph/components/Background/Background';
 import Canvas from 'Graph/components/Canvas/Canvas';
-import CenteredText from 'Graph/components/NodeContent/CenteredText';
+import ConnectEdge from '../ConnectEdge/ConnectEdge';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
-import Edge from 'Graph/components/Edge/Edge';
-import Node from 'Graph/components/Node/Node';
+import InputNode from '../ConnectNodes/InputNode';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
-import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_WIDTH } from 'Graph/constants/GraphConstants';
 import type { Edge as EdgeType, Node as NodeType } from '../../constants/ConnectGraphTypes';
-import {
-  getNodeBottomMiddlePosition,
-  getNodeTopMiddlePosition
-} from 'ConnectGraph/utils/nodeUtils';
+import { getNode } from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
 
@@ -40,27 +35,25 @@ const ConnectGraph = (props: Props) => (
                 </defs>
                 <Background patternId={canvasId} height={size.height} width={size.width} />
                 {props.edges.map(edge => (
-                  <Edge
+                  <ConnectEdge
                     key={edge.id}
-                    from={getNodeBottomMiddlePosition(props.nodes, edge.from_node_id)}
-                    to={getNodeTopMiddlePosition(props.nodes, edge.to_node_id)}
+                    fromNode={getNode(props.nodes, edge.from_node_id)}
+                    toNode={getNode(props.nodes, edge.to_node_id)}
                   />
                 ))}
                 {props.nodes.map(node => (
-                  <Node
-                    height={DEFAULT_NODE_HEIGHT}
+                  <InputNode
                     id={node.id}
                     key={node.id}
+                    name={node.name}
+                    onClickFromConnector={() => console.log('implement me')}
                     onMouseDown={event => props.onStartDrag(node.id, event)}
                     onMouseUp={props.onStopDrag}
-                    width={DEFAULT_NODE_WIDTH}
                     x={node.x}
                     y={node.y}
                   >
-                    <CenteredText nodeWidth={DEFAULT_NODE_WIDTH} nodeHeight={DEFAULT_NODE_HEIGHT}>
-                      {node.name}
-                    </CenteredText>
-                  </Node>
+                    {null}
+                  </InputNode>
                 ))}
               </React.Fragment>
             )}

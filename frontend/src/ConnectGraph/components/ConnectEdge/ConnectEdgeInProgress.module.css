@@ -1,0 +1,9 @@
+.line {
+  stroke: #55cde1;
+  stroke-width: 4px;
+  fill: none;
+}
+
+.triangle {
+  fill: #55cde1;
+}

@@ -13,17 +13,13 @@ type Props = {|
   width: number
 |};
 
-const Canvas = (props: Props) => {
+const Canvas = React.forwardRef<Props, 'svg'>((props: Props, ref: any) => {
   const [canvasId] = React.useState(shortid.generate());
   return (
-    <svg
-      className={styles.container}
-      height={props.height}
-      width={props.width}
-    >
+    <svg ref={ref} className={styles.container} height={props.height} width={props.width}>
       {props.children({ canvasId })}
     </svg>
   );
-};
+});
 
 export default Canvas;

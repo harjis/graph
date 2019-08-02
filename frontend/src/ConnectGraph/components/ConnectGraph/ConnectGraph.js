@@ -12,6 +12,9 @@ import { getComponentByType } from '../../utils/nodeComponentUtil';
 import { getNode } from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
+import { useConnectEdgeInProgress } from '../../stores/useConnectEdgeInProgress';
+import ConnectEdgeInProgress from '../ConnectEdge/ConnectEdgeInProgress';
+import { getMousePosition } from '../../../utils/svg_utils';
 
 type Props = {|
   edges: Edge[],
@@ -23,57 +26,88 @@ type Props = {|
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onUndo: () => any
 |};
-const ConnectGraph = (props: Props) => (
-  <div className={styles.container}>
-    <React.Fragment>
-      <NodeActionBar
-        onAddInputNode={props.onAddInputNode}
-        onAddOutputNode={props.onAddOutputNode}
-        onUndo={props.onUndo}
-      />
-      <SizeMe monitorHeight>
-        {({ size }) => (
-          <Canvas height={size.height} width={size.width}>
-            {({ canvasId }) => (
-              <React.Fragment>
-                <defs>
-                  <DotPattern patternId={canvasId} />
-                </defs>
-                <Background patternId={canvasId} height={size.height} width={size.width} />
-                {props.edges.map(edge => (
-                  <ConnectEdge
-                    key={edge.id}
-                    onClick={() => props.onDeleteEdge(edge.id)}
-                    fromNode={getNode(props.nodes, edge.from_node_id)}
-                    toNode={getNode(props.nodes, edge.to_node_id)}
-                  />
-                ))}
-                {props.nodes.map(node => {
-                  const NodeComponent = getComponentByType(node.type);
-                  return (
-                    <NodeComponent
-                      hasToEdges={node.has_to_edges}
-                      id={node.id}
-                      key={node.id}
-                      name={node.name}
-                      onClickFromConnector={() => console.log('implement me')}
-                      onClickToConnector={() => console.log('implement me')}
-                      onMouseDown={event => props.onStartDrag(node.id, event)}
-                      onMouseUp={props.onStopDrag}
-                      x={node.x}
-                      y={node.y}
-                    >
-                      {null}
-                    </NodeComponent>
-                  );
-                })}
-              </React.Fragment>
-            )}
-          </Canvas>
-        )}
-      </SizeMe>
-    </React.Fragment>
-  </div>
-);
+const ConnectGraph = (props: Props) => {
+  const {
+    edgeInProgressState,
+    onStartEdgeInProgress,
+    onStopEdgeInProgress
+  } = useConnectEdgeInProgress();
+  const canvasRef = React.createRef<Element>();
+  return (
+    <div className={styles.container}>
+      <React.Fragment>
+        <NodeActionBar
+          onAddInputNode={props.onAddInputNode}
+          onAddOutputNode={props.onAddOutputNode}
+          onUndo={props.onUndo}
+        />
+        <SizeMe monitorHeight>
+          {({ size }) => (
+            <Canvas ref={canvasRef} height={size.height} width={size.width}>
+              {({ canvasId }) => (
+                <React.Fragment>
+                  <defs>
+                    <DotPattern patternId={canvasId} />
+                  </defs>
+                  <Background patternId={canvasId} height={size.height} width={size.width} />
+                  {props.edges.map(edge => (
+                    <ConnectEdge
+                      key={edge.id}
+                      onClick={() => props.onDeleteEdge(edge.id)}
+                      fromNode={getNode(props.nodes, edge.from_node_id)}
+                      toNode={getNode(props.nodes, edge.to_node_id)}
+                    />
+                  ))}
+                  {props.nodes.map(node => {
+                    const NodeComponent = getComponentByType(node.type);
+                    return (
+                      <NodeComponent
+                        hasToEdges={node.has_to_edges}
+                        id={node.id}
+                        key={node.id}
+                        name={node.name}
+                        onClickFromConnector={event =>
+                          onStartEdgeInProgress(node.id, event, canvasRef)
+                        }
+                        onClickToConnector={onStopEdgeInProgress}
+                        onMouseDown={event => props.onStartDrag(node.id, event)}
+                        onMouseUp={props.onStopDrag}
+                        x={node.x}
+                        y={node.y}
+                      >
+                        {null}
+                      </NodeComponent>
+                    );
+                  })}
+                  {getEdgeInProgress(
+                    props.nodes,
+                    edgeInProgressState.fromNodeId,
+                    edgeInProgressState.clientX,
+                    edgeInProgressState.clientY,
+                    edgeInProgressState.ctm
+                  )}
+                </React.Fragment>
+              )}
+            </Canvas>
+          )}
+        </SizeMe>
+      </React.Fragment>
+    </div>
+  );
+};
+
+function getEdgeInProgress(
+  nodes: Node[],
+  fromNodeId: ?number,
+  clientX: number,
+  clientY: number,
+  ctm: any
+) {
+  if (fromNodeId === null || fromNodeId === undefined) return null;
+  const toCoordinates = getMousePosition(clientX, clientY, ctm);
+  return (
+    <ConnectEdgeInProgress fromNode={getNode(nodes, fromNodeId)} toCoordinates={toCoordinates} />
+  );
+}
 
 export default ConnectGraph;

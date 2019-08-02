@@ -16,6 +16,8 @@ export const initialState = {
 
 export default function edgesReducer(state: State, action: EdgeAction): State {
   switch (action.type) {
+    case 'EDGES/ADD':
+      return { ...state, edges: state.edges.concat(action.edge) };
     case 'EDGES/FETCH_START':
       return { ...state, isLoading: true, isLoaded: false };
     case 'EDGES/FETCH_ERROR':

@@ -53,8 +53,14 @@ export type NodeAction =
   | DragNode
   | StopNodeDrag;
 
+type AddEdge = { type: 'EDGES/ADD', edge: Edge };
 type FetchEdgesStart = { type: 'EDGES/FETCH_START' };
 type FetchEdgesSuccess = { type: 'EDGES/FETCH_SUCCESS', edges: Edge[] };
 type FetchEdgesError = { type: 'EDGES/FETCH_ERROR', error: string };
 type DeleteEdge = { type: 'EDGES/DELETE', edgeId: number };
-export type EdgeAction = FetchEdgesStart | FetchEdgesSuccess | FetchEdgesError | DeleteEdge;
+export type EdgeAction =
+  | AddEdge
+  | FetchEdgesStart
+  | FetchEdgesSuccess
+  | FetchEdgesError
+  | DeleteEdge;

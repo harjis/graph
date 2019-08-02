@@ -28,6 +28,7 @@ export function useConnectEdgeInProgress() {
   const someFun = (event: MouseEvent) => {
     if (event.target instanceof Element && !event.target.getAttribute('data-connector-type')) {
       onStopEdgeInProgress();
+      return;
     }
   };
   const onMove = React.useRef<OnDragHandler>((event: SyntheticMouseEvent<Element>) => {

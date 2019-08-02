@@ -15,10 +15,12 @@ import styles from './ConnectGraph.module.css';
 import { useConnectEdgeInProgress } from '../../stores/useConnectEdgeInProgress';
 import ConnectEdgeInProgress from '../ConnectEdge/ConnectEdgeInProgress';
 import { getMousePosition } from '../../../utils/svg_utils';
+import type { CTM } from '../../../utils/svg_utils';
 
 type Props = {|
   edges: Edge[],
   nodes: Node[],
+  onAddEdge: (fromNodeId: number, toNodeId: number) => any,
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
   onDeleteEdge: (edgeId: number) => any,
@@ -69,7 +71,13 @@ const ConnectGraph = (props: Props) => {
                         onClickFromConnector={event =>
                           onStartEdgeInProgress(node.id, event, canvasRef)
                         }
-                        onClickToConnector={onStopEdgeInProgress}
+                        onClickToConnector={() => {
+                          // TODO does this handle id 0?
+                          if (edgeInProgressState.fromNodeId) {
+                            props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
+                          }
+                          onStopEdgeInProgress();
+                        }}
                         onMouseDown={event => props.onStartDrag(node.id, event)}
                         onMouseUp={props.onStopDrag}
                         x={node.x}
@@ -101,9 +109,9 @@ function getEdgeInProgress(
   fromNodeId: ?number,
   clientX: number,
   clientY: number,
-  ctm: any
+  ctm: ?CTM
 ) {
-  if (fromNodeId === null || fromNodeId === undefined) return null;
+  if (fromNodeId === null || fromNodeId === undefined || !ctm) return null;
   const toCoordinates = getMousePosition(clientX, clientY, ctm);
   return (
     <ConnectEdgeInProgress fromNode={getNode(nodes, fromNodeId)} toCoordinates={toCoordinates} />

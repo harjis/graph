@@ -1,6 +1,9 @@
 // @flow
 import type { Edge, EdgeAction } from '../constants/ConnectGraphTypes';
 
+export function addEdge(edge: Edge): EdgeAction {
+  return { type: 'EDGES/ADD', edge };
+}
 export function fetchEdgesStart(): EdgeAction {
   return { type: 'EDGES/FETCH_START' };
 }
@@ -14,5 +17,5 @@ export function fetchEdgesError(error: string): EdgeAction {
 }
 
 export function deleteEdge(edgeId: number): EdgeAction {
-  return { type: 'EDGES/DELETE', edgeId }
+  return { type: 'EDGES/DELETE', edgeId };
 }

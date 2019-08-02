@@ -1,5 +1,5 @@
 // @flow
-type CTM = {|
+export type CTM = {|
   a: number,
   b: number,
   c: number,

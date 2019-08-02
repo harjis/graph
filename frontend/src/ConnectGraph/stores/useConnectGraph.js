@@ -118,7 +118,7 @@ export default function useConnectGraph(graphId: number) {
       await debounceUpdateNode(node);
     };
     onStopDrag2();
-  }, [state.nodes, state.nodes.draggedNodeId]);
+  }, [state.nodes]);
 
   return { state, onAddInputNode, onAddOutputNode, onUndo, onStartDrag, onStopDrag };
 }

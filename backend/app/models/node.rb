@@ -6,8 +6,8 @@ class Node < ApplicationRecord
   audited associated_with: :graph
   has_associated_audits
 
-  def has_to_edges
-    self.to_edges.count > 0
+  def to_edge_ids
+    self.to_edges.pluck(:id)
   end
 
   def ancestors

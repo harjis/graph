@@ -12,9 +12,9 @@ export type Node = {|
   content: Object,
   created_at: string,
   graph_id: number,
-  has_to_edges: boolean,
   id: number,
   name: string,
+  to_edge_ids: number[],
   type: NodeType,
   update_at: string,
   x: number,
@@ -53,11 +53,11 @@ export type NodeAction =
   | DragNode
   | StopNodeDrag;
 
-type AddEdge = { type: 'EDGES/ADD', edge: Edge };
+export type AddEdge = { type: 'EDGES/ADD', edge: Edge };
 type FetchEdgesStart = { type: 'EDGES/FETCH_START' };
 type FetchEdgesSuccess = { type: 'EDGES/FETCH_SUCCESS', edges: Edge[] };
 type FetchEdgesError = { type: 'EDGES/FETCH_ERROR', error: string };
-type DeleteEdge = { type: 'EDGES/DELETE', edgeId: number };
+export type DeleteEdge = { type: 'EDGES/DELETE', edge: Edge };
 export type EdgeAction =
   | AddEdge
   | FetchEdgesStart

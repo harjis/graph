@@ -16,6 +16,6 @@ export function fetchEdgesError(error: string): EdgeAction {
   return { type: 'EDGES/FETCH_ERROR', error };
 }
 
-export function deleteEdge(edgeId: number): EdgeAction {
-  return { type: 'EDGES/DELETE', edgeId };
+export function deleteEdge(edge: Edge): EdgeAction {
+  return { type: 'EDGES/DELETE', edge };
 }

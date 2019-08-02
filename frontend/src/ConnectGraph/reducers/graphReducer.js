@@ -24,12 +24,18 @@ export default function graphReducer(state: State, action: NodeAction | EdgeActi
     case 'NODES/STOP_DRAG':
       return { ...state, nodes: nodesReducer(state.nodes, action) };
 
-    case 'EDGES/ADD':
     case 'EDGES/FETCH_START':
     case 'EDGES/FETCH_ERROR':
     case 'EDGES/FETCH_SUCCESS':
-    case 'EDGES/DELETE':
       return { ...state, edges: edgesReducer(state.edges, action) };
+
+    case 'EDGES/ADD':
+    case 'EDGES/DELETE':
+      return {
+        ...state,
+        nodes: nodesReducer(state.nodes, action),
+        edges: edgesReducer(state.edges, action)
+      };
 
     default:
       return state;

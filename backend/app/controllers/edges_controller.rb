@@ -4,8 +4,7 @@ class EdgesController < ApplicationController
   end
 
   def create
-    edge = Edge.create(edge_params)
-    render json: edge
+    @edge = Edge.create(edge_params)
   end
 
   def destroy

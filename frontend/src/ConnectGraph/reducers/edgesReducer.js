@@ -25,7 +25,7 @@ export default function edgesReducer(state: State, action: EdgeAction): State {
     case 'EDGES/FETCH_SUCCESS':
       return { ...state, isLoading: false, isLoaded: true, edges: action.edges };
     case 'EDGES/DELETE':
-      return { ...state, edges: state.edges.filter(edge => edge.id !== action.edgeId) };
+      return { ...state, edges: state.edges.filter(edge => edge.id !== action.edge.id) };
     default:
       return state;
   }

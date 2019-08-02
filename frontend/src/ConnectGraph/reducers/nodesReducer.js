@@ -1,5 +1,5 @@
 // @flow
-import type { Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
+import type { AddEdge, DeleteEdge, Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
 
 export type State = {|
   draggedNodeId: ?number,
@@ -17,8 +17,37 @@ export const initialState = {
   nodeOffset: { x: 0, y: 0 },
   nodes: []
 };
-export default function nodesReducer(state: State, action: NodeAction): State {
+export default function nodesReducer(
+  state: State,
+  action: NodeAction | AddEdge | DeleteEdge
+): State {
   switch (action.type) {
+    case 'EDGES/ADD':
+      return {
+        ...state,
+        nodes: state.nodes.map(node => {
+          if (node.id === action.edge.to_node_id) {
+            return { ...node, to_edge_ids: node.to_edge_ids.concat(action.edge.id) };
+          } else {
+            return node;
+          }
+        })
+      };
+
+    case 'EDGES/DELETE':
+      return {
+        ...state,
+        nodes: state.nodes.map(node => {
+          if (node.id === action.edge.to_node_id) {
+            return {
+              ...node,
+              to_edge_ids: node.to_edge_ids.filter(edgeId => edgeId !== action.edge.id)
+            };
+          } else {
+            return node;
+          }
+        })
+      };
     case 'NODES/ADD':
       return { ...state, nodes: state.nodes.concat(action.node) };
     case 'NODES/FETCH_START':

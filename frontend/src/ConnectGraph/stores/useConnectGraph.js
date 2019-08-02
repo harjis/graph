@@ -22,6 +22,7 @@ import {
 import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 import { createEdge, destroyEdge, fetchEdges } from '../api/edges';
+import type { Edge } from "../constants/ConnectGraphTypes";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
@@ -140,11 +141,11 @@ export default function useConnectGraph(graphId: number) {
   );
 
   const onDeleteEdge = React.useCallback(
-    (edgeId: number) => {
+    (edge: Edge) => {
       const deleteEdge2 = async () => {
-        const deleted = await destroyEdge(graphId, edgeId);
+        const deleted = await destroyEdge(graphId, edge.id);
         if (deleted) {
-          dispatch(deleteEdge(edgeId));
+          dispatch(deleteEdge(edge));
         }
       };
       deleteEdge2();

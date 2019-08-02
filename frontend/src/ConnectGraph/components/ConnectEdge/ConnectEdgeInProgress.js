@@ -14,7 +14,7 @@ type Props = {|
 const ConnectEdgeInProgress = (props: Props) => {
   const to = props.toCoordinates;
   return (
-    <g>
+    <g className={styles.container}>
       <Edge
         from={getNodeBottomMiddlePosition(props.fromNode)}
         styles={styles.line}

@@ -1,3 +1,7 @@
+.container {
+  pointer-events: none;
+}
+
 .line {
   stroke: #55cde1;
   stroke-width: 4px;

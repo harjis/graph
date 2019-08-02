@@ -25,6 +25,11 @@ const initialState = {
 export function useConnectEdgeInProgress() {
   const [edgeInProgressState, setState] = React.useState<State>(initialState);
 
+  const someFun = (event: MouseEvent) => {
+    if (event.target instanceof Element && !event.target.getAttribute('data-connector-type')) {
+      onStopEdgeInProgress();
+    }
+  };
   const onMove = React.useRef<OnDragHandler>((event: SyntheticMouseEvent<Element>) => {
     setState(state => {
       const { clientX, clientY } = event;
@@ -49,10 +54,12 @@ export function useConnectEdgeInProgress() {
       clientY
     }));
     window.addEventListener('mousemove', onMove.current);
+    window.addEventListener('mouseup', someFun);
   };
 
   const onStopEdgeInProgress = () => {
     window.removeEventListener('mousemove', onMove.current);
+    window.removeEventListener('mouseup', someFun);
     setState(() => initialState);
   };
   return { edgeInProgressState, onStartEdgeInProgress, onStopEdgeInProgress };

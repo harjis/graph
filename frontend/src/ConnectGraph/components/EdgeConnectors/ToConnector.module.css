@@ -1,3 +1,7 @@
 .connector {
   fill: #fff;
 }
+
+.connectedConnector {
+  fill: #55cde1;
+}

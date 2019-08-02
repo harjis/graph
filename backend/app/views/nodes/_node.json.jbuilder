@@ -1,0 +1,10 @@
+json.content node.content
+json.created_ad node.created_at
+json.graph_id node.graph_id
+json.has_to_edges node.has_to_edges
+json.id node.id
+json.name node.name
+json.type node.type
+json.updated_at node.updated_at
+json.x node.x
+json.y node.y

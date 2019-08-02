@@ -6,13 +6,12 @@ import Background from 'Graph/components/Background/Background';
 import Canvas from 'Graph/components/Canvas/Canvas';
 import ConnectEdge from '../ConnectEdge/ConnectEdge';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
-import InputNode from '../ConnectNodes/InputNode';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
 import type { Edge, Node } from '../../constants/ConnectGraphTypes';
+import { getComponentByType } from '../../utils/nodeComponentUtil';
 import { getNode } from 'ConnectGraph/utils/nodeUtils';
 
 import styles from './ConnectGraph.module.css';
-import { getComponentByType } from '../../utils/nodeComponentUtil';
 
 type Props = {|
   edges: Edge[],
@@ -46,6 +45,7 @@ const ConnectGraph = (props: Props) => (
                   const NodeComponent = getComponentByType(node.type);
                   return (
                     <NodeComponent
+                      hasToEdges={node.has_to_edges}
                       id={node.id}
                       key={node.id}
                       name={node.name}

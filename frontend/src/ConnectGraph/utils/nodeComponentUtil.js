@@ -1,6 +1,4 @@
 // @flow
-import * as React from 'react';
-
 import InputNode from '../components/ConnectNodes/InputNode';
 import OutputNode from '../components/ConnectNodes/OutputNode';
 import type { NodeType } from '../constants/ConnectGraphTypes';

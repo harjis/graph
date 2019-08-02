@@ -14,6 +14,7 @@ import styles from './OutputNode.module.css';
 // NOTICE: Props can not be exact because of how InputNodes are used.
 type Props = {
   children: ?React.Node,
+  hasToEdges: boolean,
   id: number,
   name: string,
   onClickToConnector: (event: SyntheticMouseEvent<Element>) => any,
@@ -38,7 +39,7 @@ const OutputNode = (props: Props) => (
     <CenteredText nodeHeight={connectGraphNodeHeight} nodeWidth={connectGraphNodeWidth}>
       {props.name}
     </CenteredText>
-    <ToConnector onClick={props.onClickToConnector} />
+    <ToConnector hasToEdges={props.hasToEdges} onClick={props.onClickToConnector} />
     {props.children}
   </Node>
 );

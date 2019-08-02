@@ -6,8 +6,8 @@ class Node < ApplicationRecord
   audited associated_with: :graph
   has_associated_audits
 
-  def serializable_hash options = nil
-    super.merge "type" => type
+  def has_to_edges
+    self.to_edges.count > 0
   end
 
   def ancestors

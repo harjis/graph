@@ -21,7 +21,8 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
     onAddOutputNode,
     onUndo,
     onStartDrag,
-    onStopDrag
+    onStopDrag,
+    onDeleteEdge
   } = useConnectGraph(props.graphId);
 
   if (state.nodes.isLoading || state.edges.isLoading) {
@@ -37,6 +38,7 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
       nodes={state.nodes.nodes}
       onAddInputNode={onAddInputNode}
       onAddOutputNode={onAddOutputNode}
+      onDeleteEdge={onDeleteEdge}
       onStartDrag={onStartDrag}
       onStopDrag={onStopDrag}
       onUndo={onUndo}

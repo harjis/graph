@@ -9,7 +9,7 @@ class EdgesController < ApplicationController
   end
 
   def destroy
-    Edge.destroy params[:id]
+    render json: Edge.destroy(params[:id])
   end
 
   private

@@ -37,10 +37,10 @@ const WithNodes = () => (
     >
       {null}
     </OutputNode>
-    <ConnectEdge fromNode={fromNode} toNode={toNode} />
+    <ConnectEdge onClick={() => {}} fromNode={fromNode} toNode={toNode} />
   </React.Fragment>
 );
 storiesOf('ConnectGraph/Edges', module)
   .addDecorator(CanvasDecorator)
-  .add('Default', () => <ConnectEdge fromNode={fromNode} toNode={toNode} />)
+  .add('Default', () => <ConnectEdge onClick={() => {}} fromNode={fromNode} toNode={toNode} />)
   .add('With Nodes', () => <WithNodes />);

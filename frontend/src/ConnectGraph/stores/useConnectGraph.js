@@ -12,10 +12,15 @@ import {
   startNodeDrag,
   stopNodeDrag
 } from '../actions/nodeActions';
-import { fetchEdgesError, fetchEdgesStart, fetchEdgesSucceed } from '../actions/edgeActions';
+import {
+  fetchEdgesError,
+  fetchEdgesStart,
+  fetchEdgesSucceed,
+  deleteEdge
+} from '../actions/edgeActions';
 import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
-import { fetchEdges } from '../api/edges';
+import { destroyEdge, fetchEdges } from '../api/edges';
 
 type OnDragHandler = (event: MouseEvent) => void;
 
@@ -120,5 +125,18 @@ export default function useConnectGraph(graphId: number) {
     onStopDrag2();
   }, [state.nodes]);
 
-  return { state, onAddInputNode, onAddOutputNode, onUndo, onStartDrag, onStopDrag };
+  const onDeleteEdge = React.useCallback(
+    (edgeId: number) => {
+      const deleteEdge2 = async () => {
+        const deleted = await destroyEdge(graphId, edgeId);
+        if (deleted) {
+          dispatch(deleteEdge(edgeId));
+        }
+      };
+      deleteEdge2();
+    },
+    [graphId]
+  );
+
+  return { state, onAddInputNode, onAddOutputNode, onUndo, onStartDrag, onStopDrag, onDeleteEdge };
 }

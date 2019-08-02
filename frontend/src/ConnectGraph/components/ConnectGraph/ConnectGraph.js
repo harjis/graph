@@ -18,6 +18,7 @@ type Props = {|
   nodes: Node[],
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
+  onDeleteEdge: (edgeId: number) => any,
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onUndo: () => any
@@ -42,6 +43,7 @@ const ConnectGraph = (props: Props) => (
                 {props.edges.map(edge => (
                   <ConnectEdge
                     key={edge.id}
+                    onClick={() => props.onDeleteEdge(edge.id)}
                     fromNode={getNode(props.nodes, edge.from_node_id)}
                     toNode={getNode(props.nodes, edge.to_node_id)}
                   />

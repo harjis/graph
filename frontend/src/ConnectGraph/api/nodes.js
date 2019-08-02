@@ -1,14 +1,14 @@
 // @flow
-import type { Node } from '../constants/ConnectGraphTypes';
+import type { Node, NodeType } from '../constants/ConnectGraphTypes';
 import { url } from './common';
 
-export function createNode(graph_id: number): Promise<Node> {
+export function createNode(graph_id: number, type: NodeType): Promise<Node> {
   return fetch(`${url}/graphs/${graph_id}/nodes`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name: 'New Node!' })
+    body: JSON.stringify({ name: 'New Node!', type })
   }).then(response => response.json());
 }
 

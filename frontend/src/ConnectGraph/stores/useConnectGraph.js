@@ -12,12 +12,7 @@ import {
   startNodeDrag,
   stopNodeDrag
 } from '../actions/nodeActions';
-import {
-  addEdge,
-  fetchEdgesError,
-  fetchEdgesStart,
-  fetchEdgesSucceed
-} from '../actions/edgeActions';
+import { fetchEdgesError, fetchEdgesStart, fetchEdgesSucceed } from '../actions/edgeActions';
 import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 import { fetchEdges } from '../api/edges';
@@ -73,9 +68,17 @@ export default function useConnectGraph(graphId: number) {
     };
   }, [graphId]);
 
-  const onAddNode = React.useCallback(() => {
+  const onAddInputNode = React.useCallback(() => {
     const addNode2 = async () => {
-      const node = await debouncedCreateNode(graphId);
+      const node = await debouncedCreateNode(graphId, 'InputNode');
+      dispatch(addNode(node));
+    };
+    addNode2();
+  }, [graphId]);
+
+  const onAddOutputNode = React.useCallback(() => {
+    const addNode2 = async () => {
+      const node = await debouncedCreateNode(graphId, 'OutputNode');
       dispatch(addNode(node));
     };
     addNode2();
@@ -117,5 +120,5 @@ export default function useConnectGraph(graphId: number) {
     onStopDrag2();
   }, [state.nodes, state.nodes.draggedNodeId]);
 
-  return { state, onAddNode, onUndo, onStartDrag, onStopDrag };
+  return { state, onAddInputNode, onAddOutputNode, onUndo, onStartDrag, onStopDrag };
 }

@@ -15,7 +15,14 @@ type ConnectGraphContainerProps = {|
   graphId: number
 |};
 function ConnectGraphContainer(props: ConnectGraphContainerProps) {
-  const { state, onAddNode, onUndo, onStartDrag, onStopDrag } = useConnectGraph(props.graphId);
+  const {
+    state,
+    onAddInputNode,
+    onAddOutputNode,
+    onUndo,
+    onStartDrag,
+    onStopDrag
+  } = useConnectGraph(props.graphId);
 
   if (state.nodes.isLoading || state.edges.isLoading) {
     return <div>Loading...</div>;
@@ -28,7 +35,8 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
     <ConnectGraph
       edges={state.edges.edges}
       nodes={state.nodes.nodes}
-      onAddNode={onAddNode}
+      onAddInputNode={onAddInputNode}
+      onAddOutputNode={onAddOutputNode}
       onStartDrag={onStartDrag}
       onStopDrag={onStopDrag}
       onUndo={onUndo}

@@ -16,7 +16,8 @@ import styles from './ConnectGraph.module.css';
 type Props = {|
   edges: Edge[],
   nodes: Node[],
-  onAddNode: () => any,
+  onAddInputNode: () => any,
+  onAddOutputNode: () => any,
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onUndo: () => any
@@ -24,7 +25,11 @@ type Props = {|
 const ConnectGraph = (props: Props) => (
   <div className={styles.container}>
     <React.Fragment>
-      <NodeActionBar onAddNode={props.onAddNode} onUndo={props.onUndo} />
+      <NodeActionBar
+        onAddInputNode={props.onAddInputNode}
+        onAddOutputNode={props.onAddOutputNode}
+        onUndo={props.onUndo}
+      />
       <SizeMe monitorHeight>
         {({ size }) => (
           <Canvas height={size.height} width={size.width}>

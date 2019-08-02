@@ -19,7 +19,7 @@ export const initialState = {
 };
 export default function nodesReducer(state: State, action: NodeAction): State {
   switch (action.type) {
-    case 'NODES/ADD_NODE':
+    case 'NODES/ADD':
       return { ...state, nodes: state.nodes.concat(action.node) };
     case 'NODES/FETCH_START':
       return { ...state, isLoading: true, isLoaded: false };

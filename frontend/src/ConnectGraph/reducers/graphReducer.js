@@ -15,7 +15,7 @@ export const initialState = {
 };
 export default function graphReducer(state: State, action: NodeAction | EdgeAction): State {
   switch (action.type) {
-    case 'NODES/ADD_NODE':
+    case 'NODES/ADD':
     case 'NODES/FETCH_START':
     case 'NODES/FETCH_ERROR':
     case 'NODES/FETCH_SUCCESS':

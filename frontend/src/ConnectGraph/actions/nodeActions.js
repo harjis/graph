@@ -2,8 +2,9 @@
 import type { NodeAction, Node, Offset } from '../constants/ConnectGraphTypes';
 
 export function addNode(node: Node): NodeAction {
-  return { type: 'NODES/ADD_NODE', node };
+  return { type: 'NODES/ADD', node };
 }
+
 export function fetchNodesStart(): NodeAction {
   return { type: 'NODES/FETCH_START' };
 }

@@ -4,7 +4,7 @@ class NodesController < ApplicationController
   end
 
   def create
-    render json: graph.nodes.create(node_params)
+    @node = graph.nodes.create(node_params)
   end
 
   def update
@@ -22,6 +22,6 @@ class NodesController < ApplicationController
   end
 
   def node_params
-    params.permit(:name, :x, :y)
+    params.permit(:name, :type, :x, :y)
   end
 end

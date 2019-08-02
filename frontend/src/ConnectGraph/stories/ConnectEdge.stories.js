@@ -28,6 +28,7 @@ const WithNodes = () => (
       {null}
     </InputNode>
     <OutputNode
+      hasToEdges={true}
       name={toNode.name}
       id={toNode.id}
       x={toNode.x}

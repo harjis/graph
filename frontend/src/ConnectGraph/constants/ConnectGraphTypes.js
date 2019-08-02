@@ -10,11 +10,12 @@ export type Graph = {|
 export type NodeType = 'InputNode' | 'OutputNode';
 export type Node = {|
   content: Object,
-  type: NodeType,
   created_at: string,
   graph_id: number,
+  has_to_edges: boolean,
   id: number,
   name: string,
+  type: NodeType,
   update_at: string,
   x: number,
   y: number
@@ -30,7 +31,8 @@ export type Edge = {|
 |};
 
 export type Offset = {| x: number, y: number |};
-type AddNode = {| type: 'NODES/ADD_NODE', node: Node |};
+type AddInputNode = {| type: 'NODES/ADD', node: Node |};
+type AddOutputNode = {| type: 'NODES/ADD_OUTPUT_NODE', node: Node |};
 type FetchNodesStart = { type: 'NODES/FETCH_START' };
 type FetchNodesSuccess = { type: 'NODES/FETCH_SUCCESS', nodes: Node[] };
 type FetchNodesError = { type: 'NODES/FETCH_ERROR', error: string };
@@ -42,7 +44,8 @@ type StartNodeDrag = {
 type DragNode = { type: 'NODES/DRAG', pageX: number, pageY: number };
 type StopNodeDrag = { type: 'NODES/STOP_DRAG' };
 export type NodeAction =
-  | AddNode
+  | AddInputNode
+  | AddOutputNode
   | FetchNodesStart
   | FetchNodesSuccess
   | FetchNodesError

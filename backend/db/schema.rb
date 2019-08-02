@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2019_08_01_105126) do
     t.json "content"
     t.float "x", default: 0.0
     t.float "y", default: 0.0
-    t.string "type"
+    t.string "type", null: false
     t.index ["graph_id"], name: "index_nodes_on_graph_id"
   end
 

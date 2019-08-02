@@ -33,42 +33,25 @@ export default function useConnectGraph(graphId: number) {
 
   React.useEffect(() => {
     let didCancel = false;
-    const fetchData = async () => {
+    // TODO: Join these actions
+    const fetchNodesAndEdges = async () => {
       dispatch(fetchNodesStart());
+      dispatch(fetchEdgesStart());
       try {
-        const result = await fetchNodes(graphId);
+        const nodes = await fetchNodes(graphId);
+        const edges = await fetchEdges(graphId);
         if (!didCancel) {
-          dispatch(fetchNodesSucceed(result));
+          dispatch(fetchNodesSucceed(nodes));
+          dispatch(fetchEdgesSucceed(edges));
         }
       } catch (error) {
         if (!didCancel) {
           dispatch(fetchNodesError(error));
-        }
-      }
-    };
-    fetchData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [graphId]);
-
-  React.useEffect(() => {
-    let didCancel = false;
-    const fetchData = async () => {
-      dispatch(fetchEdgesStart());
-      try {
-        const result = await fetchEdges(graphId);
-        if (!didCancel) {
-          dispatch(fetchEdgesSucceed(result));
-        }
-      } catch (error) {
-        if (!didCancel) {
           dispatch(fetchEdgesError(error));
         }
       }
     };
-    fetchData();
+    fetchNodesAndEdges();
 
     return () => {
       didCancel = true;

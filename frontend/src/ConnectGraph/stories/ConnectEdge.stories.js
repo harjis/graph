@@ -28,6 +28,7 @@ const WithNodes = () => (
       {null}
     </InputNode>
     <OutputNode
+      canConnect={false}
       hasToEdges={true}
       name={toNode.name}
       id={toNode.id}

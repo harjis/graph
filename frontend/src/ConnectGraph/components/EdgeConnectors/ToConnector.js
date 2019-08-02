@@ -9,11 +9,13 @@ import styles from './ToConnector.module.css';
 // they are rendered under everything else. If ToConnector has connections it means that the Edge arrow
 // is rendered under the Node.
 type Props = {|
+  canConnect: boolean,
   hasToEdges?: boolean,
   onClick: (event: SyntheticMouseEvent<Element>) => any
 |};
 const ToConnector = (props: Props) => (
   <g
+    className={props.canConnect ? styles.canConnect : undefined}
     data-connector-type="to-g"
     transform={`translate(${connectGraphNodeWidth / 2}, 0)`}
     onClick={props.onClick}

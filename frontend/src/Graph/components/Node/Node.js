@@ -15,13 +15,17 @@ type Props = {|
   y: number
 |};
 
+// Notice: Event handlers should not be attached to g. If you have components with handlers inside Node
+// it would make these handlers fire as well.
 const Node = (props: Props) => (
-  <g
-    onMouseDown={props.onMouseDown}
-    onMouseUp={props.onMouseUp}
-    transform={`translate(${props.x}, ${props.y})`}
-  >
-    <rect className={props.styles || styles.container} height={props.height} width={props.width} />
+  <g transform={`translate(${props.x}, ${props.y})`}>
+    <rect
+      onMouseDown={props.onMouseDown}
+      onMouseUp={props.onMouseUp}
+      className={props.styles || styles.container}
+      height={props.height}
+      width={props.width}
+    />
     {props.children}
   </g>
 );

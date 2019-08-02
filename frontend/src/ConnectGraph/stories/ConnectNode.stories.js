@@ -20,12 +20,28 @@ storiesOf('ConnectGraph/Nodes', module)
     </InputNode>
   ))
   .add('Output', () => (
-    <OutputNode hasToEdges={false} name="Output 1" id={1} x={200} y={200} {...outputHandlers}>
+    <OutputNode
+      canConnect={false}
+      hasToEdges={false}
+      name="Output 1"
+      id={1}
+      x={200}
+      y={200}
+      {...outputHandlers}
+    >
       {null}
     </OutputNode>
   ))
   .add('Output with ToEdges', () => (
-    <OutputNode hasToEdges={true} name="Output 1" id={1} x={200} y={200} {...outputHandlers}>
+    <OutputNode
+      canConnect={false}
+      hasToEdges={true}
+      name="Output 1"
+      id={1}
+      x={200}
+      y={200}
+      {...outputHandlers}
+    >
       {null}
     </OutputNode>
   ));

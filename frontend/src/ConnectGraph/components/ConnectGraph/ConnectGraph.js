@@ -64,6 +64,7 @@ const ConnectGraph = (props: Props) => {
                     const NodeComponent = getComponentByType(node.type);
                     return (
                       <NodeComponent
+                        canConnect={!!edgeInProgressState.fromNodeId}
                         hasToEdges={node.has_to_edges}
                         id={node.id}
                         key={node.id}

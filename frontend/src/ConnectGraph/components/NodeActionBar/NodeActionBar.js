@@ -16,4 +16,4 @@ const NodeActionBar = (props: Props) => (
   </div>
 );
 
-export default NodeActionBar;
+export default React.memo<Props>(NodeActionBar);

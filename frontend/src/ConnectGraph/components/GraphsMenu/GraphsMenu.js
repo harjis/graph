@@ -8,8 +8,12 @@ import { fetchGraphs } from 'ConnectGraph/api/graphs';
 const GraphsMenu = () => (
   <FetchData fetchOnlyOnMount query={fetchGraphs}>
     {({ data: graphs, error, isLoading }) => {
-      if (error || isLoading) return null;
-      if (!graphs) return null;
+      if (isLoading) {
+        return 'Loading...';
+      }
+      if (error) {
+        return <div>{error}</div>;
+      }
       return (
         <ul>
           {graphs.map(graph => (

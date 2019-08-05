@@ -12,10 +12,9 @@ class Graph < ApplicationRecord
 
   # A bit misleading name. This method returns own nodes and all first level non-own nodes.
   # If a non-own node has other nodes those are not fetched.
-  # There also is duplicate id's in the array join but not sure if that actually affects performance
   def all_related_nodes
     edges = uniq_edges
-    Node.where(id: edges.map(&:from_node_id) + edges.map(&:to_node_id) + self.nodes.map(&:id))
+    Node.where(id: (edges.map(&:from_node_id) + edges.map(&:to_node_id) + self.nodes.map(&:id)).uniq)
   end
 
   def uniq_edges

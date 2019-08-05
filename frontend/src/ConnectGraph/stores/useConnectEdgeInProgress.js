@@ -34,7 +34,13 @@ export function useConnectEdgeInProgress() {
   const onMove = React.useRef<OnDragHandler>((event: SyntheticMouseEvent<Element>) => {
     setState(state => {
       const { clientX, clientY } = event;
-      return { ...state, clientX, clientY };
+      const svg = document.querySelector('[data-canvas-container]');
+      if (!svg)
+        throw new Error(
+          'You need to provide data-canvas-container which also has overflow-y: auto,' +
+          ' so that Edge in progress works correctly with scrolling'
+        );
+      return { ...state, clientX, clientY: clientY + svg.scrollTop };
     });
   });
 
@@ -47,12 +53,13 @@ export function useConnectEdgeInProgress() {
     // $FlowFixMe not true!
     const ctm = svg.current.getScreenCTM();
     const { clientX, clientY } = event;
+    const { scrollTop } = document.querySelector('[data-shit2]');
     setState(state => ({
       ...state,
       ctm,
       fromNodeId,
       clientX,
-      clientY
+      clientY: clientY + scrollTop
     }));
     window.addEventListener('mousemove', onMove.current);
     window.addEventListener('mouseup', someFun);

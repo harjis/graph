@@ -5,17 +5,18 @@ import { SizeMe } from 'react-sizeme';
 import Background from 'Graph/components/Background/Background';
 import Canvas from 'Graph/components/Canvas/Canvas';
 import ConnectEdge from '../ConnectEdge/ConnectEdge';
+import ConnectEdgeInProgress from '../ConnectEdge/ConnectEdgeInProgress';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
+import type { CTM } from '../../../utils/svg_utils';
 import type { Edge, Node } from '../../constants/ConnectGraphTypes';
+import { connectGraphNodeHeight } from '../../constants/ConnectGraphConstants';
 import { getComponentByType } from '../../utils/nodeComponentUtil';
+import { getMousePosition } from '../../../utils/svg_utils';
 import { getNode } from 'ConnectGraph/utils/nodeUtils';
+import { useConnectEdgeInProgress } from '../../stores/useConnectEdgeInProgress';
 
 import styles from './ConnectGraph.module.css';
-import { useConnectEdgeInProgress } from '../../stores/useConnectEdgeInProgress';
-import ConnectEdgeInProgress from '../ConnectEdge/ConnectEdgeInProgress';
-import { getMousePosition } from '../../../utils/svg_utils';
-import type { CTM } from '../../../utils/svg_utils';
 
 type Props = {|
   edges: Edge[],
@@ -36,7 +37,7 @@ const ConnectGraph = (props: Props) => {
   } = useConnectEdgeInProgress();
   const canvasRef = React.createRef<Element>();
   return (
-    <div className={styles.container}>
+    <div data-canvas-container className={styles.container}>
       <React.Fragment>
         <NodeActionBar
           onAddInputNode={props.onAddInputNode}
@@ -73,7 +74,6 @@ const ConnectGraph = (props: Props) => {
                           onStartEdgeInProgress(node.id, event, canvasRef)
                         }
                         onClickToConnector={() => {
-                          // TODO does this handle id 0?
                           if (edgeInProgressState.fromNodeId) {
                             props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
                           }
@@ -117,6 +117,16 @@ function getEdgeInProgress(
   return (
     <ConnectEdgeInProgress fromNode={getNode(nodes, fromNodeId)} toCoordinates={toCoordinates} />
   );
+}
+
+function getNodeMaxBottom(nodes: Node[]): number {
+  if (nodes.length === 0) return 0;
+  const maxY = Math.max(...nodes.map(node => node.y));
+  console.log(nodes);
+
+  console.log(maxY);
+  console.log(maxY + connectGraphNodeHeight);
+  return maxY + connectGraphNodeHeight;
 }
 
 export default ConnectGraph;

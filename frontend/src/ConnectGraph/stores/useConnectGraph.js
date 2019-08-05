@@ -22,7 +22,7 @@ import {
 import { undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 import { createEdge, destroyEdge, fetchEdges } from '../api/edges';
-import type { Edge } from "../constants/ConnectGraphTypes";
+import type { Edge } from '../constants/ConnectGraphTypes';
 
 type OnDragHandler = (event: MouseEvent) => void;
 

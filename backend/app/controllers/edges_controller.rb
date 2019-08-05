@@ -1,12 +1,13 @@
 class EdgesController < ApplicationController
   def index
     @edges = graph.uniq_edges
+    render json: @edges
   end
 
   def create
     @edge = Edge.new(edge_params)
     @edge.save
-    pp @edge
+    render json: @edge
   end
 
   def destroy

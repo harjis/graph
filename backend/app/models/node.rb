@@ -6,6 +6,22 @@ class Node < ApplicationRecord
   audited associated_with: :graph
   has_associated_audits
 
+  def as_json(options = {})
+    {
+      content: self.content,
+      created_at: self.created_at,
+      graph_id: self.graph_id,
+      to_edge_ids: self.to_edge_ids,
+      id: self.id,
+      name: self.name,
+      type: self.type,
+      updated_at: self.updated_at,
+      x: self.x,
+      y: self.y
+    }
+  end
+
+
   def to_edge_ids
     self.to_edges.pluck(:id)
   end

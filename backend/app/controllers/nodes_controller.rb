@@ -1,10 +1,12 @@
 class NodesController < ApplicationController
   def index
     @nodes = graph.all_related_nodes
+    render json: @nodes
   end
 
   def create
     @node = graph.nodes.create(node_params)
+    render json: @node
   end
 
   def update

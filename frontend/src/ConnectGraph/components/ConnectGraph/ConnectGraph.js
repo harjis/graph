@@ -34,7 +34,7 @@ const ConnectGraph = (props: Props) => {
     onStartEdgeInProgress,
     onStopEdgeInProgress
   } = useConnectEdgeInProgress();
-  const canvasRef = React.createRef<React.Ref<'svg'>>();
+  const canvasRef = React.createRef<Element>();
   return (
     <div className={styles.container}>
       <React.Fragment>

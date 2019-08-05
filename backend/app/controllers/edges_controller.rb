@@ -4,7 +4,9 @@ class EdgesController < ApplicationController
   end
 
   def create
-    @edge = Edge.create(edge_params)
+    @edge = Edge.new(edge_params)
+    @edge.save
+    pp @edge
   end
 
   def destroy

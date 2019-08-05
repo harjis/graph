@@ -13,6 +13,7 @@ type Props = {|
   width: number
 |};
 
+// eslint-disable-next-line react/display-name
 const Canvas = React.forwardRef<Props, 'svg'>((props: Props, ref: any) => {
   const [canvasId] = React.useState(shortid.generate());
   return (

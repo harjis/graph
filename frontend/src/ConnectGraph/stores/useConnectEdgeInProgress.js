@@ -41,7 +41,7 @@ export function useConnectEdgeInProgress() {
   const onStartEdgeInProgress = (
     fromNodeId: number,
     event: SyntheticMouseEvent<Element>,
-    svg: {| current: ?Element |}
+    svg: {| current: null | React.Ref<'svg'> |}
   ) => {
     if (!svg.current) return;
     // $FlowFixMe not true!

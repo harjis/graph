@@ -14,6 +14,9 @@ const GraphsMenu = () => (
       if (error) {
         return <div>{error}</div>;
       }
+      if (!graphs) {
+        return <div>Something went wrong :(</div>;
+      }
       return (
         <ul>
           {graphs.map(graph => (

@@ -9,7 +9,7 @@ import ConnectEdgeInProgress from '../ConnectEdge/ConnectEdgeInProgress';
 import DotPattern from 'Graph/components/DotPattern/DotPattern';
 import NodeActionBar from '../NodeActionBar/NodeActionBar';
 import type { CTM } from '../../../utils/svg_utils';
-import type { Edge, Node } from '../../constants/ConnectGraphTypes';
+import type { Edge, Errors, Node } from '../../constants/ConnectGraphTypes';
 import { connectGraphNodeHeight } from '../../constants/ConnectGraphConstants';
 import { getComponentByType } from '../../utils/nodeComponentUtil';
 import { getMousePosition } from '../../../utils/svg_utils';
@@ -27,7 +27,8 @@ type Props = {|
   onDeleteEdge: (edge: Edge) => any,
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
-  onUndo: () => any
+  onUndo: () => any,
+  validationErrors: Errors
 |};
 const ConnectGraph = (props: Props) => {
   const {
@@ -43,6 +44,7 @@ const ConnectGraph = (props: Props) => {
           onAddInputNode={props.onAddInputNode}
           onAddOutputNode={props.onAddOutputNode}
           onUndo={props.onUndo}
+          validationErrors={props.validationErrors}
         />
         {/*.container + .innerContainer is a bit of a hack. Try to make it better*/}
         <div data-canvas-container className={styles.innerContainer}>

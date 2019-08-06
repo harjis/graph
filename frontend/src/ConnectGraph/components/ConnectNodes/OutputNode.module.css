@@ -6,3 +6,9 @@
   stroke-width: 1px;
   stroke: #d3d3d3;
 }
+
+.nodeRefNodeBottomText {
+  font-size: 12px;
+  fill: #6e6e6e;
+  user-select: none;
+}

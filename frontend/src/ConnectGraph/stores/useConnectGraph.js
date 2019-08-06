@@ -8,7 +8,7 @@ import {
   dragNode,
   fetchNodesError,
   fetchNodesStart,
-  fetchNodesSucceed,
+  fetchNodesSucceed, invalidNode,
   startNodeDrag,
   stopNodeDrag
 } from '../actions/nodeActions';
@@ -69,7 +69,14 @@ export default function useConnectGraph(graphId: number) {
   const onAddOutputNode = React.useCallback(() => {
     const addNode2 = async () => {
       const node = await debouncedCreateNode(graphId, 'OutputNode');
-      dispatch(addNode(node));
+      if (Object.keys(node.errors).length === 0) {
+        dispatch(addNode(node));
+      } else {
+        dispatch(invalidNode(node.errors));
+        setTimeout(() => {
+          dispatch(invalidNode({}));
+        }, 3000);
+      }
     };
     addNode2();
   }, [graphId]);

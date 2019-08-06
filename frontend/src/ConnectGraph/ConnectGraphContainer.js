@@ -44,6 +44,7 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
       onStartDrag={onStartDrag}
       onStopDrag={onStopDrag}
       onUndo={onUndo}
+      validationErrors={state.nodes.validationErrors}
     />
   );
 }

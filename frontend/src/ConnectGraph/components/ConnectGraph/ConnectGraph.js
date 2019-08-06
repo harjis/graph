@@ -46,13 +46,21 @@ const ConnectGraph = (props: Props) => {
         />
         <SizeMe monitorHeight>
           {({ size }) => (
-            <Canvas ref={canvasRef} height={size.height} width={size.width}>
+            <Canvas
+              ref={canvasRef}
+              height={getMaxHeight(props.nodes, size.height)}
+              width={size.width}
+            >
               {({ canvasId }) => (
                 <React.Fragment>
                   <defs>
                     <DotPattern patternId={canvasId} />
                   </defs>
-                  <Background patternId={canvasId} height={size.height} width={size.width} />
+                  <Background
+                    patternId={canvasId}
+                    height={getMaxHeight(props.nodes, size.height)}
+                    width={size.width}
+                  />
                   {props.edges.map(edge => (
                     <ConnectEdge
                       key={edge.id}
@@ -122,11 +130,12 @@ function getEdgeInProgress(
 function getNodeMaxBottom(nodes: Node[]): number {
   if (nodes.length === 0) return 0;
   const maxY = Math.max(...nodes.map(node => node.y));
-  console.log(nodes);
+  return maxY + connectGraphNodeHeight + 16; // TODO gutter
+}
 
-  console.log(maxY);
-  console.log(maxY + connectGraphNodeHeight);
-  return maxY + connectGraphNodeHeight;
+function getMaxHeight(nodes: Node[], domHeight: number): number {
+  console.log(domHeight, getNodeMaxBottom(nodes));
+  return Math.max(domHeight, getNodeMaxBottom(nodes));
 }
 
 export default ConnectGraph;

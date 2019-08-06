@@ -1,7 +1,6 @@
 class EdgesController < ApplicationController
   def index
-    @edges = graph.uniq_edges
-    render json: @edges
+    render json: graph.all_related_edges
   end
 
   def create

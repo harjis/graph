@@ -105,10 +105,10 @@ export default function useConnectGraph(graphId: number) {
     dispatch(stopNodeDrag());
     const node = state.nodes.nodes.find(node => node.id === state.nodes.draggedNodeId);
     const onStopDrag2 = async () => {
-      await debounceUpdateNode(node);
+      await debounceUpdateNode(graphId, node);
     };
     onStopDrag2();
-  }, [state.nodes]);
+  }, [state.nodes, graphId]);
 
   const onAddEdge = React.useCallback(
     (fromNodeId: number, toNodeId: number) => {

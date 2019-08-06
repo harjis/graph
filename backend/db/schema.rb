@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_01_105126) do
+ActiveRecord::Schema.define(version: 2019_08_06_073136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,15 +63,21 @@ ActiveRecord::Schema.define(version: 2019_08_01_105126) do
 
   create_table "nodes", force: :cascade do |t|
     t.string "name"
-    t.bigint "graph_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "content"
-    t.float "x", default: 0.0
-    t.float "y", default: 0.0
     t.string "type", null: false
-    t.index ["graph_id"], name: "index_nodes_on_graph_id"
   end
 
-  add_foreign_key "nodes", "graphs"
+  create_table "positions", force: :cascade do |t|
+    t.bigint "graph_id"
+    t.bigint "node_id"
+    t.float "x", default: 0.0
+    t.float "y", default: 0.0
+    t.index ["graph_id"], name: "index_positions_on_graph_id"
+    t.index ["node_id"], name: "index_positions_on_node_id"
+  end
+
+  add_foreign_key "positions", "graphs"
+  add_foreign_key "positions", "nodes"
 end

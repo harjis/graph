@@ -32,22 +32,36 @@
 # Testing
 #
 graph = Graph.new(name: 'Graph 1')
-node1 = InputNode.new(name: 'InputNode 1', x: 50, y: 200)
-node2 = OutputNode.new(name: 'OutputNode 1', x: 300, y: 400)
+node1 = InputNode.new(name: 'InputNode 1')
+node2 = OutputNode.new(name: 'OutputNode 1')
 
-graph.nodes = [node1, node2]
 graph.save
+node1.save
+node2.save
+node1_position = Position.new(x: 50, y: 200, graph: graph, node: node1)
+node2_position = Position.new(x: 300, y: 400, graph: graph, node: node2)
+node1_position.save
+node2_position.save
 edge = Edge.new(from_node: node1, to_node: node2)
 edge.save
 
-
 graph2 = Graph.new(name: 'Graph 2')
-node3 = InputNode.new(name: 'InputNode 2', x: 10, y: 10)
-node4 = OutputNode.new(name: 'OutputNode 2', x: 400, y: 200)
-graph2.nodes = [node3, node4]
+node3 = InputNode.new(name: 'InputNode 2')
+node4 = OutputNode.new(name: 'OutputNode 2')
+
 graph2.save
+node3.save
+node4.save
+
+node3_position = Position.new(x: 10, y: 10, graph: graph2, node: node3)
+node4_position = Position.new(x: 400, y: 200, graph: graph2, node: node4)
+node3_position.save
+node4_position.save
+
 edge2 = Edge.new(from_node: node3, to_node: node4)
 edge2.save
 
 edge2 = Edge.new(from_node: node4, to_node: node2)
 edge2.save
+node4_position2 = Position.new(x: 10, y: 20, graph: graph, node: node4)
+node4_position2.save

@@ -17,8 +17,8 @@ export function fetchNodes(graph_id: number): Promise<Node[]> {
   return fetch(`${url}/graphs/${graph_id}/nodes`, options).then(response => response.json());
 }
 
-export function updateNode(node: $Shape<Node>): Promise<boolean> {
-  const { id, graph_id, ...rest } = node;
+export function updateNode(graph_id: number, node: $Shape<Node>): Promise<boolean> {
+  const { id, ...rest } = node;
   return fetch(`${url}/graphs/${graph_id}/nodes/${id}`, {
     ...options,
     method: 'PUT',

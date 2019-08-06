@@ -1,5 +1,10 @@
 .container {
   height: calc(100% - 114px); /* 72 10 16 16 */
-  overflow: scroll;
+  overflow: hidden;
   width: 100%;
+}
+
+.innerContainer {
+  height: calc(100% - 23px);
+  overflow-y: scroll;
 }

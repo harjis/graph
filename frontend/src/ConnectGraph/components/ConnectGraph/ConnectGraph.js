@@ -37,77 +37,80 @@ const ConnectGraph = (props: Props) => {
   } = useConnectEdgeInProgress();
   const canvasRef = React.createRef<Element>();
   return (
-    <div data-canvas-container className={styles.container}>
+    <div className={styles.container}>
       <React.Fragment>
         <NodeActionBar
           onAddInputNode={props.onAddInputNode}
           onAddOutputNode={props.onAddOutputNode}
           onUndo={props.onUndo}
         />
-        <SizeMe monitorHeight>
-          {({ size }) => (
-            <Canvas
-              ref={canvasRef}
-              height={getMaxHeight(props.nodes, size.height)}
-              width={size.width}
-            >
-              {({ canvasId }) => (
-                <React.Fragment>
-                  <defs>
-                    <DotPattern patternId={canvasId} />
-                  </defs>
-                  <Background
-                    patternId={canvasId}
-                    height={getMaxHeight(props.nodes, size.height)}
-                    width={size.width}
-                  />
-                  {props.edges.map(edge => (
-                    <ConnectEdge
-                      key={edge.id}
-                      onClick={() => props.onDeleteEdge(edge)}
-                      fromNode={getNode(props.nodes, edge.from_node_id)}
-                      toNode={getNode(props.nodes, edge.to_node_id)}
+        {/*.container + .innerContainer is a bit of a hack. Try to make it better*/}
+        <div data-canvas-container className={styles.innerContainer}>
+          <SizeMe monitorHeight>
+            {({ size }) => (
+              <Canvas
+                ref={canvasRef}
+                height={getMaxHeight(props.nodes, size.height)}
+                width={size.width}
+              >
+                {({ canvasId }) => (
+                  <React.Fragment>
+                    <defs>
+                      <DotPattern patternId={canvasId} />
+                    </defs>
+                    <Background
+                      patternId={canvasId}
+                      height={getMaxHeight(props.nodes, size.height)}
+                      width={size.width}
                     />
-                  ))}
-                  {props.nodes.map(node => {
-                    const NodeComponent = getComponentByType(node.type);
-                    return (
-                      <NodeComponent
-                        canConnect={!!edgeInProgressState.fromNodeId}
-                        hasToEdges={node.to_edge_ids.length > 0}
-                        id={node.id}
-                        key={node.id}
-                        name={node.name}
-                        onClickFromConnector={event =>
-                          onStartEdgeInProgress(node.id, event, canvasRef)
-                        }
-                        onClickToConnector={() => {
-                          if (edgeInProgressState.fromNodeId) {
-                            props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
+                    {props.edges.map(edge => (
+                      <ConnectEdge
+                        key={edge.id}
+                        onClick={() => props.onDeleteEdge(edge)}
+                        fromNode={getNode(props.nodes, edge.from_node_id)}
+                        toNode={getNode(props.nodes, edge.to_node_id)}
+                      />
+                    ))}
+                    {props.nodes.map(node => {
+                      const NodeComponent = getComponentByType(node.type);
+                      return (
+                        <NodeComponent
+                          canConnect={!!edgeInProgressState.fromNodeId}
+                          hasToEdges={node.to_edge_ids.length > 0}
+                          id={node.id}
+                          key={node.id}
+                          name={node.name}
+                          onClickFromConnector={event =>
+                            onStartEdgeInProgress(node.id, event, canvasRef)
                           }
-                          onStopEdgeInProgress();
-                        }}
-                        onMouseDown={event => props.onStartDrag(node.id, event)}
-                        onMouseUp={props.onStopDrag}
-                        x={node.x}
-                        y={node.y}
-                      >
-                        {null}
-                      </NodeComponent>
-                    );
-                  })}
-                  {getEdgeInProgress(
-                    props.nodes,
-                    edgeInProgressState.fromNodeId,
-                    edgeInProgressState.clientX,
-                    edgeInProgressState.clientY,
-                    edgeInProgressState.ctm
-                  )}
-                </React.Fragment>
-              )}
-            </Canvas>
-          )}
-        </SizeMe>
+                          onClickToConnector={() => {
+                            if (edgeInProgressState.fromNodeId) {
+                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
+                            }
+                            onStopEdgeInProgress();
+                          }}
+                          onMouseDown={event => props.onStartDrag(node.id, event)}
+                          onMouseUp={props.onStopDrag}
+                          x={node.x}
+                          y={node.y}
+                        >
+                          {null}
+                        </NodeComponent>
+                      );
+                    })}
+                    {getEdgeInProgress(
+                      props.nodes,
+                      edgeInProgressState.fromNodeId,
+                      edgeInProgressState.clientX,
+                      edgeInProgressState.clientY,
+                      edgeInProgressState.ctm
+                    )}
+                  </React.Fragment>
+                )}
+              </Canvas>
+            )}
+          </SizeMe>
+        </div>
       </React.Fragment>
     </div>
   );
@@ -134,7 +137,6 @@ function getNodeMaxBottom(nodes: Node[]): number {
 }
 
 function getMaxHeight(nodes: Node[], domHeight: number): number {
-  console.log(domHeight, getNodeMaxBottom(nodes));
   return Math.max(domHeight, getNodeMaxBottom(nodes));
 }
 

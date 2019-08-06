@@ -1,5 +1,5 @@
 // @flow
-import type { AddEdge, DeleteEdge, Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
+import type { AddEdge, DeleteEdge, Errors, Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
 
 export type State = {|
   draggedNodeId: ?number,
@@ -7,7 +7,8 @@ export type State = {|
   isLoaded: boolean,
   isLoading: boolean,
   nodeOffset: Offset,
-  nodes: Node[]
+  nodes: Node[],
+  validationErrors: Errors
 |};
 export const initialState = {
   draggedNodeId: null,
@@ -15,7 +16,8 @@ export const initialState = {
   isLoaded: false,
   isLoading: true,
   nodeOffset: { x: 0, y: 0 },
-  nodes: []
+  nodes: [],
+  validationErrors: {}
 };
 export default function nodesReducer(
   state: State,
@@ -85,6 +87,8 @@ export default function nodesReducer(
         draggedNodeId: initialState.draggedNodeId,
         nodeOffset: initialState.nodeOffset
       };
+    case 'NODES/INVALID_NODE':
+      return { ...state, validationErrors: action.errors };
     default:
       return state;
   }

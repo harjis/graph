@@ -1,8 +1,12 @@
 // @flow
-import type { NodeAction, Node, Offset } from '../constants/ConnectGraphTypes';
+import type { NodeAction, Node, Offset, Errors } from '../constants/ConnectGraphTypes';
 
 export function addNode(node: Node): NodeAction {
   return { type: 'NODES/ADD', node };
+}
+
+export function invalidNode(errors: Errors): NodeAction {
+  return { type: 'NODES/INVALID_NODE', errors };
 }
 
 export function fetchNodesStart(): NodeAction {

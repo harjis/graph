@@ -3,6 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Background from '../components/Background/Background';
+import BottomLeftText from '../components/NodeContent/BottomLeftText';
 import Canvas from '../components/Canvas/Canvas';
 import CenteredText from '../components/NodeContent/CenteredText';
 import DotPattern from '../components/DotPattern/DotPattern';
@@ -52,6 +53,37 @@ const Graph = (props: Props) => {
   );
 };
 
+const GraphWithBottomText = () => {
+  return (
+    <div>
+      <Canvas height={size.height} width={size.width}>
+        {({ canvasId }) => (
+          <React.Fragment>
+            {initialNodes.map(node => (
+              <Node
+                height={DEFAULT_NODE_HEIGHT}
+                id={node.id}
+                key={node.id}
+                width={DEFAULT_NODE_WIDTH}
+                x={node.x}
+                y={node.y}
+              >
+                <CenteredText nodeHeight={DEFAULT_NODE_HEIGHT} nodeWidth={DEFAULT_NODE_WIDTH}>
+                  Node!
+                </CenteredText>
+                <BottomLeftText nodeHeight={DEFAULT_NODE_HEIGHT} nodeWidth={DEFAULT_NODE_WIDTH}>
+                  Bottom left text
+                </BottomLeftText>
+              </Node>
+            ))}
+          </React.Fragment>
+        )}
+      </Canvas>
+    </div>
+  );
+};
+
 storiesOf('Graph/Nodes', module)
   .add('Default', () => <Graph />)
-  .add('With custom node styles', () => <Graph customNodeStyles={styles.customNode} />);
+  .add('With custom node styles', () => <Graph customNodeStyles={styles.customNode} />)
+  .add('With bottom left text', () => <GraphWithBottomText customNodeStyles={styles.customNode} />);

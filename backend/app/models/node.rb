@@ -10,6 +10,7 @@ class Node < ApplicationRecord
     {
       content: self.content,
       created_at: self.created_at,
+      errors: self.errors,
       graph_id: self.graph_id,
       to_edge_ids: self.to_edge_ids,
       id: self.id,
@@ -27,6 +28,8 @@ class Node < ApplicationRecord
   end
 
   def ancestors
-    self.to_edges.map(&:from_node)
+    self.to_edges.map do |to_edge|
+      to_edge.from_node.type == 'NodeRefNode' ? to_edge.from_node.node_ref : to_edge.from_node
+    end
   end
 end

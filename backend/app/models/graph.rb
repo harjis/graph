@@ -7,7 +7,7 @@ class Graph < ApplicationRecord
   has_associated_audits
 
   def root_node
-    self.nodes.last
+    self.nodes.where("type = 'OutputNode'").first
   end
 
   # A bit misleading name. This method returns own nodes and all first level non-own nodes.

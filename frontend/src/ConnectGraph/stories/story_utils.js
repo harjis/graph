@@ -12,6 +12,7 @@ export const outputHandlers = { ...handlers, onClickToConnector: () => {} };
 export const createNode = (graph_id: number = 0, x: number = 100, y: number = 100): Node => ({
   content: {},
   created_at: '2019-08-01T06:26:14.964Z',
+  errors: {},
   graph_id,
   id: getRandomInt(),
   name: 'New node',

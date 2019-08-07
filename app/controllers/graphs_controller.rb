@@ -4,31 +4,9 @@ class GraphsController < ApplicationController
     render json: @graphs
   end
 
-  def show
-    @graph = Graph.find(params[:id])
-    render json: @graph
-  end
-
-  def create
-    @graph = Graph.create(graph_params)
-
-    render json: @graph
-  end
-
-  def update
-    @graph = Graph.find(params[:id])
-    @graph.update(graph_params)
-
-    render json: @graph
-  end
-
-  def destroy
-    Graph.destroy(params[:id])
-    render json: true
-  end
-
-  def undo
-    render json: Graph.find(params[:id]).undo
+  def save_all
+    errors = GraphService.new(params.permit!).save
+    render json: errors
   end
 
   def reset

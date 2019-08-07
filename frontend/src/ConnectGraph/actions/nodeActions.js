@@ -5,8 +5,8 @@ export function addNode(node: Node): NodeAction {
   return { type: 'NODES/ADD', node };
 }
 
-export function invalidNode(errors: Errors): NodeAction {
-  return { type: 'NODES/INVALID_NODE', errors };
+export function invalidData(errors: Errors): NodeAction {
+  return { type: 'NODES/INVALID_DATA', errors };
 }
 
 export function fetchNodesStart(): NodeAction {
@@ -21,7 +21,7 @@ export function fetchNodesError(error: string): NodeAction {
   return { type: 'NODES/FETCH_ERROR', error };
 }
 
-export function startNodeDrag(nodeId: number, nodeOffset: Offset): NodeAction {
+export function startNodeDrag(nodeId: number | string, nodeOffset: Offset): NodeAction {
   return { type: 'NODES/START_DRAG', nodeId, nodeOffset };
 }
 

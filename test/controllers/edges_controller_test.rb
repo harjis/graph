@@ -21,8 +21,8 @@ class EdgesControllerTest < ActionDispatch::IntegrationTest
 
   def setup_test_data
     graph = Graph.new(name: 'Graph 1')
-    node = Node.new(name: 'Node 1')
-    node2 = Node.new(name: 'Node 2')
+    node = InputNode.new(name: 'Node 1')
+    node2 = OutputNode.new(name: 'Node 2')
     graph.nodes = [node, node2]
 
     graph.save

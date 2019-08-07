@@ -7,28 +7,29 @@ export type Graph = {|
   updated_at: string
 |};
 
-export type Errors = { [key: $Keys<Node>]: string[] };
+export type Errors = string[];
 export type NodeType = 'InputNode' | 'OutputNode' | 'NodeRefNode';
 export type Node = {|
   content: Object,
   created_at: string,
+  client_id: string,
   errors: Errors,
   graph_id: number,
-  id: number,
+  id: ?number,
   name: string,
   to_edge_ids: number[],
   type: NodeType,
-  update_at: string,
+  updated_at: string,
   x: number,
   y: number
 |};
 
 export type Edge = {|
   created_at: string,
-  from_node_id: number,
-  id: number,
+  from_node_id: number | string,
+  id: ?number,
   name: ?string,
-  to_node_id: number,
+  to_node_id: number | string,
   updated_at: string
 |};
 
@@ -38,10 +39,10 @@ type AddNode = {| type: 'NODES/ADD', node: Node |};
 type FetchNodesStart = { type: 'NODES/FETCH_START' };
 type FetchNodesSuccess = { type: 'NODES/FETCH_SUCCESS', nodes: Node[] };
 type FetchNodesError = { type: 'NODES/FETCH_ERROR', error: string };
-type InvalidNode = { type: 'NODES/INVALID_NODE', errors: Errors };
+type InvalidNode = { type: 'NODES/INVALID_DATA', errors: Errors };
 type StartNodeDrag = {
   type: 'NODES/START_DRAG',
-  nodeId: number,
+  nodeId: number | string,
   nodeOffset: Offset
 };
 type DragNode = { type: 'NODES/DRAG', pageX: number, pageY: number };

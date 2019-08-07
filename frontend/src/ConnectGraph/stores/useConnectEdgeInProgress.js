@@ -12,7 +12,7 @@ type CTM = {|
 type OnDragHandler = (event: SyntheticMouseEvent<Element>) => void;
 type State = {|
   ctm: ?CTM,
-  fromNodeId: ?number,
+  fromNodeId: ?(number | string),
   clientX: number,
   clientY: number
 |};
@@ -41,7 +41,7 @@ export function useConnectEdgeInProgress() {
   });
 
   const onStartEdgeInProgress = (
-    fromNodeId: number,
+    fromNodeId: number | string,
     event: SyntheticMouseEvent<Element>,
     svg: {| current: null | Element |}
   ) => {

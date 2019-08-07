@@ -1,8 +1,15 @@
 // @flow
-import type { AddEdge, DeleteEdge, Errors, Node, NodeAction, Offset } from '../constants/ConnectGraphTypes';
+import type {
+  AddEdge,
+  DeleteEdge,
+  Errors,
+  Node,
+  NodeAction,
+  Offset
+} from '../constants/ConnectGraphTypes';
 
 export type State = {|
-  draggedNodeId: ?number,
+  draggedNodeId: ?(number | string),
   error: ?string,
   isLoaded: boolean,
   isLoading: boolean,
@@ -17,7 +24,7 @@ export const initialState = {
   isLoading: true,
   nodeOffset: { x: 0, y: 0 },
   nodes: [],
-  validationErrors: {}
+  validationErrors: []
 };
 export default function nodesReducer(
   state: State,
@@ -29,6 +36,9 @@ export default function nodesReducer(
         ...state,
         nodes: state.nodes.map(node => {
           if (node.id === action.edge.to_node_id) {
+            // I think Edge needs client_id too. Then we would just collect edge.id and edge.client_id
+            // all here on remove them when needed
+            // $FlowFixMe
             return { ...node, to_edge_ids: node.to_edge_ids.concat(action.edge.id) };
           } else {
             return node;
@@ -69,7 +79,7 @@ export default function nodesReducer(
         ...state,
         nodeOffset: { x: action.pageX, y: action.pageY },
         nodes: state.nodes.map(node => {
-          if (state.draggedNodeId === node.id) {
+          if (state.draggedNodeId === node.id || node.client_id) {
             return {
               ...node,
               x: node.x - xDiff,
@@ -87,7 +97,7 @@ export default function nodesReducer(
         draggedNodeId: initialState.draggedNodeId,
         nodeOffset: initialState.nodeOffset
       };
-    case 'NODES/INVALID_NODE':
+    case 'NODES/INVALID_DATA':
       return { ...state, validationErrors: action.errors };
     default:
       return state;

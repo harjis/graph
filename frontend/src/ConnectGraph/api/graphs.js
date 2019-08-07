@@ -17,12 +17,8 @@ export function saveAll(
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ graph: { id: graphId }, nodes, edges })
+    body: JSON.stringify({ nodes, edges })
   }).then(response => response.json());
-}
-
-export function undoGraph(graphId: number) {
-  return fetch(`${url}/graphs/${graphId}/undo`, options).then(response => response.json());
 }
 
 export function resetDb(graphId: number) {

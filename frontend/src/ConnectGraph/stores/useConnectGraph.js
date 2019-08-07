@@ -22,9 +22,8 @@ import { fetchNodes } from '../api/nodes';
 import { fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
 import { createInputNode, createOutputNode } from '../utils/nodeUtils';
-import { resetDb, saveAll, undoGraph } from '../api/graphs';
+import { saveAll } from '../api/graphs';
 import { createEdge } from "../utils/edgeUtils";
-import { setSaving } from "../actions/savingActions";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
@@ -95,8 +94,7 @@ export default function useConnectGraph(graphId: number) {
   };
 
   const onSaveAll = () => {
-    const saveAll2 = async () => {
-      dispatch(setSaving(true));
+    const addNode2 = async () => {
       const errors = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
       if (errors.length > 0) {
         dispatch(invalidData(errors));
@@ -104,39 +102,9 @@ export default function useConnectGraph(graphId: number) {
           dispatch(invalidData([]));
         }, 3000);
       }
-      dispatch(setSaving(false));
     };
-    saveAll2();
+    addNode2();
   };
-
-  const onUndo = React.useCallback(() => {
-    const undo = async () => {
-      dispatch(setSaving(true));
-      await undoGraph(graphId);
-      const nodes = await fetchNodes(graphId);
-      const edges = await fetchEdges(graphId);
-      // TODO: This feels like a code smell. When undoing graph the edges need to be dispatched to store first
-      // It is possible that a non-own node gets removed when an edge is removed. In that case the new nodes
-      // do not have all the required nodes that old edges have.
-      dispatch(fetchEdgesSucceed(edges));
-      dispatch(fetchNodesSucceed(nodes));
-      dispatch(setSaving(false));
-    };
-    undo();
-  }, [graphId]);
-
-  const onResetDb = React.useCallback(
-    () => {
-      const resetDb2 = async () => {
-        dispatch(setSaving(true));
-        const succeess = await resetDb(graphId);
-        dispatch(setSaving(false));
-        window.location.reload();
-      };
-      resetDb2();
-    },
-    [graphId]
-  );
 
   return {
     state,
@@ -146,8 +114,6 @@ export default function useConnectGraph(graphId: number) {
     onStopDrag,
     onAddEdge,
     onDeleteEdge,
-    onSaveAll,
-    onUndo,
-    onResetDb
+    onSaveAll
   };
 }

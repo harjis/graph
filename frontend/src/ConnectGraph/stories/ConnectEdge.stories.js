@@ -21,7 +21,7 @@ const WithNodes = () => (
   <React.Fragment>
     <InputNode
       name={fromNode.name}
-      id={fromNode.id || fromNode.clientId}
+      id={fromNode.id || fromNode.client_id}
       x={fromNode.x}
       y={fromNode.y}
       {...inputHandlers}
@@ -32,7 +32,7 @@ const WithNodes = () => (
       canConnect={false}
       hasToEdges={true}
       name={toNode.name}
-      id={toNode.id || toNode.clientId}
+      id={toNode.id || toNode.client_id}
       x={toNode.x}
       y={toNode.y}
       {...outputHandlers}

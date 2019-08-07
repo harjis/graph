@@ -22,7 +22,7 @@ import { fetchNodes } from '../api/nodes';
 import { fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
 import { createInputNode, createOutputNode } from '../utils/nodeUtils';
-import { saveAll, undoGraph } from '../api/graphs';
+import { saveAll } from '../api/graphs';
 import { createEdge } from "../utils/edgeUtils";
 
 type OnDragHandler = (event: MouseEvent) => void;
@@ -106,20 +106,6 @@ export default function useConnectGraph(graphId: number) {
     addNode2();
   };
 
-  const onUndo = React.useCallback(() => {
-    const undo = async () => {
-      await undoGraph(graphId);
-      const nodes = await fetchNodes(graphId);
-      const edges = await fetchEdges(graphId);
-      // TODO: This feels like a code smell. When undoing graph the edges need to be dispatched to store first
-      // It is possible that a non-own node gets removed when an edge is removed. In that case the new nodes
-      // do not have all the required nodes that old edges have.
-      dispatch(fetchEdgesSucceed(edges));
-      dispatch(fetchNodesSucceed(nodes));
-    };
-    undo();
-  }, [graphId]);
-
   return {
     state,
     onAddInputNode,
@@ -128,7 +114,6 @@ export default function useConnectGraph(graphId: number) {
     onStopDrag,
     onAddEdge,
     onDeleteEdge,
-    onSaveAll,
-    onUndo
+    onSaveAll
   };
 }

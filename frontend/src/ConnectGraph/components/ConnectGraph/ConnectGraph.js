@@ -75,8 +75,8 @@ const ConnectGraph = (props: Props) => {
                       <ConnectEdge
                         key={edge.id}
                         onClick={() => props.onDeleteEdge(edge)}
-                        fromNode={getNode(props.nodes, edge.fromNodeId)}
-                        toNode={getNode(props.nodes, edge.toNodeId)}
+                        fromNode={getNode(props.nodes, edge.from_node_id)}
+                        toNode={getNode(props.nodes, edge.to_node_id)}
                       />
                     ))}
                     {props.nodes.map(node => {
@@ -84,20 +84,20 @@ const ConnectGraph = (props: Props) => {
                       return (
                         <NodeComponent
                           canConnect={!!edgeInProgressState.fromNodeId}
-                          hasToEdges={node.toEdgeIds.length > 0}
-                          id={node.id || node.clientId}
+                          hasToEdges={node.to_edge_ids.length > 0}
+                          id={node.id || node.client_id}
                           key={node.id}
                           name={node.name}
                           onClickFromConnector={event =>
-                            onStartEdgeInProgress(node.id || node.clientId, event, canvasRef)
+                            onStartEdgeInProgress(node.id || node.client_id, event, canvasRef)
                           }
                           onClickToConnector={() => {
                             if (edgeInProgressState.fromNodeId) {
-                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id || node.clientId);
+                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id || node.client_id);
                             }
                             onStopEdgeInProgress();
                           }}
-                          onMouseDown={event => props.onStartDrag(node.id || node.clientId, event)}
+                          onMouseDown={event => props.onStartDrag(node.id || node.client_id, event)}
                           onMouseUp={props.onStopDrag}
                           x={node.x}
                           y={node.y}

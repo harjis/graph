@@ -15,13 +15,13 @@ const CanvasDecorator = storyFn => (
   </Canvas>
 );
 
-const fromNode = createNode(0, 10, 10);
-const toNode = createNode(0, 200, 200);
+const fromNode = createNode('0', 10, 10);
+const toNode = createNode('0', 200, 200);
 const WithNodes = () => (
   <React.Fragment>
     <InputNode
       name={fromNode.name}
-      id={fromNode.id || fromNode.clientId}
+      id={fromNode.id}
       x={fromNode.x}
       y={fromNode.y}
       {...inputHandlers}
@@ -32,7 +32,7 @@ const WithNodes = () => (
       canConnect={false}
       hasToEdges={true}
       name={toNode.name}
-      id={toNode.id || toNode.clientId}
+      id={toNode.id}
       x={toNode.x}
       y={toNode.y}
       {...outputHandlers}

@@ -27,7 +27,7 @@ import { createEdge } from "../utils/edgeUtils";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
-export default function useConnectGraph(graphId: number) {
+export default function useConnectGraph(graphId: string) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   React.useEffect(() => {
@@ -72,7 +72,7 @@ export default function useConnectGraph(graphId: number) {
     dispatch(dragNode(pageX, pageY));
   });
 
-  const onStartDrag = (nodeId: number | string, event: SyntheticMouseEvent<Element>) => {
+  const onStartDrag = (nodeId: string, event: SyntheticMouseEvent<Element>) => {
     const { pageX, pageY } = event;
     const nodeOffset = { x: pageX, y: pageY };
     dispatch(startNodeDrag(nodeId, nodeOffset));
@@ -84,7 +84,7 @@ export default function useConnectGraph(graphId: number) {
     dispatch(stopNodeDrag());
   };
 
-  const onAddEdge = (fromNodeId: number | string, toNodeId: number | string) => {
+  const onAddEdge = (fromNodeId: string, toNodeId: string) => {
     const edge = createEdge(fromNodeId, toNodeId);
     dispatch(addEdge(edge));
   };
@@ -95,9 +95,9 @@ export default function useConnectGraph(graphId: number) {
 
   const onSaveAll = () => {
     const addNode2 = async () => {
-      const errors = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
-      if (errors.length > 0) {
-        dispatch(invalidData(errors));
+      const success = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
+      if (!success) {
+        dispatch(invalidData(['Noooo!']));
         setTimeout(() => {
           dispatch(invalidData([]));
         }, 3000);

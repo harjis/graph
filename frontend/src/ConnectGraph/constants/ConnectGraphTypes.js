@@ -1,7 +1,7 @@
 // @flow
 
 export type Graph = {|
-  id: number,
+  id: string,
   name: string
 |};
 
@@ -9,21 +9,19 @@ export type Errors = string[];
 export type NodeType = 'InputNode' | 'OutputNode' | 'NodeRefNode';
 export type Node = {|
   content: Object,
-  clientId: string,
-  errors: Errors,
-  graphId: number,
-  id: ?number,
+  graphId: string,
+  id: string,
   name: string,
-  toEdgeIds: number[],
+  toEdgeIds: string[],
   type: NodeType,
   x: number,
   y: number
 |};
 
 export type Edge = {|
-  fromNodeId: number | string,
-  id: ?number,
-  toNodeId: number | string
+  fromNodeId: string,
+  id: string,
+  toNodeId: string
 |};
 
 export type Offset = {| x: number, y: number |};
@@ -34,7 +32,7 @@ type FetchNodesError = { type: 'NODES/FETCH_ERROR', error: string };
 type InvalidNode = { type: 'NODES/INVALID_DATA', errors: Errors };
 type StartNodeDrag = {
   type: 'NODES/START_DRAG',
-  nodeId: number | string,
+  nodeId: string,
   nodeOffset: Offset
 };
 type DragNode = { type: 'NODES/DRAG', pageX: number, pageY: number };

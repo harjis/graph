@@ -12,7 +12,7 @@ type CTM = {|
 type OnDragHandler = (event: SyntheticMouseEvent<Element>) => void;
 type State = {|
   ctm: ?CTM,
-  fromNodeId: ?(number | string),
+  fromNodeId: ?string,
   clientX: number,
   clientY: number
 |};
@@ -41,7 +41,7 @@ export function useConnectEdgeInProgress() {
   });
 
   const onStartEdgeInProgress = (
-    fromNodeId: number | string,
+    fromNodeId: string,
     event: SyntheticMouseEvent<Element>,
     svg: {| current: null | Element |}
   ) => {
@@ -74,7 +74,7 @@ function getCanvasContainer(): HTMLElement {
   if (!div)
     throw new Error(
       'You need to provide data-canvas-container around svg which also has overflow-y: auto,' +
-      ' so that Edge in progress works correctly with scrolling'
+        ' so that Edge in progress works correctly with scrolling'
     );
   return div;
 }

@@ -8,11 +8,11 @@ import useConnectGraph from './stores/useConnectGraph';
 const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
   if (!graphId) return <div>Graph ID is missing</div>;
-  return <ConnectGraphContainer graphId={Number(graphId)} />;
+  return <ConnectGraphContainer graphId={graphId} />;
 };
 
 type ConnectGraphContainerProps = {|
-  graphId: number
+  graphId: string
 |};
 function ConnectGraphContainer(props: ConnectGraphContainerProps) {
   const {

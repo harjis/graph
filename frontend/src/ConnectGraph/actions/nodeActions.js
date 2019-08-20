@@ -21,7 +21,7 @@ export function fetchNodesError(error: string): NodeAction {
   return { type: 'NODES/FETCH_ERROR', error };
 }
 
-export function startNodeDrag(nodeId: number | string, nodeOffset: Offset): NodeAction {
+export function startNodeDrag(nodeId: string, nodeOffset: Offset): NodeAction {
   return { type: 'NODES/START_DRAG', nodeId, nodeOffset };
 }
 

@@ -22,11 +22,11 @@ type Props = {|
   edges: Edge[],
   nodes: Node[],
   isSaving: boolean,
-  onAddEdge: (fromNodeId: number | string, toNodeId: number | string) => any,
+  onAddEdge: (fromNodeId: string, toNodeId: string) => any,
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
   onDeleteEdge: (edge: Edge) => any,
-  onStartDrag: (nodeId: number | string, event: SyntheticMouseEvent<Element>) => any,
+  onStartDrag: (nodeId: string, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onSaveAll: () => any,
   onResetDb: () => any,
@@ -85,19 +85,19 @@ const ConnectGraph = (props: Props) => {
                         <NodeComponent
                           canConnect={!!edgeInProgressState.fromNodeId}
                           hasToEdges={node.toEdgeIds.length > 0}
-                          id={node.id || node.clientId}
+                          id={node.id}
                           key={node.id}
                           name={node.name}
                           onClickFromConnector={event =>
-                            onStartEdgeInProgress(node.id || node.clientId, event, canvasRef)
+                            onStartEdgeInProgress(node.id, event, canvasRef)
                           }
                           onClickToConnector={() => {
                             if (edgeInProgressState.fromNodeId) {
-                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id || node.clientId);
+                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
                             }
                             onStopEdgeInProgress();
                           }}
-                          onMouseDown={event => props.onStartDrag(node.id || node.clientId, event)}
+                          onMouseDown={event => props.onStartDrag(node.id, event)}
                           onMouseUp={props.onStopDrag}
                           x={node.x}
                           y={node.y}
@@ -126,7 +126,7 @@ const ConnectGraph = (props: Props) => {
 
 function getEdgeInProgress(
   nodes: Node[],
-  fromNodeId: ?(number | string),
+  fromNodeId: ?string,
   clientX: number,
   clientY: number,
   ctm: ?CTM

@@ -16,7 +16,7 @@ const size = {
   height: 500,
   width: 500
 };
-const initialNodes = [{ id: 1, x: 10, y: 10 }, { id: 2, x: 100, y: 100 }];
+const initialNodes = [{ id: '1', x: 10, y: 10 }, { id: '2', x: 100, y: 100 }];
 type Props = {
   customNodeStyles?: string
 };

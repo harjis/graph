@@ -17,7 +17,7 @@ export function saveAll(
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ nodes, edges })
+    body: JSON.stringify({ graph: { id: graphId }, nodes, edges })
   }).then(response => response.json());
 }
 

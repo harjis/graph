@@ -35,11 +35,11 @@ export default function nodesReducer(
       return {
         ...state,
         nodes: state.nodes.map(node => {
-          if (node.id === action.edge.to_node_id) {
+          if (node.id === action.edge.toNodeId) {
             // I think Edge needs client_id too. Then we would just collect edge.id and edge.client_id
             // all here on remove them when needed
             // $FlowFixMe
-            return { ...node, to_edge_ids: node.to_edge_ids.concat(action.edge.id) };
+            return { ...node, toEdgeIds: node.toEdgeIds.concat(action.edge.id) };
           } else {
             return node;
           }
@@ -50,10 +50,10 @@ export default function nodesReducer(
       return {
         ...state,
         nodes: state.nodes.map(node => {
-          if (node.id === action.edge.to_node_id) {
+          if (node.id === action.edge.toNodeId) {
             return {
               ...node,
-              to_edge_ids: node.to_edge_ids.filter(edgeId => edgeId !== action.edge.id)
+              toEdgeIds: node.toEdgeIds.filter(edgeId => edgeId !== action.edge.id)
             };
           } else {
             return node;
@@ -79,7 +79,7 @@ export default function nodesReducer(
         ...state,
         nodeOffset: { x: action.pageX, y: action.pageY },
         nodes: state.nodes.map(node => {
-          if (state.draggedNodeId === node.id || node.client_id) {
+          if (state.draggedNodeId === node.id || node.clientId) {
             return {
               ...node,
               x: node.x - xDiff,

@@ -1,36 +1,29 @@
 // @flow
 
 export type Graph = {|
-  created_at: string,
   id: number,
-  name: string,
-  updated_at: string
+  name: string
 |};
 
 export type Errors = string[];
 export type NodeType = 'InputNode' | 'OutputNode' | 'NodeRefNode';
 export type Node = {|
   content: Object,
-  created_at: string,
-  client_id: string,
+  clientId: string,
   errors: Errors,
-  graph_id: number,
+  graphId: number,
   id: ?number,
   name: string,
-  to_edge_ids: number[],
+  toEdgeIds: number[],
   type: NodeType,
-  updated_at: string,
   x: number,
   y: number
 |};
 
 export type Edge = {|
-  created_at: string,
-  from_node_id: number | string,
+  fromNodeId: number | string,
   id: ?number,
-  name: ?string,
-  to_node_id: number | string,
-  updated_at: string
+  toNodeId: number | string
 |};
 
 export type SavingAction = {| type: 'SAVING', isSaving: boolean |};

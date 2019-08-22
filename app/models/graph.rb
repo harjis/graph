@@ -5,6 +5,13 @@ class Graph < ApplicationRecord
 
   has_associated_audits
 
+  def as_json(options = {})
+    {
+      id: id,
+      name: name
+    }
+  end
+
   def root_node
     self.nodes.select { |node| node.type == 'OutputNode' }.first
   end

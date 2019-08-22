@@ -5,8 +5,13 @@ class GraphsController < ApplicationController
   end
 
   def save_all
-    errors = GraphService.new(params.permit!).save
-    render json: errors
+    graph_service = GraphService.new(params.permit!)
+    graph = graph_service.save
+    if graph_service._errors.count.zero?
+      render json: graph
+    else
+      render json: graph_service._errors
+    end
   end
 
   def reset

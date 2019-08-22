@@ -26,7 +26,7 @@ export function getNodeTopMiddlePosition(node: Node): Coordinates {
 export function getNode(nodes: Node[], nodeId: number | string): Node {
   let node;
   if (typeof nodeId === 'string') {
-    node = nodes.find(node => node.client_id === nodeId);
+    node = nodes.find(node => node.clientId === nodeId);
   } else {
     node = nodes.find(node => node.id === nodeId);
   }
@@ -36,27 +36,25 @@ export function getNode(nodes: Node[], nodeId: number | string): Node {
 }
 
 export const createNode = (
-  graph_id: number = 0,
+  graphId: number = 0,
   x: number = 100,
   y: number = 100,
   type: NodeType = 'InputNode'
 ): Node => ({
   content: {},
-  created_at: '2019-08-01T06:26:14.964Z',
-  client_id: shortid.generate(),
+  clientId: shortid.generate(),
   errors: [],
-  graph_id,
+  graphId,
   id: null,
   name: 'New node',
-  to_edge_ids: [],
+  toEdgeIds: [],
   type,
-  updated_at: '2019-08-01T06:26:14.964Z',
   x,
   y
 });
 
-export const createInputNode = (graph_id: number = 0, x: number = 100, y: number = 100) =>
-  createNode(graph_id, x, y, 'InputNode');
+export const createInputNode = (graphId: number = 0, x: number = 100, y: number = 100) =>
+  createNode(graphId, x, y, 'InputNode');
 
-export const createOutputNode = (graph_id: number = 0, x: number = 100, y: number = 100) =>
-  createNode(graph_id, x, y, 'OutputNode');
+export const createOutputNode = (graphId: number = 0, x: number = 100, y: number = 100) =>
+  createNode(graphId, x, y, 'OutputNode');

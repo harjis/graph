@@ -1,5 +1,5 @@
 class GraphService
-  attr_accessor :params, :graph, :node_map, :errors
+  attr_accessor :params, :graph, :node_map
 
   def initialize(params)
     self.errors = []
@@ -9,24 +9,30 @@ class GraphService
   def save
     save_graph
     save_nodes
-    self.node_map = get_node_map
+    self.node_map = node_map
     delete_nodes
     save_edges
     delete_edges
 
-    # So dirtyy but hey, it's a PoC :D
-    self.errors.flatten.uniq
+    graph
+  end
+
+  def _errors
+    # So dirty but hey, it's a PoC :D
+    errors.flatten.uniq
   end
 
   private
 
+  attr_accessor :errors
+
   def save_graph
     if graph_params[:id]
       self.graph = Graph.find(graph_params[:id])
-      # self.graph.update(graph_params)
+      graph.update(graph_params)
     else
       self.graph = Graph.create(graph_params)
-      self.errors << graph.errors.full_messages
+      errors << graph.errors.full_messages
     end
   end
 
@@ -34,53 +40,53 @@ class GraphService
     nodes_params.each do |node_params|
       if node_params[:id]
         n = Node.find(node_params[:id])
-        n.update(node_params.except(:client_id, :errors))
-        n.graph = self.graph
+        n.update(node_params.except(:clientId, :errors, :graphId, :toEdgeIds))
+        n.graph = graph
         n.save
-        self.errors << n.errors.full_messages
+        errors << n.errors.full_messages
       else
-        n = Node.new(node_params.except(:client_id, :errors))
-        n.graph = self.graph
+        n = Node.new(node_params.except(:clientId, :errors, :graphId, :toEdgeIds))
+        n.graph = graph
         n.save
-        pp n.errors.full_messages
-        self.errors << n.errors.full_messages
+        errors << n.errors.full_messages
         node_params[:id] = n.id
       end
     end
-    self.graph.reload
+    graph.reload
   end
 
-  def get_node_map
+  def node_map
     nodes_params.each_with_index.inject({}) do |acc, (elem, i)|
-      acc.merge(Hash[elem[:client_id], self.graph.nodes[i]])
+      acc.merge(Hash[elem[:clientId], graph.nodes[i]])
     end
   end
 
   def delete_nodes
     return unless graph_params[:id]
+
     to_be_deleted = persisted_node_ids - new_node_ids
-    Node.delete(to_be_deleted) unless to_be_deleted.size == 0
+    Node.delete(to_be_deleted) unless to_be_deleted.empty?
   end
 
   def save_edges
     edges_params.select { |edge| edge[:id] == nil }.each do |edge_params|
-      from_node, to_node = if edge_params[:from_node_id].is_a?(Integer) && edge_params[:to_node_id].is_a?(Integer)
-                             [self.graph.node_by_id(edge_params[:from_node_id]), self.graph.node_by_id(edge_params[:to_node_id])]
-                           elsif edge_params[:from_node_id].is_a?(String) && edge_params[:to_node_id].is_a?(String)
-                             [node_map[edge_params[:from_node_id]], node_map[edge_params[:to_node_id]]]
-                           elsif edge_params[:from_node_id].is_a?(String) && edge_params[:to_node_id].is_a?(Integer)
-                             [node_map[edge_params[:from_node_id]], self.graph.node_by_id(edge_params[:to_node_id])]
-                           else
-                             [self.graph.node_by_id(edge_params[:from_node_id]), node_map[edge_params[:to_node_id]]]
-                           end
-      edge = Edge.create(from_node: from_node, to_node: to_node)
-      self.errors << edge.errors.full_messages
+      from, to = if edge_params[:fromNodeId].is_a?(Integer) && edge_params[:toNodeId].is_a?(Integer)
+                   [graph.node_by_id(edge_params[:fromNodeId]), graph.node_by_id(edge_params[:toNodeId])]
+                 elsif edge_params[:fromNodeId].is_a?(String) && edge_params[:toNodeId].is_a?(String)
+                   [node_map[edge_params[:fromNodeId]], node_map[edge_params[:toNodeId]]]
+                 elsif edge_params[:fromNodeId].is_a?(String) && edge_params[:toNodeId].is_a?(Integer)
+                   [node_map[edge_params[:fromNodeId]], graph.node_by_id(edge_params[:toNodeId])]
+                 else
+                   [graph.node_by_id(edge_params[:fromNodeId]), node_map[edge_params[:toNodeId]]]
+                 end
+      edge = Edge.create(from_node: from, to_node: to)
+      errors << edge.errors.full_messages
       edge_params[:id] = edge.id
     end
   end
 
   def delete_edges
-    self.graph.uniq_edges.each do |edge|
+    graph.uniq_edges.each do |edge|
       in_params = edges_params.find { |edge_param| edge_param[:id] == edge.id }
       edge.destroy unless in_params
     end
@@ -91,11 +97,11 @@ class GraphService
   end
 
   def new_node_ids
-    params[:nodes].select { |node| !!node[:id] }.map { |node| node[:id] }
+    params[:nodes].select { |node| node[:id] }.map { |node| node[:id] }
   end
 
   def graph_params
-    params.except(:edges, :nodes)
+    params[:graph]
   end
 
   def nodes_params

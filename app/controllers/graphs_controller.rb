@@ -14,6 +14,10 @@ class GraphsController < ApplicationController
     end
   end
 
+  def undo
+    render json: Graph.find(params[:id]).undo
+  end
+
   def reset
     ResetService.reset
     render json: true

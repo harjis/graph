@@ -14,13 +14,14 @@ export type Node = {|
   graphId: number,
   id: ?number,
   name: string,
-  toEdgeIds: number[],
+  toEdgeIds: Array<number | string>,
   type: NodeType,
   x: number,
   y: number
 |};
 
 export type Edge = {|
+  clientId: string,
   fromNodeId: number | string,
   id: ?number,
   toNodeId: number | string

@@ -36,10 +36,7 @@ export default function nodesReducer(
         ...state,
         nodes: state.nodes.map(node => {
           if (node.id === action.edge.toNodeId) {
-            // I think Edge needs client_id too. Then we would just collect edge.id and edge.client_id
-            // all here on remove them when needed
-            // $FlowFixMe
-            return { ...node, toEdgeIds: node.toEdgeIds.concat(action.edge.id) };
+            return { ...node, toEdgeIds: node.toEdgeIds.concat(action.edge.id || action.edge.clientId) };
           } else {
             return node;
           }

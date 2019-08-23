@@ -3,6 +3,8 @@ class Graph < ApplicationRecord
   has_many :from_edges, through: :nodes, source: :from_edges
   has_many :to_edges, through: :nodes, source: :to_edges
 
+  validates_associated :nodes
+
   has_associated_audits
 
   def as_json(options = {})

@@ -11,6 +11,9 @@ class Node < ApplicationRecord
            foreign_key: 'to_node_id',
            dependent: :destroy
 
+  validates_associated :from_edges
+  validates_associated :to_edges
+
   audited associated_with: :graph
   has_associated_audits
 

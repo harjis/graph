@@ -176,7 +176,29 @@ class GraphServiceTest < ActiveSupport::TestCase
     }
     GraphService.new(params).save
 
+    assert_equal 1, Graph.count
     assert_equal 2, Node.count
     assert_equal 1, Edge.count
+  end
+
+  test "doesn't create anything if unvalid data" do
+    node1_id = SecureRandom.uuid
+    node2_id = SecureRandom.uuid
+    params = {
+      graph: { name: 'Graph 1' },
+      nodes: [
+        { name: 'Node 1', type: 'OutputNode', clientId: node1_id },
+        { name: 'Node 2', type: 'OutputNode', clientId: node2_id }
+      ],
+      edges: [
+        { fromNodeId: node1_id, toNodeId: node2_id }
+      ]
+    }
+    service = GraphService.new(params)
+    service.save
+
+    assert_equal 0, Graph.count
+    assert_equal 0, Node.count
+    assert_equal 0, Edge.count
   end
 end

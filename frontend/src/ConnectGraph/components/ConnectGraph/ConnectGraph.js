@@ -73,7 +73,7 @@ const ConnectGraph = (props: Props) => {
                     />
                     {props.edges.map(edge => (
                       <ConnectEdge
-                        key={edge.id || edge.clientId}
+                        key={edge.id}
                         onClick={() => props.onDeleteEdge(edge)}
                         fromNode={getNode(props.nodes, edge.fromNodeId)}
                         toNode={getNode(props.nodes, edge.toNodeId)}

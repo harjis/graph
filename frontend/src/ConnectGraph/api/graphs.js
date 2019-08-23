@@ -24,3 +24,7 @@ export function saveAll(
 export function resetDb(graphId: number) {
   return fetch(`${url}/graphs/${graphId}/reset`, options).then(response => response.json());
 }
+
+export function undoGraph(graphId: number) {
+  return fetch(`${url}/graphs/${graphId}/undo`, options).then(response => response.json());
+}

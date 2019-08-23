@@ -1,5 +1,6 @@
 class GraphService
   def initialize(params)
+    self._errors = []
     self.params = params
   end
 
@@ -20,12 +21,12 @@ class GraphService
     from_edge_errors = g.from_edges.map { |edge| edge.errors.full_messages }
     to_edge_errors = g.to_edges.map { |edge| edge.errors.full_messages }
 
-    (g_errors + node_errors + from_edge_errors + to_edge_errors).flatten.uniq
+    (_errors + g_errors + node_errors + from_edge_errors + to_edge_errors).flatten.uniq
   end
 
   private
 
-  attr_accessor :params, :g
+  attr_accessor :params, :g, :_errors
 
   def create_graph
     graph = Graph.new(graph_params)
@@ -64,6 +65,7 @@ class GraphService
           .update(node_params.except(:clientId, :errors, :graphId, :toEdgeIds))
       else
         node = graph.nodes.create(node_params.except(:clientId, :errors, :graphId, :toEdgeIds))
+        _errors << node.errors.full_messages
         node_params[:id] = node.id
       end
     end

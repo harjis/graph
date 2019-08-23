@@ -7,10 +7,10 @@ class GraphsController < ApplicationController
   def save_all
     graph_service = GraphService.new(params.permit!)
     graph = graph_service.save
-    if graph_service._errors.count.zero?
+    if graph_service.errors.count.zero?
       render json: graph
     else
-      render json: graph_service._errors
+      render json: graph_service.errors
     end
   end
 

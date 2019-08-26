@@ -21,9 +21,7 @@
     "flow": "flow",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "lint": "eslint src --ext .js,.jsx",
-    "deploy": "cp -a build/. ../public/",
-    "heroku-postbuild": "yarn build && yarn deploy"
+    "lint": "eslint src --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": "react-app"

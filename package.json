@@ -6,6 +6,6 @@
   "scripts": {
     "build": "cd frontend && npm install && npm run build && cd ..",
     "deploy": "cp -a frontend/build/. public/",
-    "heroku-postinstall": "npm run build && npm run deploy && echo 'Client built!'"
+    "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
   }
 }

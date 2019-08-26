@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
     get 'graphs/:id/reset', to: 'graphs#reset'
     get 'graphs/:id/undo', to: 'graphs#undo'
+    post 'graphs/:id/save_all', to: 'graphs#save_all'
     get 'graphs/:id/calculate_node_count', to: 'graphs#calculate_node_count'
     get 'graphs/get_node_count', to: 'graphs#get_node_count'
     resources :graphs do

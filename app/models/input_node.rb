@@ -1,0 +1,3 @@
+class InputNode < Node
+
+end

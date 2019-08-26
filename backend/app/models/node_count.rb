@@ -1,2 +1,0 @@
-class NodeCount < ApplicationRecord
-end

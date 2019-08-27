@@ -30,7 +30,6 @@ type Props = {|
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onSaveAll: () => any,
   onResetDb: () => any,
-  onUndo: () => any,
   validationErrors: Errors
 |};
 const ConnectGraph = (props: Props) => {
@@ -50,7 +49,6 @@ const ConnectGraph = (props: Props) => {
           onResetDb={props.onResetDb}
           validationErrors={props.validationErrors}
           onSaveAll={props.onSaveAll}
-          onUndo={props.onUndo}
         />
         {/*.container + .innerContainer is a bit of a hack. Try to make it better*/}
         <div data-canvas-container className={styles.innerContainer}>

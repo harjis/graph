@@ -10,7 +10,6 @@ type Props = {|
   onAddOutputNode: () => any,
   onSaveAll: () => any,
   onResetDb: () => any,
-  onUndo: () => any,
   validationErrors: Errors
 |};
 const NodeActionBar = (props: Props) => (
@@ -18,7 +17,6 @@ const NodeActionBar = (props: Props) => (
     <div className={styles.leftContainer}>
       <button onClick={props.onAddInputNode}>Add Input Node</button>
       <button onClick={props.onAddOutputNode}>Add Output Node</button>
-      <button onClick={props.onUndo}>Undo</button>
       <button onClick={props.onSaveAll}>Save</button>
       <div style={{ color: 'red' }}>{Object.values(props.validationErrors).join(' ')}</div>
       {props.isSaving && 'Saving...'}

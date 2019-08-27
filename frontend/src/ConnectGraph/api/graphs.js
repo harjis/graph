@@ -21,10 +21,10 @@ export function saveAll(
   }).then(response => response.json());
 }
 
-export function resetDb(graphId: number) {
+export function resetDb(graphId: string) {
   return fetch(`${url}/graphs/${graphId}/reset`, options).then(response => response.json());
 }
 
-export function undoGraph(graphId: number) {
+export function undoGraph(graphId: string) {
   return fetch(`${url}/graphs/${graphId}/undo`, options).then(response => response.json());
 }

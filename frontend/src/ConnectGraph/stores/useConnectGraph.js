@@ -163,6 +163,7 @@ export default function useConnectGraph(graphId: number) {
         dispatch(setSaving(true));
         const succeess = await resetDb(graphId);
         dispatch(setSaving(false));
+        window.location.reload();
       };
       resetDb2();
     },

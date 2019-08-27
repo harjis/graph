@@ -6,7 +6,8 @@ import Canvas from '../../Graph/components/Canvas/Canvas';
 import ConnectEdge from '../components/ConnectEdge/ConnectEdge';
 import InputNode from '../components/ConnectNodes/InputNode';
 import OutputNode from '../components/ConnectNodes/OutputNode';
-import { createNode, inputHandlers, outputHandlers } from './story_utils';
+import { inputHandlers, outputHandlers } from './story_utils';
+import { createNode } from "../utils/nodeUtils";
 
 const CanvasDecorator = storyFn => (
   <Canvas height={500} width={500}>
@@ -20,7 +21,7 @@ const WithNodes = () => (
   <React.Fragment>
     <InputNode
       name={fromNode.name}
-      id={fromNode.id}
+      id={fromNode.id || fromNode.clientId}
       x={fromNode.x}
       y={fromNode.y}
       {...inputHandlers}
@@ -31,7 +32,7 @@ const WithNodes = () => (
       canConnect={false}
       hasToEdges={true}
       name={toNode.name}
-      id={toNode.id}
+      id={toNode.id || toNode.clientId}
       x={toNode.x}
       y={toNode.y}
       {...outputHandlers}

@@ -2,12 +2,24 @@ class Graph < ApplicationRecord
   has_many :nodes
   has_many :from_edges, through: :nodes, source: :from_edges
   has_many :to_edges, through: :nodes, source: :to_edges
-  accepts_nested_attributes_for :nodes
+
+  validates_associated :nodes
 
   has_associated_audits
 
+  def as_json(options = {})
+    {
+      id: id,
+      name: name
+    }
+  end
+
   def root_node
-    self.nodes.where("type = 'OutputNode'").first
+    self.nodes.select { |node| node.type == 'OutputNode' }.first
+  end
+
+  def node_by_id(node_id)
+    self.nodes.find { |node| node.id == node_id }
   end
 
   # A bit misleading name. This method returns own nodes and all first level non-own nodes.

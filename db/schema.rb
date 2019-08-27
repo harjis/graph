@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_132227) do
+ActiveRecord::Schema.define(version: 2019_08_22_055108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,9 +38,8 @@ ActiveRecord::Schema.define(version: 2019_08_06_132227) do
   end
 
   create_table "edges", force: :cascade do |t|
-    t.string "name"
-    t.bigint "from_node_id"
-    t.bigint "to_node_id"
+    t.bigint "from_node_id", null: false
+    t.bigint "to_node_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["from_node_id", "to_node_id"], name: "index_edges_on_from_node_id_and_to_node_id", unique: true
@@ -63,7 +62,7 @@ ActiveRecord::Schema.define(version: 2019_08_06_132227) do
 
   create_table "nodes", force: :cascade do |t|
     t.string "name"
-    t.bigint "graph_id"
+    t.bigint "graph_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "content"

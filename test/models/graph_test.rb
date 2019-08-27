@@ -3,15 +3,15 @@ require 'test_helper'
 class GraphTest < ActiveSupport::TestCase
   test "auditting" do
     graph = Graph.new(name: 'Graph 1')
-    node = Node.new(name: 'Node 1')
+    node = InputNode.new(name: 'Node 1')
     graph.nodes << node
 
     graph.save
 
-    node2 = Node.new(name: 'Node 2')
+    node2 = OutputNode.new(name: 'Node 2')
     graph.nodes << node2
 
-    node3 = Node.new(name: 'Node 3')
+    node3 = InputNode.new(name: 'Node 3')
     graph.nodes << node3
 
     graph.save

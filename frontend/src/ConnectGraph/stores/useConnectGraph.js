@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 import reducer, { initialState } from '../reducers/graphReducer';
 import {
@@ -8,27 +7,27 @@ import {
   dragNode,
   fetchNodesError,
   fetchNodesStart,
-  fetchNodesSucceed, invalidNode,
+  fetchNodesSucceed, invalidData,
   startNodeDrag,
   stopNodeDrag
 } from '../actions/nodeActions';
 import {
   addEdge,
+  deleteEdge,
   fetchEdgesError,
   fetchEdgesStart,
-  fetchEdgesSucceed,
-  deleteEdge
+  fetchEdgesSucceed
 } from '../actions/edgeActions';
-import { resetDb, undoGraph } from '../api/graphs';
-import { createNode, fetchNodes, updateNode } from '../api/nodes';
-import { createEdge, destroyEdge, fetchEdges } from '../api/edges';
+import { fetchNodes } from '../api/nodes';
+import { fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
+import { createInputNode, createOutputNode } from '../utils/nodeUtils';
+import { resetDb, saveAll, undoGraph } from '../api/graphs';
+import { createEdge } from "../utils/edgeUtils";
 import { setSaving } from "../actions/savingActions";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
-const debouncedCreateNode = AwesomeDebouncePromise(createNode, 200);
-const debounceUpdateNode = AwesomeDebouncePromise(updateNode, 200);
 export default function useConnectGraph(graphId: number) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
@@ -59,33 +58,56 @@ export default function useConnectGraph(graphId: number) {
     };
   }, [graphId]);
 
-  const onAddInputNode = React.useCallback(() => {
-    const addNode2 = async () => {
-      dispatch(setSaving(true));
-      const node = await debouncedCreateNode(graphId, 'InputNode');
-      dispatch(addNode(node));
-      dispatch(setSaving(false));
-    };
-    addNode2();
-  }, [graphId]);
+  const onAddInputNode = () => {
+    const node = createInputNode(graphId);
+    dispatch(addNode(node));
+  };
 
-  const onAddOutputNode = React.useCallback(() => {
-    const addNode2 = async () => {
+  const onAddOutputNode = () => {
+    const node = createOutputNode(graphId);
+    dispatch(addNode(node));
+  };
+
+  const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
+    const { pageX, pageY } = event;
+    dispatch(dragNode(pageX, pageY));
+  });
+
+  const onStartDrag = (nodeId: number | string, event: SyntheticMouseEvent<Element>) => {
+    const { pageX, pageY } = event;
+    const nodeOffset = { x: pageX, y: pageY };
+    dispatch(startNodeDrag(nodeId, nodeOffset));
+    window.addEventListener('mousemove', onDrag.current);
+  };
+
+  const onStopDrag = () => {
+    window.removeEventListener('mousemove', onDrag.current);
+    dispatch(stopNodeDrag());
+  };
+
+  const onAddEdge = (fromNodeId: number | string, toNodeId: number | string) => {
+    const edge = createEdge(fromNodeId, toNodeId);
+    dispatch(addEdge(edge));
+  };
+
+  const onDeleteEdge = (edge: Edge) => {
+    dispatch(deleteEdge(edge));
+  };
+
+  const onSaveAll = () => {
+    const saveAll2 = async () => {
       dispatch(setSaving(true));
-      const node = await debouncedCreateNode(graphId, 'OutputNode');
-      if (Object.keys(node.errors).length === 0) {
-        dispatch(setSaving(false));
-        dispatch(addNode(node));
-      } else {
-        dispatch(setSaving(false));
-        dispatch(invalidNode(node.errors));
+      const errors = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
+      if (errors.length > 0) {
+        dispatch(invalidData(errors));
         setTimeout(() => {
-          dispatch(invalidNode({}));
+          dispatch(invalidData([]));
         }, 3000);
       }
+      dispatch(setSaving(false));
     };
-    addNode2();
-  }, [graphId]);
+    saveAll2();
+  };
 
   const onUndo = React.useCallback(() => {
     const undo = async () => {
@@ -102,60 +124,6 @@ export default function useConnectGraph(graphId: number) {
     };
     undo();
   }, [graphId]);
-
-  const onDrag = React.useRef<OnDragHandler>((event: MouseEvent) => {
-    const { pageX, pageY } = event;
-    dispatch(dragNode(pageX, pageY));
-  });
-
-  const onStartDrag = (nodeId: number, event: SyntheticMouseEvent<Element>) => {
-    const { pageX, pageY } = event;
-    const nodeOffset = { x: pageX, y: pageY };
-    dispatch(startNodeDrag(nodeId, nodeOffset));
-    window.addEventListener('mousemove', onDrag.current);
-  };
-
-  const onStopDrag = React.useCallback(() => {
-    window.removeEventListener('mousemove', onDrag.current);
-    dispatch(stopNodeDrag());
-    const node = state.nodes.nodes.find(node => node.id === state.nodes.draggedNodeId);
-    const onStopDrag2 = async () => {
-      dispatch(setSaving(true));
-      await debounceUpdateNode(node);
-      dispatch(setSaving(false));
-    };
-    onStopDrag2();
-  }, [state.nodes]);
-
-  const onAddEdge = React.useCallback(
-    (fromNodeId: number, toNodeId: number) => {
-      const onAddEdge2 = async () => {
-        dispatch(setSaving(true));
-        const edge = await createEdge(graphId, fromNodeId, toNodeId);
-        if (edge) {
-          dispatch(addEdge(edge));
-        }
-        dispatch(setSaving(false));
-      };
-      onAddEdge2();
-    },
-    [graphId]
-  );
-
-  const onDeleteEdge = React.useCallback(
-    (edge: Edge) => {
-      const deleteEdge2 = async () => {
-        dispatch(setSaving(true));
-        const deleted = await destroyEdge(graphId, edge.id);
-        if (deleted) {
-          dispatch(deleteEdge(edge));
-        }
-        dispatch(setSaving(false));
-      };
-      deleteEdge2();
-    },
-    [graphId]
-  );
 
   const onResetDb = React.useCallback(
     () => {
@@ -174,11 +142,12 @@ export default function useConnectGraph(graphId: number) {
     state,
     onAddInputNode,
     onAddOutputNode,
-    onUndo,
     onStartDrag,
     onStopDrag,
     onAddEdge,
     onDeleteEdge,
+    onSaveAll,
+    onUndo,
     onResetDb
   };
 }

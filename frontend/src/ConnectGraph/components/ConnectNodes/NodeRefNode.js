@@ -15,7 +15,7 @@ import styles from './OutputNode.module.css';
 // NOTICE: Props can not be exact because of how InputNodes are used.
 type Props = {
   children: ?React.Node,
-  id: number,
+  id: number | string,
   name: string,
   onClickFromConnector: (event: SyntheticMouseEvent<Element>) => any,
   onMouseDown: (event: SyntheticMouseEvent<Element>) => any,

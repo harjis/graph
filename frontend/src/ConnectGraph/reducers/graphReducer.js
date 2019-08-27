@@ -20,7 +20,7 @@ export default function graphReducer(state: State, action: SavingAction | NodeAc
     case 'SAVING':
       return {...state, isSaving: action.isSaving};
     case 'NODES/ADD':
-    case 'NODES/INVALID_NODE':
+    case 'NODES/INVALID_DATA':
     case 'NODES/FETCH_START':
     case 'NODES/FETCH_ERROR':
     case 'NODES/FETCH_SUCCESS':

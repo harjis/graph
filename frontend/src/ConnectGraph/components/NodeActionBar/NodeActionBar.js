@@ -2,14 +2,15 @@
 import * as React from 'react';
 
 import styles from './NodeActionBar.module.css';
-import type { Errors } from "../../constants/ConnectGraphTypes";
+import type { Errors } from '../../constants/ConnectGraphTypes';
 
 type Props = {|
   isSaving: boolean,
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
-  onUndo: () => any,
+  onSaveAll: () => any,
   onResetDb: () => any,
+  onUndo: () => any,
   validationErrors: Errors
 |};
 const NodeActionBar = (props: Props) => (
@@ -18,6 +19,7 @@ const NodeActionBar = (props: Props) => (
       <button onClick={props.onAddInputNode}>Add Input Node</button>
       <button onClick={props.onAddOutputNode}>Add Output Node</button>
       <button onClick={props.onUndo}>Undo</button>
+      <button onClick={props.onSaveAll}>Save</button>
       <div style={{ color: 'red' }}>{Object.values(props.validationErrors).join(' ')}</div>
       {props.isSaving && 'Saving...'}
     </div>

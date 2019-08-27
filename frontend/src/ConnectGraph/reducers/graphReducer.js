@@ -3,18 +3,22 @@ import edgesReducer, { initialState as edgesInitialState } from './edgesReducer'
 import nodesReducer, { initialState as nodesInitialState } from './nodesReducer';
 import type { State as EdgesState } from './edgesReducer';
 import type { State as NodesState } from './nodesReducer';
-import type { EdgeAction, NodeAction } from '../constants/ConnectGraphTypes';
+import type { EdgeAction, NodeAction, SavingAction } from '../constants/ConnectGraphTypes';
 
 export type State = {|
+  isSaving: boolean,
   edges: EdgesState,
   nodes: NodesState
 |};
 export const initialState = {
+  isSaving: false,
   edges: edgesInitialState,
   nodes: nodesInitialState
 };
-export default function graphReducer(state: State, action: NodeAction | EdgeAction): State {
+export default function graphReducer(state: State, action: SavingAction | NodeAction | EdgeAction): State {
   switch (action.type) {
+    case 'SAVING':
+      return {...state, isSaving: action.isSaving};
     case 'NODES/ADD':
     case 'NODES/INVALID_NODE':
     case 'NODES/FETCH_START':

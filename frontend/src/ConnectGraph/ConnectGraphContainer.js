@@ -36,6 +36,7 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
 
   return (
     <ConnectGraph
+      isSaving={state.isSaving}
       edges={state.edges.edges}
       nodes={state.nodes.nodes}
       onAddEdge={onAddEdge}

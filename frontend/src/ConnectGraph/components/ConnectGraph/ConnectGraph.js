@@ -21,6 +21,7 @@ import styles from './ConnectGraph.module.css';
 type Props = {|
   edges: Edge[],
   nodes: Node[],
+  isSaving: boolean,
   onAddEdge: (fromNodeId: number, toNodeId: number) => any,
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
@@ -42,6 +43,7 @@ const ConnectGraph = (props: Props) => {
     <div className={styles.container}>
       <React.Fragment>
         <NodeActionBar
+          isSaving={props.isSaving}
           onAddInputNode={props.onAddInputNode}
           onAddOutputNode={props.onAddOutputNode}
           onUndo={props.onUndo}

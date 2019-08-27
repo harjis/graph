@@ -23,6 +23,7 @@ import { resetDb, undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 import { createEdge, destroyEdge, fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
+import { setSaving } from "../actions/savingActions";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
@@ -60,18 +61,23 @@ export default function useConnectGraph(graphId: number) {
 
   const onAddInputNode = React.useCallback(() => {
     const addNode2 = async () => {
+      dispatch(setSaving(true));
       const node = await debouncedCreateNode(graphId, 'InputNode');
       dispatch(addNode(node));
+      dispatch(setSaving(false));
     };
     addNode2();
   }, [graphId]);
 
   const onAddOutputNode = React.useCallback(() => {
     const addNode2 = async () => {
+      dispatch(setSaving(true));
       const node = await debouncedCreateNode(graphId, 'OutputNode');
       if (Object.keys(node.errors).length === 0) {
+        dispatch(setSaving(false));
         dispatch(addNode(node));
       } else {
+        dispatch(setSaving(false));
         dispatch(invalidNode(node.errors));
         setTimeout(() => {
           dispatch(invalidNode({}));
@@ -83,6 +89,7 @@ export default function useConnectGraph(graphId: number) {
 
   const onUndo = React.useCallback(() => {
     const undo = async () => {
+      dispatch(setSaving(true));
       await undoGraph(graphId);
       const nodes = await fetchNodes(graphId);
       const edges = await fetchEdges(graphId);
@@ -91,6 +98,7 @@ export default function useConnectGraph(graphId: number) {
       // do not have all the required nodes that old edges have.
       dispatch(fetchEdgesSucceed(edges));
       dispatch(fetchNodesSucceed(nodes));
+      dispatch(setSaving(false));
     };
     undo();
   }, [graphId]);
@@ -112,7 +120,9 @@ export default function useConnectGraph(graphId: number) {
     dispatch(stopNodeDrag());
     const node = state.nodes.nodes.find(node => node.id === state.nodes.draggedNodeId);
     const onStopDrag2 = async () => {
+      dispatch(setSaving(true));
       await debounceUpdateNode(node);
+      dispatch(setSaving(false));
     };
     onStopDrag2();
   }, [state.nodes]);
@@ -120,10 +130,12 @@ export default function useConnectGraph(graphId: number) {
   const onAddEdge = React.useCallback(
     (fromNodeId: number, toNodeId: number) => {
       const onAddEdge2 = async () => {
+        dispatch(setSaving(true));
         const edge = await createEdge(graphId, fromNodeId, toNodeId);
         if (edge) {
           dispatch(addEdge(edge));
         }
+        dispatch(setSaving(false));
       };
       onAddEdge2();
     },
@@ -133,10 +145,12 @@ export default function useConnectGraph(graphId: number) {
   const onDeleteEdge = React.useCallback(
     (edge: Edge) => {
       const deleteEdge2 = async () => {
+        dispatch(setSaving(true));
         const deleted = await destroyEdge(graphId, edge.id);
         if (deleted) {
           dispatch(deleteEdge(edge));
         }
+        dispatch(setSaving(false));
       };
       deleteEdge2();
     },
@@ -146,7 +160,9 @@ export default function useConnectGraph(graphId: number) {
   const onResetDb = React.useCallback(
     () => {
       const resetDb2 = async () => {
+        dispatch(setSaving(true));
         const succeess = await resetDb(graphId);
+        dispatch(setSaving(false));
       };
       resetDb2();
     },

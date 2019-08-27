@@ -32,6 +32,7 @@ export type Edge = {|
   updated_at: string
 |};
 
+export type SavingAction = {| type: 'SAVING', isSaving: boolean |};
 export type Offset = {| x: number, y: number |};
 type AddNode = {| type: 'NODES/ADD', node: Node |};
 type FetchNodesStart = { type: 'NODES/FETCH_START' };

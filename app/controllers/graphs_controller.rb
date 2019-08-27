@@ -31,6 +31,11 @@ class GraphsController < ApplicationController
     render json: Graph.find(params[:id]).undo
   end
 
+  def reset
+    ResetService.reset
+    render json: true
+  end
+
   def calculate_node_count
     job = CalculateNodesJob.set(wait: 1.minute).perform_later(params[:id])
     render json: job

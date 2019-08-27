@@ -8,14 +8,21 @@ type Props = {|
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
   onUndo: () => any,
+  onResetDb: () => any,
   validationErrors: Errors
 |};
 const NodeActionBar = (props: Props) => (
   <div className={styles.container}>
-    <button onClick={props.onAddInputNode}>Add Input Node</button>
-    <button onClick={props.onAddOutputNode}>Add Output Node</button>
-    <button onClick={props.onUndo}>Undo</button>
-    <div style={{ color: 'red' }}>{Object.values(props.validationErrors).join(' ')}</div>
+    <div>
+      <button onClick={props.onAddInputNode}>Add Input Node</button>
+      <button onClick={props.onAddOutputNode}>Add Output Node</button>
+      <button onClick={props.onUndo}>Undo</button>
+      <div style={{ color: 'red' }}>{Object.values(props.validationErrors).join(' ')}</div>
+    </div>
+    <div>
+      <button onClick={props.onResetDb}>Reset DB</button>
+    </div>
+
   </div>
 );
 

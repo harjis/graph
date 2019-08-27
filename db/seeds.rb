@@ -49,7 +49,7 @@ graph2.save
 edge2 = Edge.new(from_node: node3, to_node: node4)
 edge2.save
 
-node_ref_node = NodeRefNode.new(name: 'Node reference node', x: 400, y: 400, node_ref: node4, graph: graph)
+node_ref_node = NodeRefNode.new(name: 'Node reference node', x: 400, y: 200, node_ref: node4, graph: graph)
 node_ref_node.save
 edge2 = Edge.new(from_node: node_ref_node, to_node: node2)
 edge2.save

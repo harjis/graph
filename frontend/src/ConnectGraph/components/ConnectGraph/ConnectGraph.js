@@ -28,6 +28,7 @@ type Props = {|
   onStartDrag: (nodeId: number, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onUndo: () => any,
+  onResetDb: () => any,
   validationErrors: Errors
 |};
 const ConnectGraph = (props: Props) => {
@@ -44,6 +45,7 @@ const ConnectGraph = (props: Props) => {
           onAddInputNode={props.onAddInputNode}
           onAddOutputNode={props.onAddOutputNode}
           onUndo={props.onUndo}
+          onResetDb={props.onResetDb}
           validationErrors={props.validationErrors}
         />
         {/*.container + .innerContainer is a bit of a hack. Try to make it better*/}

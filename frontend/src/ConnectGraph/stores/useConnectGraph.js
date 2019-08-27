@@ -19,7 +19,7 @@ import {
   fetchEdgesSucceed,
   deleteEdge
 } from '../actions/edgeActions';
-import { undoGraph } from '../api/graphs';
+import { resetDb, undoGraph } from '../api/graphs';
 import { createNode, fetchNodes, updateNode } from '../api/nodes';
 import { createEdge, destroyEdge, fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
@@ -143,6 +143,16 @@ export default function useConnectGraph(graphId: number) {
     [graphId]
   );
 
+  const onResetDb = React.useCallback(
+    () => {
+      const resetDb2 = async () => {
+        const succeess = await resetDb(graphId);
+      };
+      resetDb2();
+    },
+    [graphId]
+  );
+
   return {
     state,
     onAddInputNode,
@@ -151,6 +161,7 @@ export default function useConnectGraph(graphId: number) {
     onStartDrag,
     onStopDrag,
     onAddEdge,
-    onDeleteEdge
+    onDeleteEdge,
+    onResetDb
   };
 }

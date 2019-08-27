@@ -1,4 +1,4 @@
 // @flow
-export const url = `${window.location.href}api`;
+export const url = `${window.location.origin}/api`;
 
 export const options = {};

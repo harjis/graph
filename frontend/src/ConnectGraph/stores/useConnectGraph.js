@@ -97,8 +97,8 @@ export default function useConnectGraph(graphId: string) {
   const onSaveAll = () => {
     const saveAll2 = async () => {
       dispatch(setSaving(true));
-      const errors = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
-      if (errors) {
+      const succeess = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
+      if (!succeess) {
         dispatch(invalidData(['Nooo!']));
         setTimeout(() => {
           dispatch(invalidData([]));

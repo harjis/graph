@@ -86,7 +86,7 @@ const ConnectGraph = (props: Props) => {
                           canConnect={!!edgeInProgressState.fromNodeId}
                           hasToEdges={node.toEdgeIds.length > 0}
                           id={node.id || node.clientId}
-                          key={node.id}
+                          key={node.id || node.clientId}
                           name={node.name}
                           onClickFromConnector={event =>
                             onStartEdgeInProgress(node.id || node.clientId, event, canvasRef)

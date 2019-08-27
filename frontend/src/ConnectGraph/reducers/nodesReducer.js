@@ -76,7 +76,7 @@ export default function nodesReducer(
         ...state,
         nodeOffset: { x: action.pageX, y: action.pageY },
         nodes: state.nodes.map(node => {
-          if (state.draggedNodeId === node.id || node.clientId) {
+          if (state.draggedNodeId === (node.id || node.clientId)) {
             return {
               ...node,
               x: node.x - xDiff,

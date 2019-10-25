@@ -5,12 +5,13 @@ class GraphService
   end
 
   def save
-    self.g = if graph_params[:id]
-               update_graph
-             else
-               create_graph
-             end
-
+    ActiveRecord::Base.transaction do
+      self.g = if graph_params[:id]
+                 update_graph
+               else
+                 create_graph
+               end
+    end
     g
   end
 

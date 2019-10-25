@@ -127,6 +127,8 @@ class GraphServiceTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotUnique) {
       GraphService.new(new_params).save
     }
+    assert_equal 'Node 1', Node.first.name
+    assert_equal 'Node 2', Node.second.name
   end
 
   test "deletes edges" do

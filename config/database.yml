@@ -2,10 +2,10 @@ default: &default
   adapter: postgresql
   encoding: unicode
 #  host db is for docker dev env
-  host: db
-#  host: localhost
+#  host: db
+  host: localhost
   username: postgres
-  password:
+  password: docker
   pool: 5
 
 development:

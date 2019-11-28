@@ -7,24 +7,20 @@ export function fetchGraphs(): Promise<Graph[]> {
 }
 
 export function saveAll(
-  graphId: number,
+  graphId: string,
   nodes: Node[],
   edges: Edge[]
-): Promise<string[]> {
+): Promise<boolean> {
   return fetch(`${url}/graphs/${graphId}/save_all`, {
     ...options,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ graph: { id: graphId }, nodes, edges })
+    body: JSON.stringify({ graph: { id: graphId, name: 'Graph lol!' }, nodes, edges })
   }).then(response => response.json());
 }
 
-export function undoGraph(graphId: number) {
-  return fetch(`${url}/graphs/${graphId}/undo`, options).then(response => response.json());
-}
-
-export function resetDb(graphId: number) {
+export function resetDb(graphId: string) {
   return fetch(`${url}/graphs/${graphId}/reset`, options).then(response => response.json());
 }

@@ -22,13 +22,13 @@ import { fetchNodes } from '../api/nodes';
 import { fetchEdges } from '../api/edges';
 import type { Edge } from '../constants/ConnectGraphTypes';
 import { createInputNode, createOutputNode } from '../utils/nodeUtils';
-import { resetDb, saveAll, undoGraph } from '../api/graphs';
+import { resetDb, saveAll } from '../api/graphs';
 import { createEdge } from "../utils/edgeUtils";
 import { setSaving } from "../actions/savingActions";
 
 type OnDragHandler = (event: MouseEvent) => void;
 
-export default function useConnectGraph(graphId: number) {
+export default function useConnectGraph(graphId: string) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   React.useEffect(() => {
@@ -73,7 +73,7 @@ export default function useConnectGraph(graphId: number) {
     dispatch(dragNode(pageX, pageY));
   });
 
-  const onStartDrag = (nodeId: number | string, event: SyntheticMouseEvent<Element>) => {
+  const onStartDrag = (nodeId: string, event: SyntheticMouseEvent<Element>) => {
     const { pageX, pageY } = event;
     const nodeOffset = { x: pageX, y: pageY };
     dispatch(startNodeDrag(nodeId, nodeOffset));
@@ -85,7 +85,7 @@ export default function useConnectGraph(graphId: number) {
     dispatch(stopNodeDrag());
   };
 
-  const onAddEdge = (fromNodeId: number | string, toNodeId: number | string) => {
+  const onAddEdge = (fromNodeId: string, toNodeId: string) => {
     const edge = createEdge(fromNodeId, toNodeId);
     dispatch(addEdge(edge));
   };
@@ -97,9 +97,9 @@ export default function useConnectGraph(graphId: number) {
   const onSaveAll = () => {
     const saveAll2 = async () => {
       dispatch(setSaving(true));
-      const errors = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
-      if (errors.length > 0) {
-        dispatch(invalidData(errors));
+      const succeess = await saveAll(graphId, state.nodes.nodes, state.edges.edges);
+      if (!succeess) {
+        dispatch(invalidData(['Nooo!']));
         setTimeout(() => {
           dispatch(invalidData([]));
         }, 3000);
@@ -108,22 +108,6 @@ export default function useConnectGraph(graphId: number) {
     };
     saveAll2();
   };
-
-  const onUndo = React.useCallback(() => {
-    const undo = async () => {
-      dispatch(setSaving(true));
-      await undoGraph(graphId);
-      const nodes = await fetchNodes(graphId);
-      const edges = await fetchEdges(graphId);
-      // TODO: This feels like a code smell. When undoing graph the edges need to be dispatched to store first
-      // It is possible that a non-own node gets removed when an edge is removed. In that case the new nodes
-      // do not have all the required nodes that old edges have.
-      dispatch(fetchEdgesSucceed(edges));
-      dispatch(fetchNodesSucceed(nodes));
-      dispatch(setSaving(false));
-    };
-    undo();
-  }, [graphId]);
 
   const onResetDb = React.useCallback(
     () => {
@@ -147,7 +131,6 @@ export default function useConnectGraph(graphId: number) {
     onAddEdge,
     onDeleteEdge,
     onSaveAll,
-    onUndo,
     onResetDb
   };
 }

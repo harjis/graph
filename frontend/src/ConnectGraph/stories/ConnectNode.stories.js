@@ -16,7 +16,7 @@ const CanvasDecorator = storyFn => (
 storiesOf('ConnectGraph/Nodes', module)
   .addDecorator(CanvasDecorator)
   .add('Input', () => (
-    <InputNode name="Input 1" id={1} x={200} y={200} {...inputHandlers}>
+    <InputNode name="Input 1" id="1" x={200} y={200} {...inputHandlers}>
       {null}
     </InputNode>
   ))
@@ -25,7 +25,7 @@ storiesOf('ConnectGraph/Nodes', module)
       canConnect={false}
       hasToEdges={false}
       name="Output 1"
-      id={1}
+      id="1"
       x={200}
       y={200}
       {...outputHandlers}
@@ -38,7 +38,7 @@ storiesOf('ConnectGraph/Nodes', module)
       canConnect={false}
       hasToEdges={true}
       name="Output 1"
-      id={1}
+      id="1"
       x={200}
       y={200}
       {...outputHandlers}
@@ -49,7 +49,7 @@ storiesOf('ConnectGraph/Nodes', module)
   .add('NodeRefNode', () => (
     <NodeRefNode
       name="Node Ref Node 1"
-      id={1}
+      id="1"
       x={200}
       y={200}
       {...inputHandlers}

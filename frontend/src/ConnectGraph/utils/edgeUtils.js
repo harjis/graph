@@ -1,11 +1,10 @@
 // @flow
-import shortid from 'shortid';
+import uuid from 'uuid';
 
 import type { Edge } from '../constants/ConnectGraphTypes';
 
-export const createEdge = (fromNodeId: number | string, toNodeId: number | string): Edge => ({
-  clientId: shortid.generate(),
+export const createEdge = (fromNodeId: string, toNodeId: string): Edge => ({
   fromNodeId,
-  id: null,
-  toNodeId
+  id: uuid.v4(),
+  toNodeId,
 });

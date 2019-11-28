@@ -16,7 +16,7 @@ type Props = {
   canConnect: boolean,
   children: ?React.Node,
   hasToEdges: boolean,
-  id: number | string,
+  id: string,
   name: string,
   onClickToConnector: (event: SyntheticMouseEvent<Element>) => any,
   onMouseDown: (event: SyntheticMouseEvent<Element>) => any,

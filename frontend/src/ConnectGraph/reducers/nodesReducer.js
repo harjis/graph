@@ -9,7 +9,7 @@ import type {
 } from '../constants/ConnectGraphTypes';
 
 export type State = {|
-  draggedNodeId: ?(number | string),
+  draggedNodeId: ?string,
   error: ?string,
   isLoaded: boolean,
   isLoading: boolean,
@@ -36,7 +36,7 @@ export default function nodesReducer(
         ...state,
         nodes: state.nodes.map(node => {
           if (node.id === action.edge.toNodeId) {
-            return { ...node, toEdgeIds: node.toEdgeIds.concat(action.edge.id || action.edge.clientId) };
+            return { ...node, toEdgeIds: node.toEdgeIds.concat(action.edge.id) };
           } else {
             return node;
           }
@@ -76,7 +76,7 @@ export default function nodesReducer(
         ...state,
         nodeOffset: { x: action.pageX, y: action.pageY },
         nodes: state.nodes.map(node => {
-          if (state.draggedNodeId === (node.id || node.clientId)) {
+          if (state.draggedNodeId === node.id) {
             return {
               ...node,
               x: node.x - xDiff,

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import shortid from 'shortid';
+import uuid from 'uuid';
 
 import styles from './Canvas.module.css';
 
@@ -16,7 +16,7 @@ type Props = {|
 // I have no idea what the _ is but I copied it from react_16_3/forwardRef.js ^_^
 // eslint-disable-next-line react/display-name
 const Canvas = React.forwardRef<Props, _>((props: Props, ref) => {
-  const [canvasId] = React.useState(shortid.generate());
+  const [canvasId] = React.useState(uuid.v4());
   return (
     <svg ref={ref} className={styles.container} height={props.height} width={props.width}>
       {props.children({ canvasId })}

@@ -22,15 +22,14 @@ type Props = {|
   edges: Edge[],
   nodes: Node[],
   isSaving: boolean,
-  onAddEdge: (fromNodeId: number | string, toNodeId: number | string) => any,
+  onAddEdge: (fromNodeId: string, toNodeId: string) => any,
   onAddInputNode: () => any,
   onAddOutputNode: () => any,
   onDeleteEdge: (edge: Edge) => any,
-  onStartDrag: (nodeId: number | string, event: SyntheticMouseEvent<Element>) => any,
+  onStartDrag: (nodeId: string, event: SyntheticMouseEvent<Element>) => any,
   onStopDrag: (event: SyntheticMouseEvent<Element>) => any,
   onSaveAll: () => any,
   onResetDb: () => any,
-  onUndo: () => any,
   validationErrors: Errors
 |};
 const ConnectGraph = (props: Props) => {
@@ -50,7 +49,6 @@ const ConnectGraph = (props: Props) => {
           onResetDb={props.onResetDb}
           validationErrors={props.validationErrors}
           onSaveAll={props.onSaveAll}
-          onUndo={props.onUndo}
         />
         {/*.container + .innerContainer is a bit of a hack. Try to make it better*/}
         <div data-canvas-container className={styles.innerContainer}>
@@ -73,7 +71,7 @@ const ConnectGraph = (props: Props) => {
                     />
                     {props.edges.map(edge => (
                       <ConnectEdge
-                        key={edge.id || edge.clientId}
+                        key={edge.id}
                         onClick={() => props.onDeleteEdge(edge)}
                         fromNode={getNode(props.nodes, edge.fromNodeId)}
                         toNode={getNode(props.nodes, edge.toNodeId)}
@@ -85,19 +83,19 @@ const ConnectGraph = (props: Props) => {
                         <NodeComponent
                           canConnect={!!edgeInProgressState.fromNodeId}
                           hasToEdges={node.toEdgeIds.length > 0}
-                          id={node.id || node.clientId}
-                          key={node.id || node.clientId}
+                          id={node.id}
+                          key={node.id}
                           name={node.name}
                           onClickFromConnector={event =>
-                            onStartEdgeInProgress(node.id || node.clientId, event, canvasRef)
+                            onStartEdgeInProgress(node.id, event, canvasRef)
                           }
                           onClickToConnector={() => {
                             if (edgeInProgressState.fromNodeId) {
-                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id || node.clientId);
+                              props.onAddEdge(edgeInProgressState.fromNodeId, node.id);
                             }
                             onStopEdgeInProgress();
                           }}
-                          onMouseDown={event => props.onStartDrag(node.id || node.clientId, event)}
+                          onMouseDown={event => props.onStartDrag(node.id, event)}
                           onMouseUp={props.onStopDrag}
                           x={node.x}
                           y={node.y}
@@ -126,7 +124,7 @@ const ConnectGraph = (props: Props) => {
 
 function getEdgeInProgress(
   nodes: Node[],
-  fromNodeId: ?(number | string),
+  fromNodeId: ?string,
   clientX: number,
   clientY: number,
   ctm: ?CTM

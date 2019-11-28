@@ -8,11 +8,11 @@ import useConnectGraph from './stores/useConnectGraph';
 const ConnectGraphContainerRouterContainer = (props: ContextRouter) => {
   const graphId = props.match.params.id;
   if (!graphId) return <div>Graph ID is missing</div>;
-  return <ConnectGraphContainer graphId={Number(graphId)} />;
+  return <ConnectGraphContainer graphId={graphId} />;
 };
 
 type ConnectGraphContainerProps = {|
-  graphId: number
+  graphId: string
 |};
 function ConnectGraphContainer(props: ConnectGraphContainerProps) {
   const {
@@ -24,8 +24,7 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
     onAddEdge,
     onDeleteEdge,
     onResetDb,
-    onSaveAll,
-    onUndo
+    onSaveAll
   } = useConnectGraph(props.graphId);
 
   if (state.nodes.isLoading || state.edges.isLoading) {
@@ -48,7 +47,6 @@ function ConnectGraphContainer(props: ConnectGraphContainerProps) {
       onStopDrag={onStopDrag}
       onSaveAll={onSaveAll}
       onResetDb={onResetDb}
-      onUndo={onUndo}
       validationErrors={state.nodes.validationErrors}
     />
   );

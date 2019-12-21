@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   scope :api do
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
     get 'graphs/:id/reset', to: 'graphs#reset'
@@ -15,4 +16,5 @@ Rails.application.routes.draw do
     !request.xhr? && request.format.html?
   end
 
+  root to: "home#index"
 end
